@@ -1,0 +1,2 @@
+github "MagicalPanda/MagicalRecord" ~> 2.3.3
+github "mxcl/PromiseKit" ~> 4.0
