@@ -25,6 +25,9 @@
 		A83C8AF31DE5A35A00E1459C /* CountriesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83C8AF11DE5A35A00E1459C /* CountriesCell.swift */; };
 		A83C8AF41DE5A35A00E1459C /* CountriesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A83C8AF21DE5A35A00E1459C /* CountriesCell.xib */; };
 		A83C8AF81DE5C48300E1459C /* NSObject+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83C8AF71DE5C48300E1459C /* NSObject+Extensions.swift */; };
+		A86C87391DE8304C00CF7C8F /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A86C87381DE8304C00CF7C8F /* Alamofire.framework */; };
+		A86C873D1DE843AA00CF7C8F /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A86C873C1DE843AA00CF7C8F /* ObjectMapper.framework */; };
+		A86C87401DE8492A00CF7C8F /* TestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A86C873F1DE8492A00CF7C8F /* TestModel.swift */; };
 		A8887BAC1DE6FBD0000CEF3C /* CountriesContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8887BAB1DE6FBD0000CEF3C /* CountriesContext.swift */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +52,9 @@
 		A83C8AF11DE5A35A00E1459C /* CountriesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountriesCell.swift; sourceTree = "<group>"; };
 		A83C8AF21DE5A35A00E1459C /* CountriesCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CountriesCell.xib; sourceTree = "<group>"; };
 		A83C8AF71DE5C48300E1459C /* NSObject+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSObject+Extensions.swift"; sourceTree = "<group>"; };
+		A86C87381DE8304C00CF7C8F /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
+		A86C873C1DE843AA00CF7C8F /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = Carthage/Build/iOS/ObjectMapper.framework; sourceTree = "<group>"; };
+		A86C873F1DE8492A00CF7C8F /* TestModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestModel.swift; sourceTree = "<group>"; };
 		A8887BAB1DE6FBD0000CEF3C /* CountriesContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountriesContext.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -59,6 +65,8 @@
 			files = (
 				A813DFCB1DE47B040047638B /* MagicalRecord.framework in Frameworks */,
 				A813DFCC1DE47B040047638B /* PromiseKit.framework in Frameworks */,
+				A86C873D1DE843AA00CF7C8F /* ObjectMapper.framework in Frameworks */,
+				A86C87391DE8304C00CF7C8F /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,6 +109,8 @@
 		A813DFC81DE47B040047638B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A86C873C1DE843AA00CF7C8F /* ObjectMapper.framework */,
+				A86C87381DE8304C00CF7C8F /* Alamofire.framework */,
 				A813DFC91DE47B040047638B /* MagicalRecord.framework */,
 				A813DFCA1DE47B040047638B /* PromiseKit.framework */,
 			);
@@ -147,6 +157,7 @@
 		A813DFD61DE48D060047638B /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				A86C873E1DE8490000CF7C8F /* TestModel */,
 				A83C8AF91DE5D20100E1459C /* CoreDataModels */,
 			);
 			path = Models;
@@ -228,6 +239,14 @@
 			path = Country;
 			sourceTree = "<group>";
 		};
+		A86C873E1DE8490000CF7C8F /* TestModel */ = {
+			isa = PBXGroup;
+			children = (
+				A86C873F1DE8492A00CF7C8F /* TestModel.swift */,
+			);
+			path = TestModel;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -306,6 +325,8 @@
 			inputPaths = (
 				"$(SRCROOT)//Carthage/Build/iOS/MagicalRecord.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/PromiseKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/ObjectMapper.framework",
 			);
 			outputPaths = (
 			);
@@ -323,6 +344,7 @@
 				A825ABDE1DE5E2050069A45B /* Country+CoreDataProperties.swift in Sources */,
 				A813DFBC1DE4722B0047638B /* InfoCountries.xcdatamodeld in Sources */,
 				A83C8AF31DE5A35A00E1459C /* CountriesCell.swift in Sources */,
+				A86C87401DE8492A00CF7C8F /* TestModel.swift in Sources */,
 				A813DFB61DE4722B0047638B /* ViewController.swift in Sources */,
 				A813DFB41DE4722B0047638B /* AppDelegate.swift in Sources */,
 				A825ABE21DE5E8310069A45B /* DetailsCountryViewController.swift in Sources */,
