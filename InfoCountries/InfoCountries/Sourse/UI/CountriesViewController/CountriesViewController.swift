@@ -14,12 +14,13 @@ UITableViewDataSource {
     
     typealias RootViewType = CountriesView
     
-    //MARK: LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-   //     self.rootView.tableView?.register(CountriesCell.self, forCellReuseIdentifier: "CountriesCell")
+        CountriesContext().prepareToLoad()
     }
+    
+    //MARK: LifeCycle
     
     //MARK: TableViewDataSourse
     
@@ -28,14 +29,16 @@ UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CountriesCell",
-                                                 for: indexPath) as! CountriesCell
-        return cell
+        let cell1 = tableView.dequeueReusableCell(withIdentifier: CountriesCell.className) as! CountriesCell
+        
+        return cell1
     }
     
      // MARK: - UITableViewDelegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailsController: UIViewController = self.storyboard?.instantiateViewController(withIdentifier: DetailsCountryViewController.className) as! DetailsCountryViewController
         
+        self.navigationController?.pushViewController(detailsController, animated: true)
     }
 }
