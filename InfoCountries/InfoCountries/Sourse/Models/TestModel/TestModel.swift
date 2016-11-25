@@ -9,22 +9,22 @@
 import UIKit
 import ObjectMapper
 
-class TestModel: Mappable {
+class TestModel {
     var name:         NSString?
     var capital:      NSString?
     var population:   Int32?
     var callingCode:  Int?
     var numericCode:  Int?
     
-    required init?(map: Map){
+  //  required init?(map: Map){
         
     }
     
-    func mapping(map: Map) {
-        self.name   <- map["name"]
-        capital     <- map["capital"]
-        population  <- map["population"]
-        callingCode <- map["callingCode"]
-        numericCode <- map["numericCode"]
-    }
-}
+//    func mapping(map: Map) {
+//        self.name   <- map["name"]
+//        capital     <- map["capital"]
+//        population  <- map["population"]
+//        callingCode <- map["callingCode"]
+//        numericCode <- map["numericCode"]
+//    }
+//}

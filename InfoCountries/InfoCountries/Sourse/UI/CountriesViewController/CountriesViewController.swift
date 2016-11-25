@@ -15,13 +15,16 @@ UITableViewDataSource {
     typealias RootViewType = CountriesView
     
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        CountriesContext().prepareToLoad()
-    }
-    
     //MARK: LifeCycle
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.rootView.tableView?.register(CountriesCell.self, forCellReuseIdentifier: CountriesCell.className)
+
+        CountriesContext().load()
+    }
+
     //MARK: TableViewDataSourse
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
