@@ -28,7 +28,6 @@
 		A83C8AF81DE5C48300E1459C /* NSObject+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83C8AF71DE5C48300E1459C /* NSObject+Extensions.swift */; };
 		A86C87391DE8304C00CF7C8F /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A86C87381DE8304C00CF7C8F /* Alamofire.framework */; };
 		A86C873D1DE843AA00CF7C8F /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A86C873C1DE843AA00CF7C8F /* ObjectMapper.framework */; };
-		A86C87401DE8492A00CF7C8F /* TestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A86C873F1DE8492A00CF7C8F /* TestModel.swift */; };
 		A8887BAC1DE6FBD0000CEF3C /* CountriesContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8887BAB1DE6FBD0000CEF3C /* CountriesContext.swift */; };
 /* End PBXBuildFile section */
 
@@ -56,7 +55,6 @@
 		A83C8AF71DE5C48300E1459C /* NSObject+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSObject+Extensions.swift"; sourceTree = "<group>"; };
 		A86C87381DE8304C00CF7C8F /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		A86C873C1DE843AA00CF7C8F /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = Carthage/Build/iOS/ObjectMapper.framework; sourceTree = "<group>"; };
-		A86C873F1DE8492A00CF7C8F /* TestModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestModel.swift; sourceTree = "<group>"; };
 		A8887BAB1DE6FBD0000CEF3C /* CountriesContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountriesContext.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -161,7 +159,6 @@
 		A813DFD61DE48D060047638B /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				A86C873E1DE8490000CF7C8F /* TestModel */,
 				A83C8AF91DE5D20100E1459C /* CoreDataModels */,
 			);
 			path = Models;
@@ -241,14 +238,6 @@
 				A825ABDC1DE5E2050069A45B /* Country+CoreDataProperties.swift */,
 			);
 			path = Country;
-			sourceTree = "<group>";
-		};
-		A86C873E1DE8490000CF7C8F /* TestModel */ = {
-			isa = PBXGroup;
-			children = (
-				A86C873F1DE8492A00CF7C8F /* TestModel.swift */,
-			);
-			path = TestModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -349,7 +338,6 @@
 				A825ABDE1DE5E2050069A45B /* Country+CoreDataProperties.swift in Sources */,
 				A813DFBC1DE4722B0047638B /* InfoCountries.xcdatamodeld in Sources */,
 				A83C8AF31DE5A35A00E1459C /* CountriesCell.swift in Sources */,
-				A86C87401DE8492A00CF7C8F /* TestModel.swift in Sources */,
 				A813DFB61DE4722B0047638B /* ViewController.swift in Sources */,
 				A813DFB41DE4722B0047638B /* AppDelegate.swift in Sources */,
 				A825ABE21DE5E8310069A45B /* DetailsCountryViewController.swift in Sources */,
@@ -471,7 +459,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -506,7 +494,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = idap.com.InfoCountries;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

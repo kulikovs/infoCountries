@@ -9,7 +9,6 @@
 import UIKit
 import Foundation
 import Alamofire
-import ObjectMapper
 import SwiftyJSON
 
 let httpMethodGet = "GET"
@@ -17,9 +16,10 @@ let countriesURLString = "http://api.worldbank.org/country?per_page=10&format=js
 
 class CountriesContext: NSObject {
     
+    //MARK: Public Methods
+    
     func load() {
         Alamofire.request(countriesURLString).responseJSON(completionHandler: { response in
-            print(response)
             if let status = response.response?.statusCode {
                 switch(status){
                 case 201:
@@ -29,21 +29,26 @@ class CountriesContext: NSObject {
                 }
             }
             if let result: NSArray = response.result.value as! NSArray? {
-                let array: NSArray = result.lastObject as! NSArray
-                let json = JSON(array)
-                
-                let model = TestModel()
-                let name = json["name"].stringValue as NSString?
-                
+                self.parseResult(result: result.lastObject as! NSArray)
             }
         })
     }
     
-    func parseResult(result: NSArray) {
-
-    }
+        //MARK: Private Methods
     
-
+    func parseResult(result: NSArray) {
+        let resultArray = JSON(result)
+        
+        for country in resultArray.array! {
+            var countries = [AnyObject]()
+     //       var model = TestModel()
+      //      model.name = country["name"].stringValue as NSString?
+      //      countries.append(model)
+            //  print(model.name! as NSString)
+            
+            //save model
+        }
+    }
 }
 
 
