@@ -6,20 +6,23 @@
 //  Copyright © 2016 Sergey Kulikov. All rights reserved.
 //
 
-import UIKit
 import Foundation
-import Alamofire
+
 import SwiftyJSON
+import Alamofire
+import MagicalRecord
 
-let httpMethodGet = "GET"
-let countriesURLString = "http://api.worldbank.org/country?per_page=10&format=json&page=1"
+var countriesURLString = "http://api.worldbank.org/country?per_page=10&format=json&page=1"
+let sessionConfig = URLSessionConfiguration.background(withIdentifier: "countriesIdentifier")
 
-class CountriesContext: NSObject {
+class CountriesContext {
+
+    let manager = Alamofire.SessionManager(configuration: sessionConfig)
     
     //MARK: Public Methods
     
     func load() {
-        Alamofire.request(countriesURLString).responseJSON(completionHandler: { response in
+     self.manager.request(countriesURLString).responseJSON(completionHandler: { response in
             if let status = response.response?.statusCode {
                 switch(status){
                 case 201:
@@ -34,49 +37,39 @@ class CountriesContext: NSObject {
         })
     }
     
-        //MARK: Private Methods
-    
-    func parseResult(result: NSArray) {
-        let resultArray = JSON(result)
-        
-        for country in resultArray.array! {
-            var countries = [AnyObject]()
-     //       var model = TestModel()
-      //      model.name = country["name"].stringValue as NSString?
-      //      countries.append(model)
-            //  print(model.name! as NSString)
-            
-            //save model
-        }
+    func cancel() {
+        self.manager.request(countriesURLString).cancel()
     }
+    
+    //MARK: Private Methods
+    
+  private func parseResult(result: NSArray) {
+    
+    MagicalRecord.save({ context in
+        let resultArray = JSON(result)
+        for country in resultArray.array! {
+            let name: String = country["name"].string!
+            let countr = Country.mr_findFirstOrCreate(byAttribute: "name", withValue: name, in: context)
+            print(countr.name)
+            
+            let aruba = Country.mr_find(byAttribute: "name", withValue: "Aruba")
+            print(aruba)
+        }
+    
+    }, completion: {(success, error) in
+        if success {
+
+        }
+        
+        if (error != nil) {
+
+        }
+
+        
+    })
 }
 
+}
 
-//- (void)parseResult:(NSDictionary *)result {
-//    @synchronized (self) {
-//        [self removeOldEvents];
-//        NSArray *array = [result valueForKeyPath:kKSItemsKey];
-//        NSMutableArray *events = [NSMutableArray array];
-//        
-//        for (NSDictionary *dictionary in array) {
-//            NSDateFormatter *dayFormatter = [NSDateFormatter dateFormatterWithFormatKey:kKSDateTimeFormatKey];
-//            NSDate *endDateTime = [dayFormatter dateFromString:
-//                [dictionary valueForKeyPath:kKSEndDateKey]];
-//            if ([[NSDate date] currentDateIsBeforeDay:endDateTime]) {
-//                NSString *ID = [dictionary valueForKey:KKSIDKey];
-//                KSEvent *event = [KSEvent objectWithID:ID];
-//                event.startDateTime = [dayFormatter dateFromString:
-//                    [dictionary valueForKeyPath:kKSStartDateKey]];
-//                event.endDateTime = endDateTime;
-//                event.title = [self titleFromStartDate:event.startDateTime endDate:event.endDateTime];
-//                
-//                [events addObject:event];
-//            }
-//        }
-//        
-//        [self.calendar setEvents:[NSSet setWithArray:events]];
-//        [self.calendar saveManagedObject];
-//    }
-//}
 
 

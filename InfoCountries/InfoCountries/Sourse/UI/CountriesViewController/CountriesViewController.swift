@@ -8,11 +8,30 @@
 
 import Foundation
 import UIKit
+import MagicalRecord
 
 class CountriesViewController : UIViewController, ViewControllerRootView, UITableViewDelegate,
 UITableViewDataSource {
     
+
+    //MARK: Accessor
+    
     typealias RootViewType = CountriesView
+    
+    var context : CountriesContext? {
+        willSet {
+            self.context?.cancel()
+        }
+        didSet {
+            self.context?.load()
+        }
+    }
+    
+    var countryes: Array<Any> {
+        get {
+            return Country.mr_findAllSorted(by: "name", ascending: true)!
+        }
+    }
     
     
     //MARK: LifeCycle
@@ -22,19 +41,20 @@ UITableViewDataSource {
         
         self.rootView.tableView?.register(CountriesCell.self, forCellReuseIdentifier: CountriesCell.className)
 
-        CountriesContext().load()
+        self.context = CountriesContext()
     }
 
     //MARK: TableViewDataSourse
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        print(self.countryes.count)
+        return self.countryes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell1 = tableView.dequeueReusableCell(withIdentifier: CountriesCell.className) as! CountriesCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: CountriesCell.className) as! CountriesCell
         
-        return cell1
+        return cell
     }
     
      // MARK: - UITableViewDelegate

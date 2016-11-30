@@ -103,6 +103,7 @@
 				A813DFBF1DE4722B0047638B /* LaunchScreen.storyboard */,
 				A813DFC21DE4722B0047638B /* Info.plist */,
 				A813DFBA1DE4722B0047638B /* InfoCountries.xcdatamodeld */,
+				A899008F1DEEF41800311B43 /* SupportingFiles */,
 			);
 			path = InfoCountries;
 			sourceTree = "<group>";
@@ -238,6 +239,13 @@
 				A825ABDC1DE5E2050069A45B /* Country+CoreDataProperties.swift */,
 			);
 			path = Country;
+			sourceTree = "<group>";
+		};
+		A899008F1DEEF41800311B43 /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
