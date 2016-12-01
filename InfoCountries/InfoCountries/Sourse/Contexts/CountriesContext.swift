@@ -21,6 +21,8 @@ class CountriesContext {
     
     //MARK: Public Methods
     
+    var parseFinished = {}
+    
     func load() {
      self.manager.request(countriesURLString).responseJSON(completionHandler: { response in
             if let status = response.response?.statusCode {
@@ -43,32 +45,23 @@ class CountriesContext {
     
     //MARK: Private Methods
     
-  private func parseResult(result: NSArray) {
+    private func parseResult(result: NSArray) {
+        MagicalRecord.save({ context in
+            let resultArray = JSON(result)
+            for country in resultArray.array! {
+                let name = country["name"].string!
+                _ = Country.mr_findFirstOrCreate(byAttribute: "name", withValue: name, in: context)
+            }
+        }, completion: {(success, error) in
+            if success {
+                //self.parseFinished()
+            }
+            if (error == nil) {
+                self.parseFinished()
+            }
+        })
+    }
     
-    MagicalRecord.save({ context in
-        let resultArray = JSON(result)
-        for country in resultArray.array! {
-            let name: String = country["name"].string!
-            let countr = Country.mr_findFirstOrCreate(byAttribute: "name", withValue: name, in: context)
-            print(countr.name)
-            
-            let aruba = Country.mr_find(byAttribute: "name", withValue: "Aruba")
-            print(aruba)
-        }
-    
-    }, completion: {(success, error) in
-        if success {
-
-        }
-        
-        if (error != nil) {
-
-        }
-
-        
-    })
-}
-
 }
 
 

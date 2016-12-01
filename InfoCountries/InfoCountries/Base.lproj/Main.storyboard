@@ -45,13 +45,28 @@
                                     <constraint firstAttribute="height" constant="667" id="gOg-ph-LdE"/>
                                 </constraints>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Rao-Ti-I2M" customClass="CountriesCell" customModule="InfoCountries" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CountriesCell" id="Rao-Ti-I2M" customClass="CountriesCell" customModule="InfoCountries" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Rao-Ti-I2M" id="v7x-jo-cm4">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jJa-7C-UAn">
+                                                    <rect key="frame" x="26" y="11" width="42" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="jJa-7C-UAn" firstAttribute="leading" secondItem="v7x-jo-cm4" secondAttribute="leading" constant="26" id="FXh-DU-rG4"/>
+                                                <constraint firstItem="jJa-7C-UAn" firstAttribute="top" secondItem="v7x-jo-cm4" secondAttribute="top" constant="11" id="kra-vd-Xvn"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="countryName" destination="jJa-7C-UAn" id="WIg-i0-qkX"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <sections/>
@@ -74,7 +89,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-534" y="114"/>
+            <point key="canvasLocation" x="-535.20000000000005" y="113.79310344827587"/>
         </scene>
         <!--Details Country View Controller-->
         <scene sceneID="Lec-wp-YN2">
