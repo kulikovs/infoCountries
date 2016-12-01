@@ -12,7 +12,6 @@ class CountriesCell: UITableViewCell {
     @IBOutlet var countryName: UILabel?
 
     func fillWithModel(model: Country) {
-        print(model.name)
         self.countryName?.text = model.name
     }
 

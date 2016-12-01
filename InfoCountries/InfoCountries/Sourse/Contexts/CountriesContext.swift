@@ -15,16 +15,28 @@ import MagicalRecord
 var countriesURLString = "http://api.worldbank.org/country?per_page=10&format=json&page=1"
 let sessionConfig = URLSessionConfiguration.background(withIdentifier: "countriesIdentifier")
 
-class CountriesContext {
+typealias finishedHandler = (Array<AnyObject>) -> Void
 
+class CountriesContext {
+    
     let manager = Alamofire.SessionManager(configuration: sessionConfig)
+    
+    private var parseFinished: finishedHandler?  //
+    
+    //MARK: Accessor
+    
+    private var countriesArray: Array<AnyObject>? {
+        get {
+            return Country.mr_findAllSorted(by: "name", ascending: true)
+        }
+    }
     
     //MARK: Public Methods
     
-    var parseFinished = {}
-    
-    func load() {
-     self.manager.request(countriesURLString).responseJSON(completionHandler: { response in
+    func load(finished: @escaping finishedHandler) {
+        self.parseFinished = finished
+        
+        self.manager.request(countriesURLString).responseJSON(completionHandler: { response in
             if let status = response.response?.statusCode {
                 switch(status){
                 case 201:
@@ -52,17 +64,14 @@ class CountriesContext {
                 let name = country["name"].string!
                 _ = Country.mr_findFirstOrCreate(byAttribute: "name", withValue: name, in: context)
             }
-        }, completion: {(success, error) in
+        }, completion: { [weak self] (success, error) in
             if success {
-                //self.parseFinished()
+                
             }
             if (error == nil) {
-                self.parseFinished()
+                self?.parseFinished!((self?.countriesArray)!)
             }
         })
     }
     
 }
-
-
-

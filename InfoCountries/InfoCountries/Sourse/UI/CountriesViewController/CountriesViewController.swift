@@ -24,13 +24,10 @@ UITableViewDataSource {
             self.context?.cancel()
         }
         didSet {
-            self.context?.parseFinished =  {
-                [weak self] in
-                let countries = Country.mr_findAllSorted(by: "name", ascending: true)!
-                self?.countries = countries
+            self.context?.load(finished: { [weak self] (_ arr: Array<AnyObject>) -> Void in
+                self?.countries = arr
                 self?.rootView.tableView?.reloadData()
-            }
-            self.context?.load()
+            })
         }
     }
     
@@ -41,7 +38,7 @@ UITableViewDataSource {
         
         self.context = CountriesContext()
     }
-
+    
     //MARK: TableViewDataSourse
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -49,19 +46,26 @@ UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: CountriesCell.className) as! CountriesCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: CountriesCell.self)) as! CountriesCell
         cell.fillWithModel(model: self.countries[indexPath.row] as! Country)
         
         return cell
     }
     
-     // MARK: - UITableViewDelegate
+    // MARK: - UITableViewDelegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        
         let detailsController = storyboard?.instantiateViewController(withIdentifier:
-                                DetailsCountryViewController.className)
+                                String(describing: DetailsCountryViewController.self))
         
         self.navigationController?.pushViewController(detailsController!, animated: true)
+    }
+    
+    // MARK: - Private Methods
+    
+    func contextDidFinish(countryModels: Array<Any>) {
+        self.countries = countryModels as Array<AnyObject>
+        self.rootView.tableView?.reloadData()
     }
 }

@@ -24,11 +24,11 @@
 		A825ABE51DE5E8740069A45B /* DetailsCountryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A825ABE41DE5E8740069A45B /* DetailsCountryView.swift */; };
 		A834BCA91DE886910056937D /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A834BCA81DE886910056937D /* SwiftyJSON.framework */; };
 		A83C8AF31DE5A35A00E1459C /* CountriesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83C8AF11DE5A35A00E1459C /* CountriesCell.swift */; };
-		A83C8AF81DE5C48300E1459C /* NSObject+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83C8AF71DE5C48300E1459C /* NSObject+Extensions.swift */; };
 		A86C87391DE8304C00CF7C8F /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A86C87381DE8304C00CF7C8F /* Alamofire.framework */; };
 		A86C873D1DE843AA00CF7C8F /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A86C873C1DE843AA00CF7C8F /* ObjectMapper.framework */; };
+		A88278831DF01B5F006C6C12 /* CountryDetailContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A88278821DF01B5F006C6C12 /* CountryDetailContext.swift */; };
+		A88278891DF021EC006C6C12 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = A88278881DF021EC006C6C12 /* Context.swift */; };
 		A8887BAC1DE6FBD0000CEF3C /* CountriesContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8887BAB1DE6FBD0000CEF3C /* CountriesContext.swift */; };
-		A89900A21DEEFDF000311B43 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A89900A11DEEFDF000311B43 /* String+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,11 +51,11 @@
 		A825ABE41DE5E8740069A45B /* DetailsCountryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsCountryView.swift; sourceTree = "<group>"; };
 		A834BCA81DE886910056937D /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 		A83C8AF11DE5A35A00E1459C /* CountriesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountriesCell.swift; sourceTree = "<group>"; };
-		A83C8AF71DE5C48300E1459C /* NSObject+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSObject+Extensions.swift"; sourceTree = "<group>"; };
 		A86C87381DE8304C00CF7C8F /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		A86C873C1DE843AA00CF7C8F /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = Carthage/Build/iOS/ObjectMapper.framework; sourceTree = "<group>"; };
+		A88278821DF01B5F006C6C12 /* CountryDetailContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryDetailContext.swift; sourceTree = "<group>"; };
+		A88278881DF021EC006C6C12 /* Context.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
 		A8887BAB1DE6FBD0000CEF3C /* CountriesContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountriesContext.swift; sourceTree = "<group>"; };
-		A89900A11DEEFDF000311B43 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +169,8 @@
 			isa = PBXGroup;
 			children = (
 				A8887BAB1DE6FBD0000CEF3C /* CountriesContext.swift */,
+				A88278821DF01B5F006C6C12 /* CountryDetailContext.swift */,
+				A88278881DF021EC006C6C12 /* Context.swift */,
 			);
 			path = Contexts;
 			sourceTree = "<group>";
@@ -218,8 +220,6 @@
 		A83C8AF51DE5C3FA00E1459C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				A89900A11DEEFDF000311B43 /* String+Extensions.swift */,
-				A83C8AF71DE5C48300E1459C /* NSObject+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -346,15 +346,15 @@
 				A813DFBC1DE4722B0047638B /* InfoCountries.xcdatamodeld in Sources */,
 				A83C8AF31DE5A35A00E1459C /* CountriesCell.swift in Sources */,
 				A813DFB61DE4722B0047638B /* ViewController.swift in Sources */,
+				A88278831DF01B5F006C6C12 /* CountryDetailContext.swift in Sources */,
 				A813DFB41DE4722B0047638B /* AppDelegate.swift in Sources */,
 				A825ABE21DE5E8310069A45B /* DetailsCountryViewController.swift in Sources */,
 				A8887BAC1DE6FBD0000CEF3C /* CountriesContext.swift in Sources */,
 				A813DFD21DE48C780047638B /* CountriesViewController.swift in Sources */,
 				A813DFD51DE48CE50047638B /* CountriesView.swift in Sources */,
 				A825ABE51DE5E8740069A45B /* DetailsCountryView.swift in Sources */,
-				A89900A21DEEFDF000311B43 /* String+Extensions.swift in Sources */,
 				A813DFDB1DE4963A0047638B /* ViewControllerRootView.swift in Sources */,
-				A83C8AF81DE5C48300E1459C /* NSObject+Extensions.swift in Sources */,
+				A88278891DF021EC006C6C12 /* Context.swift in Sources */,
 				A825ABDD1DE5E2050069A45B /* Country+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
