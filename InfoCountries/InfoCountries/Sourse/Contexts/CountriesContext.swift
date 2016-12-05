@@ -15,49 +15,22 @@ import MagicalRecord
 var countriesURLString = "http://api.worldbank.org/country?per_page=10&format=json&page=1"
 let sessionConfig = URLSessionConfiguration.background(withIdentifier: "countriesIdentifier")
 
-typealias finishedHandler = (Array<AnyObject>) -> Void
+class CountriesContext : Context {
 
-class CountriesContext {
+
+    //    typealias finishedHandler = (Array<AnyObject>) -> Void
     
-    let manager = Alamofire.SessionManager(configuration: sessionConfig)
+//    var parseFinished: Context.finishedHandler?
     
-    private var parseFinished: finishedHandler?  //
+    var manager = Alamofire.SessionManager(configuration: sessionConfig)
     
-    //MARK: Accessor
-    
-    private var countriesArray: Array<AnyObject>? {
-        get {
-            return Country.mr_findAllSorted(by: "name", ascending: true)
-        }
-    }
-    
-    //MARK: Public Methods
-    
-    func load(finished: @escaping finishedHandler) {
-        self.parseFinished = finished
-        
-        self.manager.request(countriesURLString).responseJSON(completionHandler: { response in
-            if let status = response.response?.statusCode {
-                switch(status){
-                case 201:
-                    print("example success")
-                default:
-                    print("error with response status: \(status)")
-                }
-            }
-            if let result: NSArray = response.result.value as! NSArray? {
-                self.parseResult(result: result.lastObject as! NSArray)
-            }
-        })
-    }
-    
-    func cancel() {
-        self.manager.request(countriesURLString).cancel()
+    var URLString: String {
+        return countriesURLString
     }
     
     //MARK: Private Methods
     
-    private func parseResult(result: NSArray) {
+    internal func parseResult(result: NSArray) {
         MagicalRecord.save({ context in
             let resultArray = JSON(result)
             for country in resultArray.array! {

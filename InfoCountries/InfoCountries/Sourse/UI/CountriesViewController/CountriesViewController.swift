@@ -62,10 +62,4 @@ UITableViewDataSource {
         self.navigationController?.pushViewController(detailsController!, animated: true)
     }
     
-    // MARK: - Private Methods
-    
-    func contextDidFinish(countryModels: Array<Any>) {
-        self.countries = countryModels as Array<AnyObject>
-        self.rootView.tableView?.reloadData()
-    }
 }
