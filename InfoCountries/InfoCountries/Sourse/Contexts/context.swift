@@ -11,49 +11,31 @@ import SwiftyJSON
 import Alamofire
 import MagicalRecord
 
-public protocol Context {
+public protocol Context: class {
     
-    typealias finishedHandler = (Array<AnyObject>) -> Void
+    typealias finishedHandler = (AnyObject) -> Void
     
-    var URLString: String {get}
+    var URLString: String {get set}
     
     var parseFinished: finishedHandler? {get set}
     
     var manager: Alamofire.SessionManager {get set}
     
-    var countriesArray: Array<AnyObject>? {get}
-    
     func load(finished: @escaping finishedHandler)
     
-    func getResult() -> NSArray
-    
     func parseResult(result: NSArray)
+    
+    func cancel()
 }
 
 extension Context {
     
-    //MARK: Accessors
-    
-    var countriesArray: Array<AnyObject>?  {
-        return Country.mr_findAllSorted(by: "name", ascending: true)
-    }
-    
     //MARK: Public Methods
     
-    mutating func load(finished: @escaping finishedHandler) {
+    func load(finished: @escaping finishedHandler) {
         self.parseFinished = finished
         
-        self.parseResult(result: self.getResult().lastObject as! NSArray)
-    }
-    
-    func cancel() {
-        self.manager.request(self.URLString).cancel()
-    }
-    
-    //MARK: Private Methods
-    func getResult() -> NSArray {
-        var resultArray = NSArray()
-        self.manager.request(self.URLString).responseJSON(completionHandler: { response in
+        self.manager.request(self.URLString).responseJSON(completionHandler: {[weak self] response in
             if let status = response.response?.statusCode {
                 switch(status){
                 case 201:
@@ -63,13 +45,15 @@ extension Context {
                 }
             }
             if let result: NSArray = (response.result.value as! NSArray?) {
-                resultArray = result
+                self?.parseResult(result: result)
             }
         })
         
-        return resultArray
     }
     
+    func cancel() {
+        self.manager.request(self.URLString).cancel()
+    }
     
 }
 

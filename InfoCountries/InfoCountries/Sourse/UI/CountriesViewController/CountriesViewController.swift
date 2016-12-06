@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 import MagicalRecord
 
+var countryURLString = "https://restcountries.eu/rest/v1/name/"
+
 class CountriesViewController : UIViewController, ViewControllerRootView, UITableViewDelegate,
 UITableViewDataSource {
     
@@ -24,10 +26,10 @@ UITableViewDataSource {
             self.context?.cancel()
         }
         didSet {
-            self.context?.load(finished: { [weak self] (_ arr: Array<AnyObject>) -> Void in
-                self?.countries = arr
+            self.context?.load(finished: { [weak self] (_ arr: AnyObject) -> Void in
+                self?.countries = arr as! Array<AnyObject>
                 self?.rootView.tableView?.reloadData()
-            })
+            } )
         }
     }
     
@@ -56,10 +58,16 @@ UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let detailsController = storyboard?.instantiateViewController(withIdentifier:
-                                String(describing: DetailsCountryViewController.self))
+        let detailsController: DetailsCountryViewController = storyboard?.instantiateViewController(withIdentifier:
+                                String(describing: DetailsCountryViewController.self)) as! DetailsCountryViewController
+        let detailContext = CountryDetailContext()
+        let country = self.countries[indexPath.row] as! Country
         
-        self.navigationController?.pushViewController(detailsController!, animated: true)
+        detailContext.URLString = countryURLString + country.name!  //"https://restcountries.eu/rest/v1/name/United%20Arab%20Emirates"
+        detailContext.country = country
+        detailsController.context = detailContext
+ 
+        self.navigationController?.pushViewController(detailsController, animated: true)
     }
     
 }
