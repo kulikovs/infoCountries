@@ -26,6 +26,7 @@ public protocol Context: class {
     func parseResult(result: NSArray)
     
     func cancel()
+    
 }
 
 extension Context {

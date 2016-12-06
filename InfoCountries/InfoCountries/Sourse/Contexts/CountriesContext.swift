@@ -32,15 +32,22 @@ class CountriesContext : Context {
             let resultArray = JSON(result.lastObject as! NSArray)
             for country in resultArray.array! {
                 let name = country["name"].string!
-                _ = Country.mr_findFirstOrCreate(byAttribute: "name", withValue: name, in: context)
+                let countryModel = Country.mr_findFirstOrCreate(byAttribute: "name",
+                                                                withValue: name,
+                                                                in: context)
+                self?.countriesArray.append(countryModel)
             }
-            self?.countriesArray = Country.mr_findAllSorted(by: "name", ascending: true)!
             }, completion: { [weak self] (success, error) in
                 if success {
-                   
+                    
                 }
                 if (error == nil) {
-                    self?.parseFinished!((self?.countriesArray)! as AnyObject)
+                    var countries = Array<Country>()
+                    for country in (self?.countriesArray)! {
+                        let countryModel = country.mr_(in: NSManagedObjectContext.mr_default())! as! Country
+                        countries.append(countryModel)
+                    }
+                    self?.parseFinished!(countries as AnyObject)
                 }
         })
     }
