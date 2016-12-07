@@ -11,8 +11,8 @@ import Foundation
 let countriesURLString  = "http://api.worldbank.org/country?per_page=10&format=json&page=1"
 let countryURLString    = "https://restcountries.eu/rest/v1/name/"
 
-let countriesSessionIdentifire  = "CountriesIdentifire"
-let countrySessionIdentifire    = "CountryIdentifire"
+let countriesSessionIdentifier  = "CountriesIdentifire"
+let countrySessionIdentifier    = "CountryIdentifire"
 
 let nameKey         = "name"
 let capitalKey      = "capital"

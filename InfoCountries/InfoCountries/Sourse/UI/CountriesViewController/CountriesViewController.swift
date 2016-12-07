@@ -36,7 +36,7 @@ UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.context = CountriesContext()
+        self.context = CountriesContext(urlString: countriesURLString)
     }
     
     //MARK: TableViewDataSourse
