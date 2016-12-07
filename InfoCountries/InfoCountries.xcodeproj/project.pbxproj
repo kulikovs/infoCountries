@@ -29,6 +29,7 @@
 		A88278831DF01B5F006C6C12 /* CountryDetailContextProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A88278821DF01B5F006C6C12 /* CountryDetailContextProtocol.swift */; };
 		A88278891DF021EC006C6C12 /* ContextProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A88278881DF021EC006C6C12 /* ContextProtocol.swift */; };
 		A8887BAC1DE6FBD0000CEF3C /* CountriesContextProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8887BAB1DE6FBD0000CEF3C /* CountriesContextProtocol.swift */; };
+		A8941F001DF7FC3A00D7A66D /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8941EFF1DF7FC3A00D7A66D /* String+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		A88278821DF01B5F006C6C12 /* CountryDetailContextProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryDetailContextProtocol.swift; sourceTree = "<group>"; };
 		A88278881DF021EC006C6C12 /* ContextProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContextProtocol.swift; sourceTree = "<group>"; };
 		A8887BAB1DE6FBD0000CEF3C /* CountriesContextProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountriesContextProtocol.swift; sourceTree = "<group>"; };
+		A8941EFF1DF7FC3A00D7A66D /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +221,7 @@
 		A83C8AF51DE5C3FA00E1459C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				A8941EFF1DF7FC3A00D7A66D /* String+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 				A813DFD21DE48C780047638B /* CountriesViewController.swift in Sources */,
 				A813DFD51DE48CE50047638B /* CountriesView.swift in Sources */,
 				A825ABE51DE5E8740069A45B /* DetailsCountryView.swift in Sources */,
+				A8941F001DF7FC3A00D7A66D /* String+Extensions.swift in Sources */,
 				A813DFDB1DE4963A0047638B /* ViewControllerRootView.swift in Sources */,
 				A8358F791DF71F9200FD8948 /* Constants.swift in Sources */,
 				A88278891DF021EC006C6C12 /* ContextProtocol.swift in Sources */,

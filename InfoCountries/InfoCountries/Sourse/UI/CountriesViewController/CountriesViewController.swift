@@ -46,7 +46,9 @@ UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: CountriesCell.self)) as! CountriesCell
+        let identifier = String(describing: CountriesCell.self)
+        let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as! CountriesCell
+        
         cell.fillWithModel(model: self.countries[indexPath.row] as! Country)
         
         return cell
@@ -55,16 +57,17 @@ UITableViewDataSource {
     // MARK: - UITableViewDelegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let identifier = String(describing: DetailsCountryViewController.self)
+        let detailsController = storyboard?.instantiateViewController(withIdentifier:identifier) as! DetailsCountryViewController
         
-        let detailsController: DetailsCountryViewController = storyboard?.instantiateViewController(withIdentifier:
-                                String(describing: DetailsCountryViewController.self)) as! DetailsCountryViewController
         let detailContext = CountryDetailContext()
         let country = self.countries[indexPath.row] as! Country
+        let urlString = countryURLString + country.name!
         
-        detailContext.URLString = countryURLString + country.name!  //"https://restcountries.eu/rest/v1/name/United%20Arab%20Emirates"
+        detailContext.URLString = urlString.addingPercentEncodingForUrlQuery()!
         detailContext.country = country
         detailsController.context = detailContext
- 
+        
         self.navigationController?.pushViewController(detailsController, animated: true)
     }
     
