@@ -1,5 +1,5 @@
 //
-//  Context.swift
+//  ContextProtocol.swift
 //  InfoCountries
 //
 //  Created by Sergey Kulikov on 12/1/16.

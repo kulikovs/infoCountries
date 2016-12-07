@@ -11,7 +11,7 @@ import SwiftyJSON
 import Alamofire
 import MagicalRecord
 
-let countrySessionConfig = URLSessionConfiguration.background(withIdentifier: "countryIdentifier")
+let countrySessionConfig = URLSessionConfiguration.background(withIdentifier: countrySessionIdentifire)
 
 class CountryDetailContext: Context {
     
@@ -29,14 +29,14 @@ class CountryDetailContext: Context {
         MagicalRecord.save({ [weak self] context in
             let resultArray = JSON(result)
             for country in resultArray.array! {
-                let countryModel = Country.mr_findFirst(byAttribute: "name",
+                let countryModel = Country.mr_findFirst(byAttribute: nameKey,
                                                         withValue:(self?.country?.name)! as String,
                                                         in: context)
                 
-                countryModel?.capital = country["capital"].string
-                countryModel?.population = country["population"].int64!
-                countryModel?.numericCode = Int16(country["numericCode"].string!)!
-                let code = country["callingCodes"].array
+                countryModel?.capital = country[capitalKey].string
+                countryModel?.population = country[populationKey].int64!
+                countryModel?.numericCode = Int16(country[numericCodeKey].string!)!
+                let code = country[callingCodesKey].array
                 countryModel?.callingCode = Int16((code?.first?.string)!)!
                 
                 self?.country = countryModel

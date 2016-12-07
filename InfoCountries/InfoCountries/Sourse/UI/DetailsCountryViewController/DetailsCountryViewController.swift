@@ -23,8 +23,5 @@ class DetailsCountryViewController: UIViewController, ViewControllerRootView {
             })
         }
     }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
+    
 }

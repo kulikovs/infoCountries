@@ -15,7 +15,6 @@ class DetailsCountryView: UIView {
     @IBOutlet var callingCodeLabel:  UILabel?
     @IBOutlet var numericCodeLabel:  UILabel?
 
-    
     func fillWithModel(model: Country) {
         self.nameLabel?.text = model.name
         self.capitalLabel?.text = model.capital

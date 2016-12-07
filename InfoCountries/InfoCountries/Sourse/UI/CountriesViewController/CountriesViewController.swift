@@ -10,8 +10,6 @@ import Foundation
 import UIKit
 import MagicalRecord
 
-var countryURLString = "https://restcountries.eu/rest/v1/name/"
-
 class CountriesViewController : UIViewController, ViewControllerRootView, UITableViewDelegate,
 UITableViewDataSource {
     

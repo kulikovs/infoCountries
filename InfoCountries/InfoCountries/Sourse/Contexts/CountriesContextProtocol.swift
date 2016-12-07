@@ -1,5 +1,5 @@
 //
-//  CountriesContext.swift
+//  CountriesContextProtocol.swift
 //  InfoCountries
 //
 //  Created by Sergey Kulikov on 11/24/16.
@@ -12,8 +12,7 @@ import SwiftyJSON
 import Alamofire
 import MagicalRecord
 
-let countriesSessionConfig = URLSessionConfiguration.background(withIdentifier: "countriesIdentifier")
-var countriesURLString  = "http://api.worldbank.org/country?per_page=10&format=json&page=1"
+let countriesSessionConfig = URLSessionConfiguration.background(withIdentifier: countriesSessionIdentifire)
 
 class CountriesContext : Context {
     
@@ -31,8 +30,8 @@ class CountriesContext : Context {
         MagicalRecord.save({ [weak self] context in
             let resultArray = JSON(result.lastObject as! NSArray)
             for country in resultArray.array! {
-                let name = country["name"].string!
-                let countryModel = Country.mr_findFirstOrCreate(byAttribute: "name",
+                let name = country[nameKey].string!
+                let countryModel = Country.mr_findFirstOrCreate(byAttribute: nameKey,
                                                                 withValue: name,
                                                                 in: context)
                 self?.countriesArray.append(countryModel)
