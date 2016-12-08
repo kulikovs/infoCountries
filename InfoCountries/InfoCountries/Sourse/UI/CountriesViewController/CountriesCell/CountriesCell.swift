@@ -8,10 +8,10 @@
 
 import UIKit
 
-class CountriesCell: UITableViewCell {
+class CountriesCell: UITableViewCell, CellProtocol{
     @IBOutlet var countryName: UILabel?
 
-    func fillWithModel(model: Country) {
+    func fillWith(model: Country) {
         self.countryName?.text = model.name
     }
 

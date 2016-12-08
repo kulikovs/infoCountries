@@ -8,8 +8,9 @@
 
 import Foundation
 import Alamofire
+import PromiseKit
 
-class Context {
+class Context: ContextProtocol {
     
     var URLString: String = String()
     

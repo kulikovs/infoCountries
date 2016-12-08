@@ -8,14 +8,15 @@
 
 import UIKit
 
-class DetailsCountryView: UIView {
+class DetailsCountryView: UIView, CellProtocol {
+
     @IBOutlet var nameLabel:         UILabel?
     @IBOutlet var capitalLabel:      UILabel?
     @IBOutlet var populationLabel:   UILabel?
     @IBOutlet var callingCodeLabel:  UILabel?
     @IBOutlet var numericCodeLabel:  UILabel?
 
-    func fillWithModel(model: Country) {
+   internal func fillWith(model: Country) {
         self.nameLabel?.text = model.name
         self.capitalLabel?.text = model.capital
         self.populationLabel?.text = String(model.population)
