@@ -23,7 +23,7 @@ class CountriesViewController : UIViewController,
     
     var pandingModel : PagingModel? {
         didSet {
-            self.pandingModel?.getNextPage(finished: self.update())
+            self.pandingModel?.getNextPage()
         }
     }
     
@@ -32,17 +32,17 @@ class CountriesViewController : UIViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.pandingModel = PagingModel()
+        self.pandingModel = PagingModel(finished: self.update())
     }
     
      // MARK: - Interface Handling
     
     @IBAction func onNextPage(_ sender: UIButton) {
-        self.pandingModel?.getNextPage(finished: self.update())
+        self.pandingModel?.getNextPage()
     }
     
     @IBAction func onPreviousPage(_ sender: UIButton) {
-        self.pandingModel?.getPreviousPage(finished: self.update())
+        self.pandingModel?.getPreviousPage()
     }
     
     //MARK: TableViewDataSourse

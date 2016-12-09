@@ -18,9 +18,9 @@ protocol PagingProtocol {
     
     var perPage: Int {get set}
     
-    func getNextPage(finished: @escaping pagingfinishedHandler)
+    func getNextPage()
     
-    func getPreviousPage(finished: @escaping pagingfinishedHandler)
+    func getPreviousPage()
     
     func getInfoFor(country: Country)
     

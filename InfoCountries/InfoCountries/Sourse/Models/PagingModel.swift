@@ -26,9 +26,9 @@ class PagingModel: PagingProtocol {
     
     //MARK: Initializations and deallocations
     
-//    init(finished: pagingfinishedHandler) {
-//        self.pagingfinished = finished
-//    }
+    init(finished: @escaping pagingfinishedHandler) {
+        self.pagingFinished = finished
+    }
     
     //MARK: Accessors
     
@@ -65,18 +65,18 @@ class PagingModel: PagingProtocol {
     
     // MARK: Public Methods
     
-    func getNextPage(finished: @escaping pagingfinishedHandler) {
+    func getNextPage() {
         if self.currentPage < self.totalPages {
             self.currentPage += 1
-            self.prepareToLoad(finished: finished)
+            self.context = CountriesContext(urlString: self.countriesRequestString)
             
         }
     }
     
-    func getPreviousPage(finished: @escaping pagingfinishedHandler) {
+    func getPreviousPage() {
         if self.currentPage > 1 {
             self.currentPage -= 1
-            self.prepareToLoad(finished: finished)
+            self.context = CountriesContext(urlString: self.countriesRequestString)
         }
     }
     
@@ -84,10 +84,4 @@ class PagingModel: PagingProtocol {
         self.context = CountryDetailContext(urlString: self.countryRequestString)
     }
     
-    // MARK: Private Methods
-    
-    fileprivate func prepareToLoad(finished: @escaping pagingfinishedHandler) {
-        self.pagingFinished = finished
-        self.context = CountriesContext(urlString: self.countriesRequestString)
-    }
 }
