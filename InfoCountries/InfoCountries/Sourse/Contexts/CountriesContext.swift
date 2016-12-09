@@ -36,7 +36,7 @@ class CountriesContext: Context {
                     
                 }
                 if (error == nil) {
-                    self?.parseFinished!(self?.countriesUpdated() as AnyObject, self?.totalPages as Any)
+                    self?.contextFinished!(self?.countriesUpdated() as AnyObject, self?.totalPages as Any)
                 }
         })
     }

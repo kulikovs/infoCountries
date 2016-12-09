@@ -14,20 +14,13 @@ class Context: ContextProtocol {
     
     var URLString: String = String()
     
-    typealias finishedHandler = (AnyObject, Any) -> Void
-    
-    var parseFinished: finishedHandler?
+    var contextFinished: contextFinishedBlock?
     
     var sessionConfig: URLSessionConfiguration?
     
-    private var manager: Alamofire.SessionManager?
+    var manager: Alamofire.SessionManager?
 
     //MARK: Initializations and Deallocation
-    
-    init() {
-       self.sessionConfig = URLSessionConfiguration.background(withIdentifier:self.URLString)
-        self.manager = Alamofire.SessionManager(configuration: self.sessionConfig!)
-    }
     
     convenience init(urlString: String) {
         self.init()
@@ -40,11 +33,10 @@ class Context: ContextProtocol {
     
     //MARK: Public Methods
     
-    func load(finished: @escaping finishedHandler) {
-        self.parseFinished = finished
-        
+    func load(finished: @escaping contextFinishedBlock) {
+        self.contextFinished = finished
         self.setupSessionConfig()
-        self.sessionConfig = URLSessionConfiguration.background(withIdentifier:self.URLString)
+        
         self.manager?.request(self.URLString).responseJSON(completionHandler: {[weak self] response in
             if let status = response.response?.statusCode {
                 switch(status){
@@ -58,7 +50,7 @@ class Context: ContextProtocol {
                 self?.parse(result: result)
             }
         })
-        
+
     }
     
     func cancel() {
@@ -73,7 +65,9 @@ class Context: ContextProtocol {
     
     func setupSessionConfig() {
         self.sessionConfig = URLSessionConfiguration.background(withIdentifier:self.URLString)
-                self.manager = Alamofire.SessionManager(configuration: self.sessionConfig!)
+        self.manager = Alamofire.SessionManager(configuration: self.sessionConfig!)
     }
     
 }
+
+

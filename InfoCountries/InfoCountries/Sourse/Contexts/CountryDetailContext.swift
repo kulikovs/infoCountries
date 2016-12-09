@@ -38,7 +38,7 @@ class CountryDetailContext: Context {
                 }
                 if (error == nil) {
                     let countryModel: Country = (self?.country!.mr_(in: NSManagedObjectContext.mr_default()))! as Country
- //                   self?.parseFinished!(countryModel)
+                 //   self?.contextFinished!(countryModel)
                 }
         })
     }

@@ -15,11 +15,11 @@ class CountriesViewController : UIViewController,
                                 UITableViewDataSource,
                                 ViewControllerRootView
 {
-    //MARK: Accessor
-    
     typealias RootViewType = CountriesView
 
     var countries: Array<AnyObject> = Array()
+    
+    //MARK: Accessor
     
     var pandingModel : PagingModel? {
         didSet {
@@ -32,7 +32,7 @@ class CountriesViewController : UIViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.pandingModel = PagingModel(finished: self.update())
+        self.pandingModel = PagingModel(finishedBlock: self.update())
     }
     
      // MARK: - Interface Handling
@@ -66,7 +66,7 @@ class CountriesViewController : UIViewController,
         let identifier = String(describing: DetailsCountryViewController.self)
         let detailsController = storyboard?.instantiateViewController(withIdentifier:identifier)
                                                                     as! DetailsCountryViewController
-        
+  
         let detailContext = CountryDetailContext()
         let country = self.countries[indexPath.row] as! Country
         let urlString = countryURLString + country.name!
@@ -78,9 +78,10 @@ class CountriesViewController : UIViewController,
         self.navigationController?.pushViewController(detailsController, animated: true)
     }
     
-         // MARK: - Private methods
+    // MARK: - Private methods
     
-  fileprivate  func update() -> ((_ arr: AnyObject) -> Void) {
+    fileprivate func update() -> (pagingFinishedBlock) {
+        
         return { [weak self] (_ arr: AnyObject) -> Void in
             self?.countries = arr as! Array<AnyObject>
             self?.rootView.tableView?.reloadData()

@@ -7,12 +7,19 @@
 //
 
 import Foundation
+import Alamofire
+
+typealias contextFinishedBlock = (AnyObject, Any) -> Void
 
 protocol ContextProtocol: class {
     
-    typealias finishedHandler = (AnyObject, Any) -> Void
-
-    func load(finished: @escaping finishedHandler)
+  //  typealias contextFinishedBlock = (AnyObject, Any) -> Void
+    
+    var URLString: String {get set}
+    
+    func load(finished: @escaping contextFinishedBlock)
     
     func parse(result: NSArray)
+    
+    func setupSessionConfig()
 }

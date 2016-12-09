@@ -8,9 +8,11 @@
 
 import Foundation
 
+    typealias pagingFinishedBlock = (_ arr: AnyObject) -> Void
+
 protocol PagingProtocol {
     
-    typealias pagingfinishedHandler = (AnyObject) -> Void
+    //typealias pagingFinishedBlock = (_ arr: AnyObject) -> Void
     
     var currentPage: Int {get set}
     

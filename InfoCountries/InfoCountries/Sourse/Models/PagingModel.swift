@@ -10,9 +10,7 @@ import Foundation
 
 class PagingModel: PagingProtocol {
     
-    typealias pagingfinishedHandler = (AnyObject) -> Void
-    
-    var pagingFinished: pagingfinishedHandler?
+    var pagingFinished: pagingFinishedBlock?
     
     var currentPage: Int = 0
     
@@ -26,8 +24,8 @@ class PagingModel: PagingProtocol {
     
     //MARK: Initializations and deallocations
     
-    init(finished: @escaping pagingfinishedHandler) {
-        self.pagingFinished = finished
+    init(finishedBlock: @escaping pagingFinishedBlock) {
+        self.pagingFinished = finishedBlock
     }
     
     //MARK: Accessors
@@ -55,11 +53,7 @@ class PagingModel: PagingProtocol {
             self.context?.cancel()
         }
         didSet {
-            self.context?.load(finished: { [weak self] (_ arr: AnyObject, pages: Any) -> Void in
-                self?.countries = arr as! Array<AnyObject>
-                self?.totalPages = pages as! Int
-                self?.pagingFinished!(self?.countries as AnyObject)
-            })
+            self.context?.load(finished: contextDidLoad())
         }
     }
     
@@ -69,7 +63,6 @@ class PagingModel: PagingProtocol {
         if self.currentPage < self.totalPages {
             self.currentPage += 1
             self.context = CountriesContext(urlString: self.countriesRequestString)
-            
         }
     }
     
@@ -84,4 +77,15 @@ class PagingModel: PagingProtocol {
         self.context = CountryDetailContext(urlString: self.countryRequestString)
     }
     
+    //MARK: Privat Methods
+    
+   fileprivate func contextDidLoad() -> contextFinishedBlock {
+        
+        return { [weak self] (arr: AnyObject, pages: Any) -> Void in
+            self?.countries = arr as! Array<AnyObject>
+            self?.totalPages = pages as! Int
+            self?.pagingFinished!(self?.countries as AnyObject)
+        }
+    }
+
 }
