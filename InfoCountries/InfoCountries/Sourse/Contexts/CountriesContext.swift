@@ -12,10 +12,17 @@ import SwiftyJSON
 
 class CountriesContext: Context {
     
+    var totalPages: Int = 0
+    
     var countriesArray = Array<Country>()
     
-    override func parseResult(result: NSArray) {
+    // MARK: -  Overriden methods
+    
+    override func parse(result: NSArray) {
         MagicalRecord.save({ [weak self] context in
+            let baseInfo = JSON(result.firstObject as! NSDictionary)
+            self?.totalPages = baseInfo["pages"].int!
+            
             let resultArray = JSON(result.lastObject as! NSArray)
             for country in resultArray.array! {
                 let name = country[nameKey].string!
@@ -29,14 +36,21 @@ class CountriesContext: Context {
                     
                 }
                 if (error == nil) {
-                    var countries = Array<Country>()
-                    for country in (self?.countriesArray)! {
-                        let countryModel = country.mr_(in: NSManagedObjectContext.mr_default())!
-                        countries.append(countryModel)
-                    }
-                    self?.parseFinished!(countries as AnyObject)
+                    self?.parseFinished!(self?.countriesUpdated() as AnyObject, self?.totalPages as Any)
                 }
         })
+    }
+    
+    //MARK: Private Methods
+    
+    func countriesUpdated() -> Array<Country> {
+        var countries = Array<Country>()
+        for country in (self.countriesArray) {
+            let countryModel = country.mr_(in: NSManagedObjectContext.mr_default())!
+            countries.append(countryModel)
+        }
+        
+        return countries
     }
     
 }

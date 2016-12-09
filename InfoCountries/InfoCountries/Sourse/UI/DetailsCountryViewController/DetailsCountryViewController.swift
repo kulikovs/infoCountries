@@ -17,10 +17,10 @@ class DetailsCountryViewController: UIViewController, ViewControllerRootView {
             self.context?.cancel()
         }
         didSet {
-            self.context?.load(finished: { [weak self] (_ model: AnyObject) -> Void in
-                self?.rootView.fillWith(model: model as! Country)
-                self?.rootView.reloadInputViews()
-            })
+//            self.context?.load(finished: { [weak self] (_ model: AnyObject) -> Void in
+//                self?.rootView.fillWith(model: model as! Country)
+//                self?.rootView.reloadInputViews()
+//            })
         }
     }
     

@@ -8,7 +8,7 @@
 
 import Foundation
 
-let countriesURLString  = "http://api.worldbank.org/country?per_page=12&format=json&page=1"
+let countriesURLString  = "http://api.worldbank.org/country?"
 let countryURLString    = "https://restcountries.eu/rest/v1/name/"
 
 let countriesSessionIdentifier  = "CountriesIdentifire"

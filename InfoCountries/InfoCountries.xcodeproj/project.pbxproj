@@ -28,6 +28,8 @@
 		A86C873D1DE843AA00CF7C8F /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A86C873C1DE843AA00CF7C8F /* ObjectMapper.framework */; };
 		A878C9341DF9504A002D58FA /* ContextProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A878C9331DF9504A002D58FA /* ContextProtocol.swift */; };
 		A878C9361DF954D4002D58FA /* CellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A878C9351DF954D4002D58FA /* CellProtocol.swift */; };
+		A878C9381DF972A5002D58FA /* PagingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A878C9371DF972A5002D58FA /* PagingModel.swift */; };
+		A88F4D031DFA98F6005329EA /* PagingProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A88F4D021DFA98F6005329EA /* PagingProtocol.swift */; };
 		A8941F001DF7FC3A00D7A66D /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8941EFF1DF7FC3A00D7A66D /* String+Extensions.swift */; };
 		A8941F041DF80E7200D7A66D /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8941F031DF80E7200D7A66D /* Context.swift */; };
 		A8941F061DF81FDF00D7A66D /* CountriesContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8941F051DF81FDF00D7A66D /* CountriesContext.swift */; };
@@ -58,6 +60,8 @@
 		A86C873C1DE843AA00CF7C8F /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = Carthage/Build/iOS/ObjectMapper.framework; sourceTree = "<group>"; };
 		A878C9331DF9504A002D58FA /* ContextProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContextProtocol.swift; sourceTree = "<group>"; };
 		A878C9351DF954D4002D58FA /* CellProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellProtocol.swift; sourceTree = "<group>"; };
+		A878C9371DF972A5002D58FA /* PagingModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagingModel.swift; sourceTree = "<group>"; };
+		A88F4D021DFA98F6005329EA /* PagingProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagingProtocol.swift; sourceTree = "<group>"; };
 		A8941EFF1DF7FC3A00D7A66D /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		A8941F031DF80E7200D7A66D /* Context.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
 		A8941F051DF81FDF00D7A66D /* CountriesContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountriesContext.swift; sourceTree = "<group>"; };
@@ -167,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				A83C8AF91DE5D20100E1459C /* CoreDataModels */,
+				A878C9371DF972A5002D58FA /* PagingModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -253,6 +258,7 @@
 			children = (
 				A878C9331DF9504A002D58FA /* ContextProtocol.swift */,
 				A878C9351DF954D4002D58FA /* CellProtocol.swift */,
+				A88F4D021DFA98F6005329EA /* PagingProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -358,12 +364,14 @@
 				A878C9361DF954D4002D58FA /* CellProtocol.swift in Sources */,
 				A825ABE21DE5E8310069A45B /* DetailsCountryViewController.swift in Sources */,
 				A8941F081DF832B800D7A66D /* CountryDetailContext.swift in Sources */,
+				A878C9381DF972A5002D58FA /* PagingModel.swift in Sources */,
 				A813DFD21DE48C780047638B /* CountriesViewController.swift in Sources */,
 				A813DFD51DE48CE50047638B /* CountriesView.swift in Sources */,
 				A825ABE51DE5E8740069A45B /* DetailsCountryView.swift in Sources */,
 				A8941F061DF81FDF00D7A66D /* CountriesContext.swift in Sources */,
 				A8941F001DF7FC3A00D7A66D /* String+Extensions.swift in Sources */,
 				A813DFDB1DE4963A0047638B /* ViewControllerRootView.swift in Sources */,
+				A88F4D031DFA98F6005329EA /* PagingProtocol.swift in Sources */,
 				A8358F791DF71F9200FD8948 /* Constants.swift in Sources */,
 				A8941F041DF80E7200D7A66D /* Context.swift in Sources */,
 				A878C9341DF9504A002D58FA /* ContextProtocol.swift in Sources */,

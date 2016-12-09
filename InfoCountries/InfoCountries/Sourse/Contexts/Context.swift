@@ -14,17 +14,19 @@ class Context: ContextProtocol {
     
     var URLString: String = String()
     
-    typealias finishedHandler = (AnyObject) -> Void
+    typealias finishedHandler = (AnyObject, Any) -> Void
     
     var parseFinished: finishedHandler?
     
-    private let manager: Alamofire.SessionManager?
+    var sessionConfig: URLSessionConfiguration?
     
+    private var manager: Alamofire.SessionManager?
+
     //MARK: Initializations and Deallocation
     
     init() {
-        let sessionConfig = URLSessionConfiguration.background(withIdentifier:String(describing: type(of: self)))
-        self.manager = Alamofire.SessionManager(configuration: sessionConfig)
+       self.sessionConfig = URLSessionConfiguration.background(withIdentifier:self.URLString)
+        self.manager = Alamofire.SessionManager(configuration: self.sessionConfig!)
     }
     
     convenience init(urlString: String) {
@@ -41,6 +43,8 @@ class Context: ContextProtocol {
     func load(finished: @escaping finishedHandler) {
         self.parseFinished = finished
         
+        self.setupSessionConfig()
+        self.sessionConfig = URLSessionConfiguration.background(withIdentifier:self.URLString)
         self.manager?.request(self.URLString).responseJSON(completionHandler: {[weak self] response in
             if let status = response.response?.statusCode {
                 switch(status){
@@ -51,7 +55,7 @@ class Context: ContextProtocol {
                 }
             }
             if let result: NSArray = (response.result.value as! NSArray?) {
-                self?.parseResult(result: result)
+                self?.parse(result: result)
             }
         })
         
@@ -63,8 +67,13 @@ class Context: ContextProtocol {
     
     //MARK: Private Methods
     
-    func parseResult(result: NSArray) {
+    func parse(result: NSArray) {
         
+    }
+    
+    func setupSessionConfig() {
+        self.sessionConfig = URLSessionConfiguration.background(withIdentifier:self.URLString)
+                self.manager = Alamofire.SessionManager(configuration: self.sessionConfig!)
     }
     
 }

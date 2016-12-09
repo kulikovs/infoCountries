@@ -14,7 +14,9 @@ class CountryDetailContext: Context {
     
     var country: Country?
     
-    override func parseResult(result: NSArray) {
+    // MARK: -  Overriden methods
+    
+    override func parse(result: NSArray) {
         MagicalRecord.save({ [weak self] context in
             let resultArray = JSON(result)
             for country in resultArray.array! {
@@ -36,7 +38,7 @@ class CountryDetailContext: Context {
                 }
                 if (error == nil) {
                     let countryModel: Country = (self?.country!.mr_(in: NSManagedObjectContext.mr_default()))! as Country
-                    self?.parseFinished!(countryModel)
+ //                   self?.parseFinished!(countryModel)
                 }
         })
     }

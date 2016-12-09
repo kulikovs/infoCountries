@@ -10,9 +10,9 @@ import Foundation
 
 protocol ContextProtocol: class {
     
-    typealias finishedHandler = (AnyObject) -> Void
+    typealias finishedHandler = (AnyObject, Any) -> Void
 
     func load(finished: @escaping finishedHandler)
     
-    func parseResult(result: NSArray)
+    func parse(result: NSArray)
 }

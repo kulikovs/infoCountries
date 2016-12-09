@@ -10,24 +10,20 @@ import Foundation
 import UIKit
 import MagicalRecord
 
-class CountriesViewController : UIViewController, ViewControllerRootView, UITableViewDelegate,
-UITableViewDataSource {
-    
+class CountriesViewController : UIViewController,
+                                UITableViewDelegate,
+                                UITableViewDataSource,
+                                ViewControllerRootView
+{
     //MARK: Accessor
     
     typealias RootViewType = CountriesView
-    
+
     var countries: Array<AnyObject> = Array()
     
-    var context : CountriesContext? {
-        willSet {
-            self.context?.cancel()
-        }
+    var pandingModel : PagingModel? {
         didSet {
-            self.context?.load(finished: { [weak self] (_ arr: AnyObject) -> Void in
-                self?.countries = arr as! Array<AnyObject>
-                self?.rootView.tableView?.reloadData()
-            } )
+            self.pandingModel?.getNextPage(finished: self.update())
         }
     }
     
@@ -36,7 +32,17 @@ UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.context = CountriesContext(urlString: countriesURLString)
+        self.pandingModel = PagingModel()
+    }
+    
+     // MARK: - Interface Handling
+    
+    @IBAction func onNextPage(_ sender: UIButton) {
+        self.pandingModel?.getNextPage(finished: self.update())
+    }
+    
+    @IBAction func onPreviousPage(_ sender: UIButton) {
+        self.pandingModel?.getPreviousPage(finished: self.update())
     }
     
     //MARK: TableViewDataSourse
@@ -49,7 +55,7 @@ UITableViewDataSource {
         let identifier = String(describing: CountriesCell.self)
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as! CountriesCell
         
-        cell.fillWithModel(model: self.countries[indexPath.row] as! Country)
+        cell.fillWith(model: self.countries[indexPath.row] as! Country)
         
         return cell
     }
@@ -58,7 +64,8 @@ UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let identifier = String(describing: DetailsCountryViewController.self)
-        let detailsController = storyboard?.instantiateViewController(withIdentifier:identifier) as! DetailsCountryViewController
+        let detailsController = storyboard?.instantiateViewController(withIdentifier:identifier)
+                                                                    as! DetailsCountryViewController
         
         let detailContext = CountryDetailContext()
         let country = self.countries[indexPath.row] as! Country
@@ -69,6 +76,15 @@ UITableViewDataSource {
         detailsController.context = detailContext
         
         self.navigationController?.pushViewController(detailsController, animated: true)
+    }
+    
+         // MARK: - Private methods
+    
+  fileprivate  func update() -> ((_ arr: AnyObject) -> Void) {
+        return { [weak self] (_ arr: AnyObject) -> Void in
+            self?.countries = arr as! Array<AnyObject>
+            self?.rootView.tableView?.reloadData()
+        }
     }
     
 }
