@@ -13,28 +13,27 @@ import PromiseKit
 class Context: ContextProtocol {
     
     var URLString: String = String()
-    
+
     var contextFinished: contextFinishedBlock?
-    
+        
     var sessionConfig: URLSessionConfiguration?
     
     var manager: Alamofire.SessionManager?
 
-    //MARK: Initializations and Deallocation
+    //MARK: - Initializations and Deallocation
     
-    convenience init(urlString: String) {
-        self.init()
+    init(urlString: String, finished: @escaping contextFinishedBlock) {
         self.URLString = urlString
+        self.contextFinished = finished
     }
     
     deinit {
         self.cancel()
     }
     
-    //MARK: Public Methods
+    //MARK: - Public Methods
     
-    func load(finished: @escaping contextFinishedBlock) {
-        self.contextFinished = finished
+    func load() {
         self.setupSessionConfig()
         
         self.manager?.request(self.URLString).responseJSON(completionHandler: {[weak self] response in
@@ -57,13 +56,13 @@ class Context: ContextProtocol {
         self.manager?.request(self.URLString).cancel()
     }
     
-    //MARK: Private Methods
+    //MARK: - Private Methods
     
     func parse(result: NSArray) {
         
     }
     
-    func setupSessionConfig() {
+   func setupSessionConfig() {
         self.sessionConfig = URLSessionConfiguration.background(withIdentifier:self.URLString)
         self.manager = Alamofire.SessionManager(configuration: self.sessionConfig!)
     }

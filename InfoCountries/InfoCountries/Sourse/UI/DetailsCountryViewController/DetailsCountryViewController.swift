@@ -12,15 +12,22 @@ class DetailsCountryViewController: UIViewController, ViewControllerRootView {
     
     typealias RootViewType = DetailsCountryView
     
-    var context : CountryDetailContext? {
-        willSet {
-            self.context?.cancel()
-        }
+    //MARK: - Accessors
+    
+    var pandingModel : PagingModel? {
         didSet {
-//            self.context?.load(finished: { [weak self] (_ model: AnyObject) -> Void in
-//                self?.rootView.fillWith(model: model as! Country)
-//                self?.rootView.reloadInputViews()
-//            })
+            self.pandingModel?.pagingFinished = self.update()
+            self.pandingModel?.getCountryInfo()
+        }
+    }
+    
+   //MARK: - Private methods
+    
+    fileprivate func update() -> (pagingFinishedBlock) {
+        
+        return { [weak self] (_ model: AnyObject) -> Void in
+            self?.rootView.fillWith(model: model as! Country)
+            self?.rootView.reloadInputViews()
         }
     }
     

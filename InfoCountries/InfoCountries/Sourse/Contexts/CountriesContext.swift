@@ -12,7 +12,7 @@ import SwiftyJSON
 
 class CountriesContext: Context {
     
-    var totalPages: Int = 0
+    var totalPages: Int?
     
     var countriesArray = Array<Country>()
     
@@ -21,7 +21,7 @@ class CountriesContext: Context {
     override func parse(result: NSArray) {
         MagicalRecord.save({ [weak self] context in
             let baseInfo = JSON(result.firstObject as! NSDictionary)
-            self?.totalPages = baseInfo["pages"].int!
+            self?.totalPages = baseInfo[pagesKey].int!
             
             let resultArray = JSON(result.lastObject as! NSArray)
             for country in resultArray.array! {
@@ -36,12 +36,13 @@ class CountriesContext: Context {
                     
                 }
                 if (error == nil) {
-                    self?.contextFinished!(self?.countriesUpdated() as AnyObject, self?.totalPages as Any)
+                    self?.contextFinished!(self?.countriesUpdated() as AnyObject,
+                                           self?.totalPages as Any)
                 }
         })
     }
     
-    //MARK: Private Methods
+    //MARK: - Private Methods
     
     func countriesUpdated() -> Array<Country> {
         var countries = Array<Country>()

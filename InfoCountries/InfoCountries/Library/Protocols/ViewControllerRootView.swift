@@ -16,7 +16,6 @@ public protocol ViewControllerRootView {
     var rootView: RootViewType { get }
 }
 
-    
 public extension ViewControllerRootView where Self : UIViewController {
     var rootView: RootViewType {
         return self.view as! RootViewType

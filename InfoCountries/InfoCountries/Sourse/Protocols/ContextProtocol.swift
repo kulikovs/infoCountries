@@ -13,11 +13,11 @@ typealias contextFinishedBlock = (AnyObject, Any) -> Void
 
 protocol ContextProtocol: class {
     
-  //  typealias contextFinishedBlock = (AnyObject, Any) -> Void
-    
     var URLString: String {get set}
     
-    func load(finished: @escaping contextFinishedBlock)
+    func load()
+    
+    func cancel()
     
     func parse(result: NSArray)
     

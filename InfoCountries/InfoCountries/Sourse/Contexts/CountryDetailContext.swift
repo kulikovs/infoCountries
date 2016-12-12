@@ -13,8 +13,8 @@ import SwiftyJSON
 class CountryDetailContext: Context {
     
     var country: Country?
-    
-    // MARK: -  Overriden methods
+
+    // MARK: - Overriden methods
     
     override func parse(result: NSArray) {
         MagicalRecord.save({ [weak self] context in
@@ -38,7 +38,7 @@ class CountryDetailContext: Context {
                 }
                 if (error == nil) {
                     let countryModel: Country = (self?.country!.mr_(in: NSManagedObjectContext.mr_default()))! as Country
-                 //   self?.contextFinished!(countryModel)
+                    self?.contextFinished!(countryModel, 0)
                 }
         })
     }

@@ -19,33 +19,35 @@ class CountriesViewController : UIViewController,
 
     var countries: Array<AnyObject> = Array()
     
-    //MARK: Accessor
+    //MARK: - Accessor
     
-    var pandingModel : PagingModel? {
+    var pagingModel : PagingModel? {
         didSet {
-            self.pandingModel?.getNextPage()
+            self.pagingModel?.getNextPage()
         }
     }
     
-    //MARK: LifeCycle
+    //MARK: - LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.pandingModel = PagingModel(finishedBlock: self.update())
+
+        self.pagingModel = PagingModel(finishedBlock: self.update())
     }
     
-     // MARK: - Interface Handling
+    // MARK: - Handling
     
     @IBAction func onNextPage(_ sender: UIButton) {
-        self.pandingModel?.getNextPage()
+        self.pagingModel?.pagingFinished = self.update()
+        self.pagingModel?.getNextPage()
     }
     
     @IBAction func onPreviousPage(_ sender: UIButton) {
-        self.pandingModel?.getPreviousPage()
+        self.pagingModel?.pagingFinished = self.update()
+        self.pagingModel?.getPreviousPage()
     }
     
-    //MARK: TableViewDataSourse
+    //MARK: - TableViewDataSourse
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.countries.count
@@ -66,14 +68,8 @@ class CountriesViewController : UIViewController,
         let identifier = String(describing: DetailsCountryViewController.self)
         let detailsController = storyboard?.instantiateViewController(withIdentifier:identifier)
                                                                     as! DetailsCountryViewController
-  
-        let detailContext = CountryDetailContext()
-        let country = self.countries[indexPath.row] as! Country
-        let urlString = countryURLString + country.name!
-        
-        detailContext.URLString = urlString.addingPercentEncodingForUrlQuery()!
-        detailContext.country = country
-        detailsController.context = detailContext
+        self.pagingModel?.country = self.countries[indexPath.row] as? Country
+        detailsController.pandingModel = self.pagingModel
         
         self.navigationController?.pushViewController(detailsController, animated: true)
     }

@@ -16,6 +16,11 @@ let countrySessionIdentifier    = "CountryIdentifire"
 
 let nameKey         = "name"
 let capitalKey      = "capital"
+let pagesKey        = "pages"
 let populationKey   = "population"
 let numericCodeKey  = "numericCode"
 let callingCodesKey = "callingCodes"
+
+let baseCurrentPage = 0
+let basetotalPages  = 1
+let basePerPage     = 12
