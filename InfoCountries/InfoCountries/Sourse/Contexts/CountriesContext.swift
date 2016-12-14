@@ -10,7 +10,7 @@ import UIKit
 import MagicalRecord
 import SwiftyJSON
 
-class CountriesContext: Context {
+class CountriesContext: Context, PagingContextProtocol {
     
     var totalPages: Int?
     

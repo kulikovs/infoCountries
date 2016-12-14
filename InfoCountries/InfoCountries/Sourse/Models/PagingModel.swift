@@ -10,7 +10,7 @@ import Foundation
 
 class PagingModel: PagingProtocol {
     
-    var pagingFinished: pagingFinishedBlock?
+    var pagingFinished: pagingFinishedBlock?    //
     
     var currentPage: Int = baseCurrentPage
     
@@ -20,6 +20,8 @@ class PagingModel: PagingProtocol {
     
     var country: Country?
     
+    let context: Context
+    
     var countries: Array <AnyObject> = Array()
     
     //MARK: - Initializations and deallocations
@@ -28,6 +30,10 @@ class PagingModel: PagingProtocol {
         self.pagingFinished = finishedBlock
     }
 
+    init(context: Context, perPage: Int, finishedBlock: @escaping pagingFinishedBlock) {
+        self.pagingFinished = finishedBlock
+    }
+    
     //MARK: - Accessors
     
     fileprivate var countriesRequestString: String {
@@ -48,7 +54,7 @@ class PagingModel: PagingProtocol {
         }
     }
     
-    fileprivate var context : Context? {
+    fileprivate var context : Context? { //
         willSet {
             self.context?.cancel()
         }
@@ -67,7 +73,7 @@ class PagingModel: PagingProtocol {
         }
     }
     
-    func getPreviousPage() {
+    func getPreviousPage() {    //
         if self.currentPage > 1 {
             self.currentPage -= 1
             self.context = CountriesContext(urlString: self.countriesRequestString,
@@ -75,29 +81,33 @@ class PagingModel: PagingProtocol {
         }
     }
     
-    func getCountryInfo() {
+    func getCountryInfo() { //
         let context = CountryDetailContext(urlString: self.countryRequestString,
                                             finished: self.countryContextDidLoad())
         context.country = self.country
         self.context = context
     }
     
+    func reset() {
+        
+    }
+    
     //MARK: - Privat Methods
     
-   fileprivate func countriesContextDidLoad() -> contextFinishedBlock {
+   fileprivate func countriesContextDidLoad() -> contextFinishedBlock { //
 
         return { [weak self] (arr: AnyObject, pages: Any) -> Void in
             self?.countries = arr as! Array<AnyObject>
             self?.totalPages = pages as! Int
-            self?.pagingFinished!(self?.countries as AnyObject)
+            self?.pagingFinished!((self?.countries)!)
         }
     }
     
-    fileprivate func countryContextDidLoad() -> contextFinishedBlock {
+    fileprivate func countryContextDidLoad() -> contextFinishedBlock {  //
         
         return { [weak self] (_ model: AnyObject, _ pages: Any) -> Void in
             self?.country = model as? Country
-            self?.pagingFinished!(self?.country as AnyObject)
+//            self?.pagingFinished!(self?.country)
         }
     }
 
