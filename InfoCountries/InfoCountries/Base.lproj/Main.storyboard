@@ -49,7 +49,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Rao-Ti-I2M" id="v7x-jo-cm4">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jJa-7C-UAn">
@@ -75,35 +75,32 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="nob-AT-LVB"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X2Z-fa-5t6">
-                                <rect key="frame" x="0.0" y="617" width="153" height="42"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="153" id="CEn-I6-TgP"/>
-                                </constraints>
-                                <state key="normal" title="Previous"/>
-                                <connections>
-                                    <action selector="onPreviousPage:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Aq3-Qn-zzG"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zth-tJ-SpT">
                                 <rect key="frame" x="251" y="617" width="101" height="43"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="101" id="zEx-Hd-fA8"/>
+                                </constraints>
                                 <state key="normal" title="Next"/>
                                 <connections>
                                     <action selector="onNextPage:" destination="BYZ-38-t0r" eventType="touchUpInside" id="y2r-e4-kyA"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5fy-l3-auZ">
+                                <rect key="frame" x="40" y="623" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Reset"/>
+                                <connections>
+                                    <action selector="onReset:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OQ5-2I-qNQ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Zth-tJ-SpT" firstAttribute="centerY" secondItem="X2Z-fa-5t6" secondAttribute="centerY" id="78E-fJ-qZE"/>
-                            <constraint firstItem="Zth-tJ-SpT" firstAttribute="leading" secondItem="X2Z-fa-5t6" secondAttribute="trailing" constant="98" id="FGc-Nk-w9r"/>
                             <constraint firstItem="FiO-ut-b4J" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="HAi-O0-tu5"/>
-                            <constraint firstItem="FiO-ut-b4J" firstAttribute="leading" secondItem="X2Z-fa-5t6" secondAttribute="leading" id="U8L-SR-Q1B"/>
                             <constraint firstAttribute="trailing" secondItem="FiO-ut-b4J" secondAttribute="trailing" id="b5I-qn-sJX"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="X2Z-fa-5t6" secondAttribute="bottom" constant="8" symbolic="YES" id="gE8-Z3-ddN"/>
-                            <constraint firstItem="Zth-tJ-SpT" firstAttribute="top" secondItem="X2Z-fa-5t6" secondAttribute="top" id="gPH-ha-uSq"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Zth-tJ-SpT" secondAttribute="bottom" constant="7" id="fca-vu-Pb4"/>
                             <constraint firstItem="FiO-ut-b4J" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="nLp-1f-f6h"/>
-                            <constraint firstItem="X2Z-fa-5t6" firstAttribute="top" secondItem="FiO-ut-b4J" secondAttribute="bottom" constant="8" symbolic="YES" id="qMB-o5-lIF"/>
+                            <constraint firstItem="Zth-tJ-SpT" firstAttribute="top" secondItem="FiO-ut-b4J" secondAttribute="bottom" constant="8" symbolic="YES" id="rpH-H1-i6a"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Zth-tJ-SpT" secondAttribute="trailing" constant="7" id="tbi-T1-qFD"/>
                         </constraints>
                         <connections>

@@ -8,21 +8,17 @@
 
 import Foundation
 
-typealias pagingFinishedBlock = (Array<Any>) -> Void
+typealias pagingFinishedBlock = (Array<AnyObject>) -> Void
 
 protocol PagingProtocol {
     
-    var currentPage: Int {get set}  //get
+    var currentPage: Int {get}
     
-    var totalPages: Int {get set}   //let
+    var totalPages: Int {get}
     
-    var perPage: Int {get set}  //get, move to init
+    var perPage: Int {get}
     
     func getNextPage()
-    
-    func getPreviousPage() //
-    
-    func getCountryInfo() //
     
     func reset()
     

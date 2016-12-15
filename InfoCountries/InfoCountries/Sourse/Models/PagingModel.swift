@@ -10,105 +10,56 @@ import Foundation
 
 class PagingModel: PagingProtocol {
     
-    var pagingFinished: pagingFinishedBlock?    //
+    var pagingFinished: pagingFinishedBlock?
     
-    var currentPage: Int = baseCurrentPage
-    
-    var totalPages: Int = basetotalPages
-    
-    var perPage: Int = basePerPage
-    
-    var country: Country?
-    
-    let context: Context
+    var context: CountriesContext?
     
     var countries: Array <AnyObject> = Array()
     
-    //MARK: - Initializations and deallocations
-
-    init(finishedBlock: @escaping pagingFinishedBlock) {
-        self.pagingFinished = finishedBlock
-    }
-
-    init(context: Context, perPage: Int, finishedBlock: @escaping pagingFinishedBlock) {
-        self.pagingFinished = finishedBlock
-    }
-    
     //MARK: - Accessors
-    
-    fileprivate var countriesRequestString: String {
+
+    var totalPages: Int {
         get {
-            return countriesURLString + "per_page=\(self.perPage)&format=json&page=\(self.currentPage)"
+            return self.context!.totalPages
         }
     }
     
-    fileprivate var countryRequestString: String {
+    var currentPage: Int {
         get {
-            var requestString = String()
-            if self.country != nil {
-                let urlString = countryURLString + (self.country?.name)!
-                requestString = urlString.addingPercentEncodingForUrlQuery()!
-            }
-            
-            return requestString
+            return self.context!.currentPage
         }
     }
     
-    fileprivate var context : Context? { //
-        willSet {
-            self.context?.cancel()
+    var perPage: Int {
+        get {
+            return self.context!.perPage
         }
-        didSet {
-            self.context?.load()
-        }
+    }
+    
+    //MARK: - Initializations and deallocations
+    
+     init(perPage: Int, finishedBlock: @escaping pagingFinishedBlock) {
+        self.context?.setPageSize(perPage)
+        self.pagingFinished = finishedBlock
+        self.context = CountriesContext(finished:{ [weak self] (countries: AnyObject) -> Void in
+                                                    self?.countries.append(contentsOf: countries as! Array<AnyObject>)
+                                                    self?.pagingFinished!((self?.countries)!)
+                                                    })
     }
     
     // MARK: - Public Methods
     
     func getNextPage() {
         if self.currentPage < self.totalPages {
-            self.currentPage += 1
-            self.context = CountriesContext(urlString: self.countriesRequestString,
-                                            finished: self.countriesContextDidLoad())
+            self.context?.setPage(self.currentPage + 1)
+            self.context?.load()
         }
     }
-    
-    func getPreviousPage() {    //
-        if self.currentPage > 1 {
-            self.currentPage -= 1
-            self.context = CountriesContext(urlString: self.countriesRequestString,
-                                            finished: self.countriesContextDidLoad())
-        }
-    }
-    
-    func getCountryInfo() { //
-        let context = CountryDetailContext(urlString: self.countryRequestString,
-                                            finished: self.countryContextDidLoad())
-        context.country = self.country
-        self.context = context
-    }
-    
+   
     func reset() {
-        
-    }
-    
-    //MARK: - Privat Methods
-    
-   fileprivate func countriesContextDidLoad() -> contextFinishedBlock { //
-
-        return { [weak self] (arr: AnyObject, pages: Any) -> Void in
-            self?.countries = arr as! Array<AnyObject>
-            self?.totalPages = pages as! Int
-            self?.pagingFinished!((self?.countries)!)
-        }
-    }
-    
-    fileprivate func countryContextDidLoad() -> contextFinishedBlock {  //
-        
-        return { [weak self] (_ model: AnyObject, _ pages: Any) -> Void in
-            self?.country = model as? Country
-//            self?.pagingFinished!(self?.country)
-        }
+        self.countries.removeAll()
+        self.context?.setPage(baseCurrentPage)
+        self.pagingFinished!(self.countries)
     }
 
 }

@@ -12,8 +12,6 @@ import PromiseKit
 
 class Context: ContextProtocol {
     
-    var URLString: String = String()
-
     var contextFinished: contextFinishedBlock?
         
     var sessionConfig: URLSessionConfiguration?
@@ -22,13 +20,16 @@ class Context: ContextProtocol {
 
     //MARK: - Initializations and Deallocation
     
-    init(urlString: String, finished: @escaping contextFinishedBlock) { //rmove urlString
-        self.URLString = urlString
-        self.contextFinished = finished
-    }
-    
     deinit {
         self.cancel()
+    }
+    
+    //MARK: - Accessors
+    
+    var URLString: String {
+        get {
+            return String()
+        }
     }
     
     //MARK: - Public Methods

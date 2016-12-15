@@ -19,32 +19,28 @@ class CountriesViewController : UIViewController,
 
     var countries: Array<AnyObject> = Array()
     
-    //MARK: - Accessor
-    
-    var pagingModel : PagingModel? {
-        didSet {
-            self.pagingModel?.getNextPage()
-        }
-    }
+    var pagingModel : PagingModel?
     
     //MARK: - LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.pagingModel = PagingModel(finishedBlock: self.update())
+        self.pagingModel = PagingModel(perPage: basePerPage,
+                                       finishedBlock: { [weak self] (_ arr: Array<AnyObject>) -> Void in
+                                                        self?.countries = arr
+                                                        self?.rootView.tableView?.reloadData()
+                                                        })
     }
     
     // MARK: - Handling
     
     @IBAction func onNextPage(_ sender: UIButton) {
-        self.pagingModel?.pagingFinished = self.update()
         self.pagingModel?.getNextPage()
     }
     
-    @IBAction func onPreviousPage(_ sender: UIButton) {
-        self.pagingModel?.pagingFinished = self.update()
-        self.pagingModel?.getPreviousPage()
+    @IBAction func onReset(_ sender: UIButton) {
+        self.pagingModel?.reset()
     }
     
     //MARK: - TableViewDataSourse
@@ -68,20 +64,12 @@ class CountriesViewController : UIViewController,
         let identifier = String(describing: DetailsCountryViewController.self)
         let detailsController = storyboard?.instantiateViewController(withIdentifier:identifier)
                                                                     as! DetailsCountryViewController
-        self.pagingModel?.country = self.countries[indexPath.row] as? Country
-        detailsController.pandingModel = self.pagingModel
+        
+        let detailContext = CountryDetailContext()
+        detailContext.country = self.countries[indexPath.row] as? Country
+        detailsController.context = detailContext
         
         self.navigationController?.pushViewController(detailsController, animated: true)
-    }
-    
-    // MARK: - Private methods
-    
-    fileprivate func update() -> (pagingFinishedBlock) {
-        
-        return { [weak self] (_ arr: AnyObject) -> Void in
-            self?.countries = arr as! Array<AnyObject>
-            self?.rootView.tableView?.reloadData()
-        }
     }
     
 }

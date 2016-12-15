@@ -14,20 +14,16 @@ class DetailsCountryViewController: UIViewController, ViewControllerRootView {
     
     //MARK: - Accessors
     
-    var pandingModel : PagingModel? {
-        didSet {
-            self.pandingModel?.pagingFinished = self.update()
-            self.pandingModel?.getCountryInfo()
+     var context : Context? { //
+        willSet {
+            self.context?.cancel()
         }
-    }
-    
-   //MARK: - Private methods
-    
-    fileprivate func update() -> (pagingFinishedBlock) {
-        
-        return { [weak self] (_ model: AnyObject) -> Void in
-            self?.rootView.fillWith(model: model as! Country)
-            self?.rootView.reloadInputViews()
+        didSet {
+            self.context?.contextFinished = { [weak self] (_ model: AnyObject) -> Void in
+                                              self?.rootView.fillWith(model: model as! Country)
+                                              self?.rootView.reloadInputViews()
+                                             }
+            self.context?.load()
         }
     }
     

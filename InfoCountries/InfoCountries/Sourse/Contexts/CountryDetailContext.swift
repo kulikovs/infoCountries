@@ -13,7 +13,21 @@ import SwiftyJSON
 class CountryDetailContext: Context {
     
     var country: Country?
-
+    
+    //MARK: - Accessors
+    
+    override var URLString: String {
+        get {
+            var requestString = String()
+            if self.country != nil {
+                let urlString = countryURLString + (self.country?.name)!
+                requestString = urlString.addingPercentEncodingForUrlQuery()!
+            }
+            
+            return requestString
+        }
+    }
+    
     // MARK: - Overriden methods
     
     override func parse(result: NSArray) {
@@ -37,8 +51,8 @@ class CountryDetailContext: Context {
                     
                 }
                 if (error == nil) {
-                    let countryModel: Country = (self?.country!.mr_(in: NSManagedObjectContext.mr_default()))! as Country
-                    self?.contextFinished!(countryModel, 0)
+                    self?.country = (self?.country!.mr_(in: NSManagedObjectContext.mr_default()))! as Country
+                    self?.contextFinished!((self?.country)!)
                 }
         })
     }

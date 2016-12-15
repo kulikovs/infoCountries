@@ -11,6 +11,7 @@ import Foundation
 protocol PagingContextProtocol {
     
     func setPageSize(_: Int)
+    
     func setPage(_: Int)
     
 }

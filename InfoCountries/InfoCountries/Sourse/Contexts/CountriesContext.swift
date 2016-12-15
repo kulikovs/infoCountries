@@ -12,13 +12,43 @@ import SwiftyJSON
 
 class CountriesContext: Context, PagingContextProtocol {
     
-    var totalPages: Int?
+    var currentPage: Int = baseCurrentPage
+    
+    var perPage: Int = basePerPage
+    
+    var totalPages: Int = baseTotalPages
     
     var countriesArray = Array<Country>()
+    
+    //MARK: - Initializations and Deallocation
+    
+    convenience init(finished: @escaping contextFinishedBlock) {
+        self.init()
+        self.contextFinished = finished
+    }
+    
+    // MARK: - Accessors
+    
+    override var URLString: String {
+        get {
+            return countriesURLString + "per_page=\(self.perPage)&format=json&page=\(self.currentPage)"
+        }
+    }
+    
+  //  MARK: - PagingContextProtocol
+    
+    func setPageSize(_ pageSize: Int) {
+        self.perPage = pageSize
+    }
+    
+    func setPage(_ page: Int) {
+        self.currentPage = page
+    }
     
     // MARK: -  Overriden methods
     
     override func parse(result: NSArray) {
+        self.countriesArray = Array()
         MagicalRecord.save({ [weak self] context in
             let baseInfo = JSON(result.firstObject as! NSDictionary)
             self?.totalPages = baseInfo[pagesKey].int!
@@ -36,8 +66,7 @@ class CountriesContext: Context, PagingContextProtocol {
                     
                 }
                 if (error == nil) {
-                    self?.contextFinished!(self?.countriesUpdated() as AnyObject,
-                                           self?.totalPages as Any)
+                    self?.contextFinished!(self?.countriesUpdated() as AnyObject)
                 }
         })
     }

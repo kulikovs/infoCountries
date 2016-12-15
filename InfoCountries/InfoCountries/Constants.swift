@@ -22,5 +22,5 @@ let numericCodeKey  = "numericCode"
 let callingCodesKey = "callingCodes"
 
 let baseCurrentPage = 0
-let basetotalPages  = 1
+let baseTotalPages  = 1
 let basePerPage     = 12

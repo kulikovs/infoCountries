@@ -9,11 +9,11 @@
 import Foundation
 import Alamofire
 
-typealias contextFinishedBlock = (AnyObject, Any) -> Void
+typealias contextFinishedBlock = (AnyObject) -> Void
 
 protocol ContextProtocol: class {
     
-    var URLString: String {get set}
+    var URLString: String {get}
     
     func load()
     
