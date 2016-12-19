@@ -12,54 +12,56 @@ class PagingModel: PagingProtocol {
     
     var pagingFinished: pagingFinishedBlock?
     
-    var context: CountriesContext?
-    
-    var countries: Array <AnyObject> = Array()
+    var context: PagingContextProtocol & ContextProtocol
     
     //MARK: - Accessors
 
     var totalPages: Int {
         get {
-            return self.context!.totalPages
+            return self.context.totalPages
         }
     }
     
     var currentPage: Int {
         get {
-            return self.context!.currentPage
+            return self.context.currentPage
         }
     }
     
     var perPage: Int {
         get {
-            return self.context!.perPage
+            return self.context.perPage
         }
     }
     
     //MARK: - Initializations and deallocations
     
-     init(perPage: Int, finishedBlock: @escaping pagingFinishedBlock) {
-        self.context?.setPageSize(perPage)
+    
+    
+    init <T: PagingContextProtocol & ContextProtocol>(context: T,
+                                                      perPage: Int,
+                                                finishedBlock: @escaping pagingFinishedBlock)
+    {
+        self.context = context
+        self.context.setPageSize(perPage)
         self.pagingFinished = finishedBlock
-        self.context = CountriesContext(finished:{ [weak self] (countries: AnyObject) -> Void in
-                                                    self?.countries.append(contentsOf: countries as! Array<AnyObject>)
-                                                    self?.pagingFinished!((self?.countries)!)
-                                                    })
+        self.context.contextFinished = { [weak self] (countries: AnyObject) -> Void  in
+                                         self?.pagingFinished!(countries as! Array<AnyObject>)
+                                        }
     }
     
     // MARK: - Public Methods
     
     func getNextPage() {
         if self.currentPage < self.totalPages {
-            self.context?.setPage(self.currentPage + 1)
-            self.context?.load()
+            self.context.setPage(self.currentPage + 1)
+            self.context.load()
         }
     }
    
     func reset() {
-        self.countries.removeAll()
-        self.context?.setPage(baseCurrentPage)
-        self.pagingFinished!(self.countries)
+        self.context.setPage(baseCurrentPage)
+        self.pagingFinished!(Array())
     }
 
 }

@@ -7,11 +7,12 @@
 //
 
 import Foundation
-import Alamofire
 
-typealias contextFinishedBlock = (AnyObject) -> Void
+   typealias contextFinishedBlock = (AnyObject) -> Void
 
 protocol ContextProtocol: class {
+    
+   var contextFinished: contextFinishedBlock {get set}
     
     var URLString: String {get}
     

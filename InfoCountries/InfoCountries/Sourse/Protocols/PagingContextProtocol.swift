@@ -10,6 +10,12 @@ import Foundation
 
 protocol PagingContextProtocol {
     
+    var currentPage: Int {get}
+    
+    var totalPages: Int {get}
+    
+    var perPage: Int {get}
+    
     func setPageSize(_: Int)
     
     func setPage(_: Int)

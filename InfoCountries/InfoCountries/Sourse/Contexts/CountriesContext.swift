@@ -20,13 +20,6 @@ class CountriesContext: Context, PagingContextProtocol {
     
     var countriesArray = Array<Country>()
     
-    //MARK: - Initializations and Deallocation
-    
-    convenience init(finished: @escaping contextFinishedBlock) {
-        self.init()
-        self.contextFinished = finished
-    }
-    
     // MARK: - Accessors
     
     override var URLString: String {
@@ -66,7 +59,7 @@ class CountriesContext: Context, PagingContextProtocol {
                     
                 }
                 if (error == nil) {
-                    self?.contextFinished!(self?.countriesUpdated() as AnyObject)
+                    self?.contextFinished(self?.countriesUpdated() as AnyObject)
                 }
         })
     }

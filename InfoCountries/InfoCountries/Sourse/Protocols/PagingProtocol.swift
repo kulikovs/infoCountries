@@ -12,12 +12,6 @@ typealias pagingFinishedBlock = (Array<AnyObject>) -> Void
 
 protocol PagingProtocol {
     
-    var currentPage: Int {get}
-    
-    var totalPages: Int {get}
-    
-    var perPage: Int {get}
-    
     func getNextPage()
     
     func reset()

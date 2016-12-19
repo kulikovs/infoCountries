@@ -11,9 +11,9 @@ import Alamofire
 import PromiseKit
 
 class Context: ContextProtocol {
+
+    var contextFinished: contextFinishedBlock = {_ in }
     
-    var contextFinished: contextFinishedBlock?
-        
     var sessionConfig: URLSessionConfiguration?
     
     var manager: Alamofire.SessionManager?

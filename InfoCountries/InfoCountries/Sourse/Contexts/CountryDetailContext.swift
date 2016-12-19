@@ -52,7 +52,7 @@ class CountryDetailContext: Context {
                 }
                 if (error == nil) {
                     self?.country = (self?.country!.mr_(in: NSManagedObjectContext.mr_default()))! as Country
-                    self?.contextFinished!((self?.country)!)
+                    self?.contextFinished((self?.country)!)
                 }
         })
     }

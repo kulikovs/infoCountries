@@ -25,12 +25,14 @@ class CountriesViewController : UIViewController,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.pagingModel = PagingModel(perPage: basePerPage,
-                                       finishedBlock: { [weak self] (_ arr: Array<AnyObject>) -> Void in
-                                                        self?.countries = arr
-                                                        self?.rootView.tableView?.reloadData()
-                                                        })
+        
+        let context = CountriesContext()
+        self.pagingModel = PagingModel(context: context,
+                                       perPage: basePerPage,
+                                 finishedBlock: { [weak self] (_ arr: Array<AnyObject>) -> Void in
+                                                self?.countries = arr
+                                                self?.rootView.tableView?.reloadData()
+        })
     }
     
     // MARK: - Handling
