@@ -9,6 +9,7 @@
 import UIKit
 import MagicalRecord
 import SwiftyJSON
+import PromiseKit
 
 class CountriesContext: Context, PagingContextProtocol {
     
@@ -40,40 +41,54 @@ class CountriesContext: Context, PagingContextProtocol {
     
     // MARK: -  Overriden methods
     
-    override func parse(result: NSArray) {
-        self.countriesArray = Array()
-        MagicalRecord.save({ [weak self] context in
-            let baseInfo = JSON(result.firstObject as! NSDictionary)
-            self?.totalPages = baseInfo[pagesKey].int!
-            
-            let resultArray = JSON(result.lastObject as! NSArray)
-            for country in resultArray.array! {
-                let name = country[nameKey].string!
-                let countryModel = Country.mr_findFirstOrCreate(byAttribute: nameKey,
-                                                                withValue: name,
-                                                                in: context)
-                self?.countriesArray.append(countryModel)
-            }
-            }, completion: { [weak self] (success, error) in
-                if success {
-                    
+    override func parse(result: NSArray) -> Promise<AnyObject>  {
+        
+        return Promise(resolvers: { fulfill, reject in
+            self.countriesArray = Array()
+            MagicalRecord.save({ [weak self] context in
+                let baseInfo = JSON(result.firstObject as! NSDictionary)
+                self?.totalPages = baseInfo[pagesKey].int!
+                
+                let resultArray = JSON(result.lastObject as! NSArray)
+                for country in resultArray.array! {
+                    let name = country[nameKey].string!
+                    let countryModel = Country.mr_findFirstOrCreate(byAttribute: nameKey,
+                                                                    withValue: name,
+                                                                    in: context)
+                    self?.countriesArray.append(countryModel)
                 }
-                if (error == nil) {
-                    self?.contextFinished(self?.countriesUpdated() as AnyObject)
-                }
+                }, completion: { [weak self] (success, error) in
+                    if let error = error {
+                        reject(error)
+                    } else {
+                        self?.countriesUpdated().then { arr -> Void in
+                            fulfill(arr as AnyObject)
+                            }.catch {error in
+                                print(error)
+                        }
+                    }
+            })
         })
+        
     }
     
     //MARK: - Private Methods
     
-    func countriesUpdated() -> Array<Country> {
-        var countries = Array<Country>()
-        for country in (self.countriesArray) {
-            let countryModel = country.mr_(in: NSManagedObjectContext.mr_default())!
-            countries.append(countryModel)
-        }
-        
-        return countries
+    func countriesUpdated() -> Promise<Array<Country>> {
+        return Promise(resolvers: { fulfill, reject in
+            var countries = Array<Country>()
+            
+            for country in (self.countriesArray) {
+                let countryModel = country.mr_(in: NSManagedObjectContext.mr_default())!
+                countries.append(countryModel)
+            }
+            if countries.first == nil {
+                reject(NSError.init(domain: "world.org", code: 0, userInfo: nil))
+            } else {
+                fulfill(countries)
+            }
+        })
     }
     
 }
+

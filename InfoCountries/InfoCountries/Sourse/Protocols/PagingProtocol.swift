@@ -7,13 +7,12 @@
 //
 
 import Foundation
-
-typealias pagingFinishedBlock = (Array<AnyObject>) -> Void
+import PromiseKit
 
 protocol PagingProtocol {
     
-    func getNextPage()
+    func getNextPage() -> Promise<Array<Country>>
     
-    func reset()
+    func reset() -> Promise<Void>
     
 }

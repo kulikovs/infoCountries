@@ -11,8 +11,6 @@ import Alamofire
 import PromiseKit
 
 class Context: ContextProtocol {
-
-    var contextFinished: contextFinishedBlock = {_ in }
     
     var sessionConfig: URLSessionConfiguration?
     
@@ -34,23 +32,31 @@ class Context: ContextProtocol {
     
     //MARK: - Public Methods
     
-    func load() {
-        self.setupSessionConfig()
-        
-        self.manager?.request(self.URLString).responseJSON(completionHandler: {[weak self] response in
-            if let status = response.response?.statusCode {
-                switch(status){
-                case 201:
-                    print("example success")
-                default:
-                    print("error with response status: \(status)")
+    func load() -> Promise<AnyObject> {
+        return Promise(resolvers: { fulfill, reject in
+            self.setupSessionConfig()
+            
+            self.manager?.request(self.URLString).responseJSON(completionHandler: {[weak self] response in
+                if let status = response.response?.statusCode {
+                    switch(status){
+                    case 201:
+                        print("example success")
+                    default:
+                        print("error with response status: \(status)")
+                    }
                 }
-            }
-            if let result: NSArray = (response.result.value as! NSArray?) {
-                self?.parse(result: result)
-            }
+                if let result: NSArray = (response.result.value as! NSArray?) {
+                    self?.parse(result: result).then { countries -> Void  in
+                        fulfill(countries as AnyObject)
+                        }.catch {error in
+                            print(error)
+                    }
+                } else {
+                    reject(NSError.init(domain: "world.org", code: 0, userInfo: nil))
+                }
+            })
         })
-
+        
     }
     
     func cancel() {
@@ -59,8 +65,8 @@ class Context: ContextProtocol {
     
     //MARK: - Private Methods
     
-    func parse(result: NSArray) {
-        
+    func parse(result: NSArray) -> Promise<AnyObject> {
+        return Promise(resolvers: {fulfill in  })
     }
     
    func setupSessionConfig() {
@@ -69,5 +75,3 @@ class Context: ContextProtocol {
     }
     
 }
-
-

@@ -25,25 +25,30 @@ class CountriesViewController : UIViewController,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let context = CountriesContext()
-        self.pagingModel = PagingModel(context: context,
-                                       perPage: basePerPage,
-                                 finishedBlock: { [weak self] (_ arr: Array<AnyObject>) -> Void in
-                                                self?.countries = arr
-                                                self?.rootView.tableView?.reloadData()
-        })
+
+        self.pagingModel = PagingModel(context: CountriesContext(), perPage: basePerPage)
     }
     
     // MARK: - Handling
     
     @IBAction func onNextPage(_ sender: UIButton) {
-        self.pagingModel?.getNextPage()
+        self.pagingModel?.getNextPage().then { countries -> Void in
+            self.countries = countries
+            self.rootView.tableView?.reloadData()
+            }.catch {error in
+                print(error)
+        }
     }
-    
+
     @IBAction func onReset(_ sender: UIButton) {
-        self.pagingModel?.reset()
+        self.pagingModel?.reset().then { _ -> Void in
+            self.countries.removeAll()
+            self.rootView.tableView?.reloadData()
+            }.catch {error in
+                print(error)
+        }
     }
+
     
     //MARK: - TableViewDataSourse
     
@@ -66,7 +71,6 @@ class CountriesViewController : UIViewController,
         let identifier = String(describing: DetailsCountryViewController.self)
         let detailsController = storyboard?.instantiateViewController(withIdentifier:identifier)
                                                                     as! DetailsCountryViewController
-        
         let detailContext = CountryDetailContext()
         detailContext.country = self.countries[indexPath.row] as? Country
         detailsController.context = detailContext

@@ -23,4 +23,5 @@ class DetailsCountryView: UIView, CellProtocol {
         self.callingCodeLabel?.text = String(model.callingCode)
         self.numericCodeLabel?.text = String(model.numericCode)
     }
+    
 }

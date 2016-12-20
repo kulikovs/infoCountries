@@ -7,10 +7,9 @@
 //
 
 import Foundation
+import PromiseKit
 
 class PagingModel: PagingProtocol {
-    
-    var pagingFinished: pagingFinishedBlock?
     
     var context: PagingContextProtocol & ContextProtocol
     
@@ -36,32 +35,35 @@ class PagingModel: PagingProtocol {
     
     //MARK: - Initializations and deallocations
     
-    
-    
-    init <T: PagingContextProtocol & ContextProtocol>(context: T,
-                                                      perPage: Int,
-                                                finishedBlock: @escaping pagingFinishedBlock)
-    {
+    init <T: PagingContextProtocol & ContextProtocol>(context: T, perPage: Int) {
         self.context = context
         self.context.setPageSize(perPage)
-        self.pagingFinished = finishedBlock
-        self.context.contextFinished = { [weak self] (countries: AnyObject) -> Void  in
-                                         self?.pagingFinished!(countries as! Array<AnyObject>)
-                                        }
     }
     
     // MARK: - Public Methods
     
-    func getNextPage() {
-        if self.currentPage < self.totalPages {
-            self.context.setPage(self.currentPage + 1)
-            self.context.load()
-        }
+    func getNextPage() -> Promise<Array<Country>> {
+        return Promise(resolvers: { fulfill, reject in
+            let context = self.context
+            
+            if self.currentPage < self.totalPages {
+                context.setPage(self.currentPage + 1)
+                context.load().then {countries in
+                    fulfill(countries as! Array<Country>)
+                }.catch {error in
+                    context.setPage(self.currentPage - 1)
+                    print(error)
+
+                }
+            }
+        })
     }
-   
-    func reset() {
-        self.context.setPage(baseCurrentPage)
-        self.pagingFinished!(Array())
+    
+    func reset() -> Promise<Void> {
+        return Promise(resolvers: { fulfill, reject in
+            self.context.setPage(baseCurrentPage)
+            fulfill()
+        })
     }
 
 }

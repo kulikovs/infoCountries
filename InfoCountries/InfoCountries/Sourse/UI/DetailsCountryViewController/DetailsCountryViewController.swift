@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PromiseKit
 
 class DetailsCountryViewController: UIViewController, ViewControllerRootView {
     
@@ -14,16 +15,17 @@ class DetailsCountryViewController: UIViewController, ViewControllerRootView {
     
     //MARK: - Accessors
     
-     var context : Context? { //
+    var context : Context? {
         willSet {
             self.context?.cancel()
         }
         didSet {
-            self.context?.contextFinished = { [weak self] (_ model: AnyObject) -> Void in
-                                              self?.rootView.fillWith(model: model as! Country)
-                                              self?.rootView.reloadInputViews()
-                                             }
-            self.context?.load()
+            self.context?.load().then {country -> Void in
+                self.rootView.fillWith(model: country as! Country)
+                self.rootView.reloadInputViews()
+                }.catch {error in
+                    print(error)
+            }
         }
     }
     

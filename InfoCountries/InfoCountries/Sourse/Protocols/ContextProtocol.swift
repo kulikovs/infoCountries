@@ -7,20 +7,18 @@
 //
 
 import Foundation
-
-   typealias contextFinishedBlock = (AnyObject) -> Void
+import PromiseKit
 
 protocol ContextProtocol: class {
     
-   var contextFinished: contextFinishedBlock {get set}
-    
     var URLString: String {get}
     
-    func load()
+    func load() -> Promise<AnyObject>
     
     func cancel()
     
-    func parse(result: NSArray)
+    func parse(result: NSArray) -> Promise<AnyObject>
     
     func setupSessionConfig()
+    
 }

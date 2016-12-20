@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension Country {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Country> {
