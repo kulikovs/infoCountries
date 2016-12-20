@@ -9,9 +9,9 @@
 import Foundation
 import PromiseKit
 
-class PagingModel: PagingProtocol {
+class PagingModel<T: PagingContextProtocol>: PagingProtocol {
     
-    var context: PagingContextProtocol & ContextProtocol
+    var context: T
     
     //MARK: - Accessors
 
@@ -35,7 +35,7 @@ class PagingModel: PagingProtocol {
     
     //MARK: - Initializations and deallocations
     
-    init <T: PagingContextProtocol & ContextProtocol>(context: T, perPage: Int) {
+    init(context: T, perPage: Int) {
         self.context = context
         self.context.setPageSize(perPage)
     }

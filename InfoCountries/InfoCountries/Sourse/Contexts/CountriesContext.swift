@@ -13,6 +13,8 @@ import PromiseKit
 
 class CountriesContext: Context, PagingContextProtocol {
     
+    typealias ResultType = [Country]
+    
     var currentPage: Int = baseCurrentPage
     
     var perPage: Int = basePerPage
@@ -41,8 +43,7 @@ class CountriesContext: Context, PagingContextProtocol {
     
     // MARK: -  Overriden methods
     
-    
-    override func parse<T: Collection>(result: NSArray, resolve: (fulfill: ((T) -> Void), reject: ((Error) -> Void))) {
+    func parse(result: NSArray, resolve: (fulfill: ((Array<Country>) -> Void), reject: ((Error) -> Void))) {
         self.countriesArray = Array()
         MagicalRecord.save({ [weak self] context in
             let baseInfo = JSON(result.firstObject as! NSDictionary)
@@ -60,21 +61,15 @@ class CountriesContext: Context, PagingContextProtocol {
                 if let error = error {
                     resolve.reject(error)
                 } else {
-                    var countries = Array<Country>()
-                    resolve.fulfill(countries)
-                    
-//                    self?.countriesUpdated(resolve: resolve)
+                    self?.countriesUpdated(resolve: resolve)
                 }
         })
     }
+
     
     //MARK: - Private Methods
     
-    func method<T: Sequence>(arrayType: T) {
-        
-    }
-    
-    func countriesUpdated<T: Collection>(resolve: (fulfill: ((T) -> Void), reject: ((Error) -> Void))) {
+    func countriesUpdated(resolve: (fulfill: ((Array<Country>) -> Void), reject: ((Error) -> Void))) {
         var countries: Array<Country> = Array<Country>()
         
         for country in (self.countriesArray) {
@@ -84,7 +79,7 @@ class CountriesContext: Context, PagingContextProtocol {
         if countries.first == nil {
             resolve.reject(NSError.init(domain: "world.org", code: 0, userInfo: nil))
         } else {
-//            resolve.fulfill(countries)
+            resolve.fulfill(countries)
         }
     }
     

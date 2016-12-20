@@ -19,14 +19,14 @@ class CountriesViewController : UIViewController,
 
     var countries: Array<AnyObject> = Array()
     
-    var pagingModel : PagingModel?
+    var pagingModel : PagingModel<CountriesContext>?
     
     //MARK: - LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        self.pagingModel = PagingModel(context: CountriesContext(), perPage: basePerPage)
+        self.pagingModel = PagingModel(context: CountriesContext(), perPage: basePerPage)
     }
     
     // MARK: - Handling

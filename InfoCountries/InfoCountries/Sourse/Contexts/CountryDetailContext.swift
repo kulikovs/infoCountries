@@ -13,6 +13,8 @@ import PromiseKit
 
 class CountryDetailContext: Context {
     
+    typealias ResultType = Country
+    
     var country: Country?
     
     //MARK: - Accessors
@@ -30,8 +32,8 @@ class CountryDetailContext: Context {
     }
     
     // MARK: - Overriden methods
-    
-    override func parse<T:Country>(result: NSArray, resolve: (fulfill: ((T) -> Void), reject: ((Error) -> Void))) {
+        
+    func parse(result: NSArray, resolve: (fulfill: ((Country) -> Void), reject: ((Error) -> Void))) {
         MagicalRecord.save({ [weak self] context in
             let resultArray = JSON(result)
             for country in resultArray.array! {
@@ -53,7 +55,7 @@ class CountryDetailContext: Context {
                 } else {
                     self?.country = (self?.country!.mr_(in: NSManagedObjectContext.mr_default()))! as Country
                     if self?.country != nil {
-                        resolve.fulfill((self?.country)! as! T)
+                        resolve.fulfill((self?.country)!)
                     } else {
                         resolve.reject(NSError.init(domain: "world.org", code: 0, userInfo: nil))
                     }
