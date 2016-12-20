@@ -26,7 +26,7 @@ class CountriesViewController : UIViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.pagingModel = PagingModel(context: CountriesContext(), perPage: basePerPage)
+//        self.pagingModel = PagingModel(context: CountriesContext(), perPage: basePerPage)
     }
     
     // MARK: - Handling

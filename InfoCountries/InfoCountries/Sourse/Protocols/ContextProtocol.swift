@@ -11,14 +11,17 @@ import PromiseKit
 
 protocol ContextProtocol: class {
     
+    typealias Resolvers<T> = (fulfill: ((T)->Void), reject: ((Error)->Void))
+    
     var URLString: String {get}
     
-    func load() -> Promise<AnyObject>
+    func load<T>() -> Promise<T>
     
     func cancel()
     
-    func parse(result: NSArray) -> Promise<AnyObject>
+    func parse<T>(result: NSArray, resolve: Resolvers<T>)
     
     func setupSessionConfig()
     
 }
+

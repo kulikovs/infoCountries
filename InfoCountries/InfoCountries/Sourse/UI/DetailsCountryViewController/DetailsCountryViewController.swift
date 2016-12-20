@@ -20,12 +20,12 @@ class DetailsCountryViewController: UIViewController, ViewControllerRootView {
             self.context?.cancel()
         }
         didSet {
-            self.context?.load().then {country -> Void in
-                self.rootView.fillWith(model: country as! Country)
+            self.context?.load().then { (country: Country) -> Void in
+                self.rootView.fillWith(model: country)
                 self.rootView.reloadInputViews()
-                }.catch {error in
-                    print(error)
-            }
+                }.catch(execute: { err in
+                    print(err)
+                })
         }
     }
     

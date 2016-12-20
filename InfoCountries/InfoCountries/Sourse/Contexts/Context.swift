@@ -11,7 +11,7 @@ import Alamofire
 import PromiseKit
 
 class Context: ContextProtocol {
-    
+
     var sessionConfig: URLSessionConfiguration?
     
     var manager: Alamofire.SessionManager?
@@ -32,7 +32,7 @@ class Context: ContextProtocol {
     
     //MARK: - Public Methods
     
-    func load() -> Promise<AnyObject> {
+    func load<T>() -> Promise<T> {
         return Promise(resolvers: { fulfill, reject in
             self.setupSessionConfig()
             
@@ -46,11 +46,7 @@ class Context: ContextProtocol {
                     }
                 }
                 if let result: NSArray = (response.result.value as! NSArray?) {
-                    self?.parse(result: result).then { countries -> Void  in
-                        fulfill(countries as AnyObject)
-                        }.catch {error in
-                            print(error)
-                    }
+                    self?.parse(result: result, resolve: (fulfill, reject))
                 } else {
                     reject(NSError.init(domain: "world.org", code: 0, userInfo: nil))
                 }
@@ -65,8 +61,8 @@ class Context: ContextProtocol {
     
     //MARK: - Private Methods
     
-    func parse(result: NSArray) -> Promise<AnyObject> {
-        return Promise(resolvers: {fulfill in  })
+    func parse<T>(result: NSArray, resolve: (fulfill: ((T) -> Void), reject: ((Error) -> Void))) {
+        
     }
     
    func setupSessionConfig() {
