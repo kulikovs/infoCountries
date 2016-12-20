@@ -13,11 +13,18 @@ class DetailsCountryViewController: UIViewController, ViewControllerRootView {
     
     typealias RootViewType = DetailsCountryView
     
+//    var promiseContext: CountryContext?
+    var promiseCountry: Promise<Country>?
+    
     //MARK: - Accessors
     
-    var context : Context? {
+    deinit {
+        print("DetailsCountryViewController deinit")
+    }
+    
+    var context : CountryDetailContext? {
         willSet {
-            self.context?.cancel()
+//            self.context?.cancel()
         }
         didSet {
             self.context?.load().then { country -> Void in
@@ -27,6 +34,18 @@ class DetailsCountryViewController: UIViewController, ViewControllerRootView {
                     print(err)
                 })
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+//        let promise = load(country: "Andorra").then(execute: {[weak self] country->Void in
+//            print(country)
+//            print("finish")
+//            self?.rootView.fillWith(model: country)
+//            self?.rootView.reloadInputViews()
+//        })
+        
     }
     
 }

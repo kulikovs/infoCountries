@@ -10,8 +10,10 @@ import UIKit
 import MagicalRecord
 import SwiftyJSON
 import PromiseKit
+import Alamofire
 
-class CountriesContext: Context, PagingContextProtocol {
+
+class CountriesContext: PagingContextProtocol {
     
     typealias ResultType = [Country]
     
@@ -25,7 +27,7 @@ class CountriesContext: Context, PagingContextProtocol {
     
     // MARK: - Accessors
     
-    override var URLString: String {
+    var URLString: String {
         get {
             return countriesURLString + "per_page=\(self.perPage)&format=json&page=\(self.currentPage)"
         }
@@ -42,6 +44,27 @@ class CountriesContext: Context, PagingContextProtocol {
     }
     
     // MARK: -  Overriden methods
+    
+    func load() -> Promise<Array<Country>> {
+        return Promise(resolvers: { fulfill, reject in
+            Alamofire.request(self.URLString).responseJSON(completionHandler: {[weak self] response in
+                if let status = response.response?.statusCode {
+                    switch(status){
+                    case 201:
+                        print("example success")
+                    default:
+                        print("error with response status: \(status)")
+                    }
+                }
+                if let result: NSArray = (response.result.value as! NSArray?) {
+                    self?.parse(result: result, resolve: (fulfill, reject))
+                } else {
+                    reject(NSError.init(domain: "world.org", code: 0, userInfo: nil))
+                }
+            })
+            
+        })
+    }
     
     func parse(result: NSArray, resolve: (fulfill: ((Array<Country>) -> Void), reject: ((Error) -> Void))) {
         self.countriesArray = Array()

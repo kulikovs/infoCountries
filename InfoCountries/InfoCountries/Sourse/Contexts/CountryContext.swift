@@ -1,45 +1,44 @@
 //
-//  CountryDetailContext.swift
+//  CountryContext.swift
 //  InfoCountries
 //
-//  Created by Sergey Kulikov on 12/7/16.
+//  Created by VladislavEmets on 12/20/16.
 //  Copyright © 2016 Sergey Kulikov. All rights reserved.
 //
 
-import UIKit
+import Foundation
+import Alamofire
+import PromiseKit
 import MagicalRecord
 import SwiftyJSON
-import PromiseKit
-import Alamofire
 
+//class CountryContext {
+//    
+//    deinit {
+//        print("CountryContext deinit")
+//    }
 
-class CountryDetailContext: ContextProtocol {
-
-    typealias ResultType = Country
+func someCancellablePromise() -> (Promise<Country>, () -> Void) {
     
-    var country: Country?
-    
-    //MARK: - Accessors
-    
-    var URLString: String {
-        get {
-            var requestString = String()
-            if self.country != nil {
-                let urlString = countryURLString + (self.country?.name)!
-                requestString = urlString.addingPercentEncodingForUrlQuery()!
-            }
-            
-            return requestString
-        }
+    let (promise, fulfill, reject) = Promise<Country>.pending()
+    func cancel() {
+        reject(NSError(domain: "", code: 0, userInfo: nil))
     }
     
-    // MARK: - Overriden methods
-    
-    func load() -> Promise<Country> {
+    return (promise, cancel)
+}
+
+
+    func load(country: String) -> Promise<Country> {
+        var requestString = String()
+        let urlString = countryURLString + country
+        requestString = urlString.addingPercentEncodingForUrlQuery()!
+        
         return Promise(resolvers: { fulfill, reject in
-            Alamofire.request(self.URLString).responseJSON(completionHandler: {[weak self] response in
+            
+            Alamofire.request(requestString).responseJSON(completionHandler: {response in
                 if let status = response.response?.statusCode {
-                    switch(status){
+                    switch(status) {
                     case 201:
                         print("example success")
                     default:
@@ -47,7 +46,7 @@ class CountryDetailContext: ContextProtocol {
                     }
                 }
                 if let result: NSArray = (response.result.value as! NSArray?) {
-                    self?.parse(result: result, resolve: (fulfill, reject))
+                    parse(name: country, result: result, resolve: (fulfill, reject))
                 } else {
                     reject(NSError.init(domain: "world.org", code: 0, userInfo: nil))
                 }
@@ -55,38 +54,39 @@ class CountryDetailContext: ContextProtocol {
             
         })
     }
+
     
-    
-    func parse(result: NSArray, resolve: (fulfill: ((Country) -> Void), reject: ((Error) -> Void))) {
-        MagicalRecord.save({ [weak self] context in
+    func parse(name: String, result: NSArray, resolve: (fulfill: ((Country) -> Void), reject: ((Error) -> Void))) {
+        var countryModel: Country?
+        MagicalRecord.save({context in
             let resultArray = JSON(result)
             for country in resultArray.array! {
-                let countryModel = Country.mr_findFirst(byAttribute: nameKey,
-                                                        withValue:(self?.country?.name)! as String,
+                countryModel = Country.mr_findFirstOrCreate(byAttribute: nameKey,
+                                                        withValue:name,
                                                         in: context)
                 
                 countryModel?.capital = country[capitalKey].string
                 countryModel?.population = country[populationKey].int64!
                 countryModel?.numericCode = Int16(country[numericCodeKey].string!)!
                 let code = country[callingCodesKey].array
+                sleep(5)
                 countryModel?.callingCode = Int16((code?.first?.string)!)!
-                
-                self?.country = countryModel
             }
-            }, completion: { [weak self] (success, error) in
+            }, completion: {(success, error) in
                 if let error = error {
                     resolve.reject(error)
                 } else {
-                    self?.country = (self?.country!.mr_(in: NSManagedObjectContext.mr_default()))! as Country
-                    if self?.country != nil {
-                        resolve.fulfill((self?.country)!)
+                    countryModel = (countryModel?.mr_(in: NSManagedObjectContext.mr_default()))! as Country
+                    if let result = countryModel {
+                        resolve.fulfill(result)
                     } else {
                         resolve.reject(NSError.init(domain: "world.org", code: 0, userInfo: nil))
                     }
                 }
         })
-
+        
     }
 
     
-}
+//}
+

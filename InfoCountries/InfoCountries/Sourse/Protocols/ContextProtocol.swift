@@ -15,13 +15,13 @@ protocol ContextProtocol: class {
     
     typealias Resolvers = (fulfill: ((ResultType)->Void), reject: ((Error)->Void))
     
-    var URLString: String {get}
+//    var URLString: String {get}
     
     func load() -> Promise<ResultType>
     
-    func cancel()
-    
     func parse(result: NSArray, resolve: Resolvers)
+    
+//    func cancel()
     
 }
 
