@@ -14,7 +14,6 @@ class Context: ContextProtocol {
 
     typealias ResultType = Any
     
-    var manager: Alamofire.SessionManager?
     var request: DataRequest?
 
     //MARK: - Initializations and Deallocation
