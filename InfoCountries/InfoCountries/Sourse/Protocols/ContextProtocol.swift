@@ -19,6 +19,4 @@ protocol ContextProtocol: class {
     
     func parse(result: NSArray) -> Promise<AnyObject>
     
-    func setupSessionConfig()
-    
 }

@@ -83,7 +83,7 @@ class CountriesContext: Context, PagingContextProtocol {
                 countries.append(countryModel)
             }
             if countries.first == nil {
-                reject(NSError.init(domain: "world.org", code: 0, userInfo: nil))
+                reject(NSError(domain: "", code: 0, userInfo: nil))
             } else {
                 fulfill(countries)
             }

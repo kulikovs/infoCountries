@@ -12,9 +12,7 @@ import PromiseKit
 
 class Context: ContextProtocol {
     
-    var sessionConfig: URLSessionConfiguration?
-    
-    var manager: Alamofire.SessionManager?
+    var request: Alamofire.Request?
 
     //MARK: - Initializations and Deallocation
     
@@ -33,10 +31,10 @@ class Context: ContextProtocol {
     //MARK: - Public Methods
     
     func load() -> Promise<AnyObject> {
+
         return Promise(resolvers: { fulfill, reject in
-            self.setupSessionConfig()
-            
-            self.manager?.request(self.URLString).responseJSON(completionHandler: {[weak self] response in
+
+           self.request = Alamofire.request(self.URLString).responseJSON(completionHandler: { [weak self] response in
                 if let status = response.response?.statusCode {
                     switch(status){
                     case 201:
@@ -52,7 +50,7 @@ class Context: ContextProtocol {
                             print(error)
                     }
                 } else {
-                    reject(NSError.init(domain: "world.org", code: 0, userInfo: nil))
+                    reject(NSError(domain: "", code: 0, userInfo: nil))
                 }
             })
         })
@@ -60,18 +58,13 @@ class Context: ContextProtocol {
     }
     
     func cancel() {
-        self.manager?.request(self.URLString).cancel()
+        self.request?.cancel()
     }
     
     //MARK: - Private Methods
     
     func parse(result: NSArray) -> Promise<AnyObject> {
         return Promise(resolvers: {fulfill in  })
-    }
-    
-   func setupSessionConfig() {
-        self.sessionConfig = URLSessionConfiguration.background(withIdentifier:self.URLString)
-        self.manager = Alamofire.SessionManager(configuration: self.sessionConfig!)
     }
     
 }

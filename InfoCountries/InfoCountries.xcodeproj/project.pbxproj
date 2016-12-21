@@ -26,7 +26,6 @@
 		A8358F791DF71F9200FD8948 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8358F781DF71F9200FD8948 /* Constants.swift */; };
 		A83C8AF31DE5A35A00E1459C /* CountriesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83C8AF11DE5A35A00E1459C /* CountriesCell.swift */; };
 		A86C87391DE8304C00CF7C8F /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A86C87381DE8304C00CF7C8F /* Alamofire.framework */; };
-		A86C873D1DE843AA00CF7C8F /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A86C873C1DE843AA00CF7C8F /* ObjectMapper.framework */; };
 		A878C9341DF9504A002D58FA /* ContextProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A878C9331DF9504A002D58FA /* ContextProtocol.swift */; };
 		A878C9361DF954D4002D58FA /* CellProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A878C9351DF954D4002D58FA /* CellProtocol.swift */; };
 		A878C9381DF972A5002D58FA /* PagingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A878C9371DF972A5002D58FA /* PagingModel.swift */; };
@@ -59,7 +58,6 @@
 		A8358F781DF71F9200FD8948 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A83C8AF11DE5A35A00E1459C /* CountriesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountriesCell.swift; sourceTree = "<group>"; };
 		A86C87381DE8304C00CF7C8F /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
-		A86C873C1DE843AA00CF7C8F /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = Carthage/Build/iOS/ObjectMapper.framework; sourceTree = "<group>"; };
 		A878C9331DF9504A002D58FA /* ContextProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContextProtocol.swift; sourceTree = "<group>"; };
 		A878C9351DF954D4002D58FA /* CellProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellProtocol.swift; sourceTree = "<group>"; };
 		A878C9371DF972A5002D58FA /* PagingModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagingModel.swift; sourceTree = "<group>"; };
@@ -77,7 +75,6 @@
 			files = (
 				A813DFCB1DE47B040047638B /* MagicalRecord.framework in Frameworks */,
 				A813DFCC1DE47B040047638B /* PromiseKit.framework in Frameworks */,
-				A86C873D1DE843AA00CF7C8F /* ObjectMapper.framework in Frameworks */,
 				A834BCA91DE886910056937D /* SwiftyJSON.framework in Frameworks */,
 				A86C87391DE8304C00CF7C8F /* Alamofire.framework in Frameworks */,
 			);
@@ -123,7 +120,6 @@
 			isa = PBXGroup;
 			children = (
 				A834BCA81DE886910056937D /* SwiftyJSON.framework */,
-				A86C873C1DE843AA00CF7C8F /* ObjectMapper.framework */,
 				A86C87381DE8304C00CF7C8F /* Alamofire.framework */,
 				A813DFC91DE47B040047638B /* MagicalRecord.framework */,
 				A813DFCA1DE47B040047638B /* PromiseKit.framework */,
@@ -344,7 +340,6 @@
 				"$(SRCROOT)//Carthage/Build/iOS/MagicalRecord.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/PromiseKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/ObjectMapper.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SwiftyJSON.framework",
 			);
 			outputPaths = (

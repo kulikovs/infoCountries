@@ -57,7 +57,7 @@ class CountryDetailContext: Context {
                         if self?.country != nil {
                             fulfill((self?.country)!)
                         } else {
-                            reject(NSError.init(domain: "world.org", code: 0, userInfo: nil))
+                            reject(NSError(domain: "", code: 0, userInfo: nil))
                         }
                     }
             })
