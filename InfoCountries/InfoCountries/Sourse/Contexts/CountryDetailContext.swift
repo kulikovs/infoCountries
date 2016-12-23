@@ -13,11 +13,13 @@ import PromiseKit
 import Alamofire
 
 
-class CountryDetailContext: ContextProtocol {
+final class CountryDetailContext: ContextProtocol {
 
     typealias ResultType = Country
     
     var country: Country?
+    
+    private var request: DataRequest?
     
     //MARK: - Accessors
     
@@ -37,19 +39,12 @@ class CountryDetailContext: ContextProtocol {
     
     func load() -> Promise<Country> {
         return Promise(resolvers: { fulfill, reject in
-            Alamofire.request(self.URLString).responseJSON(completionHandler: {[weak self] response in
-                if let result: NSArray = (response.result.value as! NSArray?) {
-                    self?.parse(result: result, resolve: (fulfill, reject))
-                } else {
-                    reject(NSError.init(domain: "world.org", code: 0, userInfo: nil))
-                }
-            })
-            
+            request = loadAlamofire(resolvers: (fulfill, reject))
         })
     }
     
     func cancel() {
-        
+        request?.cancel()
     }
     
     func parse(result: NSArray, resolve: (fulfill: ((Country) -> Void), reject: ((Error) -> Void))) {

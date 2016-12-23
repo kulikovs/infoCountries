@@ -16,7 +16,7 @@ let baseCurrentPage = 0
 let baseTotalPages  = 1
 let basePerPage     = 12
 
-class CountriesContext: PagingContextProtocol {
+final class CountriesContext: PagingContextProtocol {
     
     typealias ResultType = Array<Country>
     
@@ -46,13 +46,7 @@ class CountriesContext: PagingContextProtocol {
     
     func load() -> Promise<Array<Country>> {
         return Promise(resolvers: { fulfill, reject in
-            request = Alamofire.request(self.URLString).responseJSON(completionHandler: {[weak self] response in
-                if let result: NSArray = (response.result.value as! NSArray?) {
-                    self?.parse(result: result, resolve: (fulfill, reject))
-                } else {
-                    reject(NSError.init(domain: "world.org", code: 0, userInfo: nil))
-                }
-            })
+            request = loadAlamofire(resolvers: (fulfill, reject))
         })
     }
     
