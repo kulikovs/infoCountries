@@ -17,7 +17,7 @@ class CountriesViewController : UIViewController,
 {
     typealias RootViewType = CountriesView
 
-    var countries: Array<AnyObject> = Array()
+    var countries: Array<Country> = Array()
     
     var pagingModel : PagingModel<CountriesContext>?
     

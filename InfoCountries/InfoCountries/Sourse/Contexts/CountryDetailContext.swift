@@ -38,14 +38,6 @@ class CountryDetailContext: ContextProtocol {
     func load() -> Promise<Country> {
         return Promise(resolvers: { fulfill, reject in
             Alamofire.request(self.URLString).responseJSON(completionHandler: {[weak self] response in
-                if let status = response.response?.statusCode {
-                    switch(status){
-                    case 201:
-                        print("example success")
-                    default:
-                        print("error with response status: \(status)")
-                    }
-                }
                 if let result: NSArray = (response.result.value as! NSArray?) {
                     self?.parse(result: result, resolve: (fulfill, reject))
                 } else {
@@ -56,6 +48,9 @@ class CountryDetailContext: ContextProtocol {
         })
     }
     
+    func cancel() {
+        
+    }
     
     func parse(result: NSArray, resolve: (fulfill: ((Country) -> Void), reject: ((Error) -> Void))) {
         MagicalRecord.save({ [weak self] context in

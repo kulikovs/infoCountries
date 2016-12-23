@@ -21,6 +21,3 @@ let populationKey   = "population"
 let numericCodeKey  = "numericCode"
 let callingCodesKey = "callingCodes"
 
-let baseCurrentPage = 0
-let baseTotalPages  = 1
-let basePerPage     = 12

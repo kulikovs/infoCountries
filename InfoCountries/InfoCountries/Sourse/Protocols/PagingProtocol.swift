@@ -11,8 +11,10 @@ import PromiseKit
 
 protocol PagingProtocol {
     
-    func getNextPage() -> Promise<Array<Country>>
+    associatedtype PagingType
     
-    func reset() -> Promise<Void>
+    func getNextPage() -> Promise<PagingType>
+    
+    func reset() -> Promise<PagingType>
     
 }

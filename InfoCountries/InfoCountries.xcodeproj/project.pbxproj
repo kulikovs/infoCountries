@@ -40,7 +40,7 @@
 /* Begin PBXFileReference section */
 		210146C61E0965DA009BAD74 /* CountriesContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountriesContext.swift; sourceTree = "<group>"; };
 		210146C81E09889C009BAD74 /* CountryContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryContext.swift; sourceTree = "<group>"; };
-		21531AF61E01476400196F7D /* PagingContextProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagingContextProtocol.swift; sourceTree = "<group>"; };
+		21531AF61E01476400196F7D /* PagingContextProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PagingContextProtocol.swift; path = ../Protocols/PagingContextProtocol.swift; sourceTree = "<group>"; };
 		A813DFB01DE4722B0047638B /* InfoCountries.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InfoCountries.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A813DFB31DE4722B0047638B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A813DFB81DE4722B0047638B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -62,10 +62,10 @@
 		A83C8AF11DE5A35A00E1459C /* CountriesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountriesCell.swift; sourceTree = "<group>"; };
 		A86C87381DE8304C00CF7C8F /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		A86C873C1DE843AA00CF7C8F /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = Carthage/Build/iOS/ObjectMapper.framework; sourceTree = "<group>"; };
-		A878C9331DF9504A002D58FA /* ContextProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContextProtocol.swift; sourceTree = "<group>"; };
+		A878C9331DF9504A002D58FA /* ContextProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContextProtocol.swift; path = ../Protocols/ContextProtocol.swift; sourceTree = "<group>"; };
 		A878C9351DF954D4002D58FA /* CellProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellProtocol.swift; sourceTree = "<group>"; };
 		A878C9371DF972A5002D58FA /* PagingModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagingModel.swift; sourceTree = "<group>"; };
-		A88F4D021DFA98F6005329EA /* PagingProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagingProtocol.swift; sourceTree = "<group>"; };
+		A88F4D021DFA98F6005329EA /* PagingProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PagingProtocol.swift; path = ../Protocols/PagingProtocol.swift; sourceTree = "<group>"; };
 		A8941EFF1DF7FC3A00D7A66D /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		A8941F071DF832B800D7A66D /* CountryDetailContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryDetailContext.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -86,6 +86,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		21F5592D1E0D2B7B000D6DDF /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				A878C9331DF9504A002D58FA /* ContextProtocol.swift */,
+				21531AF61E01476400196F7D /* PagingContextProtocol.swift */,
+			);
+			name = Protocols;
+			sourceTree = "<group>";
+		};
 		A813DFA71DE4722A0047638B = {
 			isa = PBXGroup;
 			children = (
@@ -134,7 +143,8 @@
 		A813DFCE1DE48C310047638B /* Sourse */ = {
 			isa = PBXGroup;
 			children = (
-				A878C9321DF95026002D58FA /* Protocols */,
+				A878C9321DF95026002D58FA /* ViewProtocols */,
+				A83C8AF91DE5D20100E1459C /* CoreDataModels */,
 				A813DFD71DE48D2C0047638B /* Contexts */,
 				A813DFD61DE48D060047638B /* Models */,
 				A813DFCF1DE48C480047638B /* UI */,
@@ -172,7 +182,7 @@
 		A813DFD61DE48D060047638B /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				A83C8AF91DE5D20100E1459C /* CoreDataModels */,
+				A88F4D021DFA98F6005329EA /* PagingProtocol.swift */,
 				A878C9371DF972A5002D58FA /* PagingModel.swift */,
 			);
 			path = Models;
@@ -181,8 +191,9 @@
 		A813DFD71DE48D2C0047638B /* Contexts */ = {
 			isa = PBXGroup;
 			children = (
-				210146C61E0965DA009BAD74 /* CountriesContext.swift */,
+				21F5592D1E0D2B7B000D6DDF /* Protocols */,
 				A8941F071DF832B800D7A66D /* CountryDetailContext.swift */,
+				210146C61E0965DA009BAD74 /* CountriesContext.swift */,
 				210146C81E09889C009BAD74 /* CountryContext.swift */,
 			);
 			path = Contexts;
@@ -243,7 +254,8 @@
 			children = (
 				A83C8B011DE5D72400E1459C /* Country */,
 			);
-			path = CoreDataModels;
+			name = CoreDataModels;
+			path = Models/CoreDataModels;
 			sourceTree = "<group>";
 		};
 		A83C8B011DE5D72400E1459C /* Country */ = {
@@ -255,14 +267,12 @@
 			path = Country;
 			sourceTree = "<group>";
 		};
-		A878C9321DF95026002D58FA /* Protocols */ = {
+		A878C9321DF95026002D58FA /* ViewProtocols */ = {
 			isa = PBXGroup;
 			children = (
-				A878C9331DF9504A002D58FA /* ContextProtocol.swift */,
 				A878C9351DF954D4002D58FA /* CellProtocol.swift */,
-				A88F4D021DFA98F6005329EA /* PagingProtocol.swift */,
-				21531AF61E01476400196F7D /* PagingContextProtocol.swift */,
 			);
+			name = ViewProtocols;
 			path = Protocols;
 			sourceTree = "<group>";
 		};
