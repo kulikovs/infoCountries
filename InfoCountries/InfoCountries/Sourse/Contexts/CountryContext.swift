@@ -21,11 +21,27 @@ import SwiftyJSON
 func someCancellablePromise() -> (Promise<Country>, () -> Void) {
     
     let (promise, fulfill, reject) = Promise<Country>.pending()
-    func cancel() {
-        reject(NSError(domain: "", code: 0, userInfo: nil))
-    }
     
-    return (promise, cancel)
+    let request = Alamofire.request("").responseJSON(completionHandler: {response in
+        if let status = response.response?.statusCode {
+            switch(status) {
+            case 201:
+                print("example success")
+            default:
+                print("error with response status: \(status)")
+            }
+        }
+        if let result: NSArray = (response.result.value as! NSArray?) {
+            parse(name: " ", result: result, resolve: (fulfill, reject))
+        } else {
+            reject(NSError.init(domain: "world.org", code: 0, userInfo: nil))
+        }
+    })
+    
+    return (promise, {
+        request.cancel()
+        reject(NSError(domain: "Canceled", code: 0, userInfo: nil))
+    })
 }
 
 
