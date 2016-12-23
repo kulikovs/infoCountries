@@ -88,7 +88,7 @@ final class CountriesContext: PagingContextProtocol {
             let countryModel = country.mr_(in: NSManagedObjectContext.mr_default())!
             updated.append(countryModel)
         }
-        resolve.fulfill(countries)
+        resolve.fulfill(updated)
     }
     
     

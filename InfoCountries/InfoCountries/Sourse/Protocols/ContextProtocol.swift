@@ -29,7 +29,7 @@ protocol ContextProtocol: class {
 
 extension ContextProtocol {
     
-    func loadAlamofire(resolvers: (fulfill: ((ResultType)->Void), reject: ((Error)->Void))) -> DataRequest {
+    func loadAlamofire(resolvers: Resolvers) -> DataRequest {
         return Alamofire.request(URLString).responseJSON(completionHandler: {[weak self] response in
             if let result: NSArray = (response.result.value as! NSArray?) {
                 self?.parse(result: result, resolve: resolvers)
