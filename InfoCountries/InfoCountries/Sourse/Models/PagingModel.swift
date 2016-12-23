@@ -44,6 +44,10 @@ class PagingModel<T: PagingContextProtocol>: PagingProtocol {
     
     // MARK: - Public Methods
     
+    func cancel() {
+        context.cancel()
+    }
+    
     func getNextPage() -> Promise<T.ResultType> {
         context.setPage(currentPage + 1)
         return context.load()

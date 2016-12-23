@@ -31,6 +31,11 @@ class CountriesViewController : UIViewController,
     
     // MARK: - Handling
     
+    
+    @IBAction func cancel(_ sender: Any) {
+        pagingModel?.cancel()
+    }
+    
     @IBAction func onNextPage(_ sender: UIButton) {
         self.pagingModel?.getNextPage().then { countries -> Void in
             self.countries = countries

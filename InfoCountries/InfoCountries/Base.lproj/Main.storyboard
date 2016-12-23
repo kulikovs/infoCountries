@@ -107,7 +107,13 @@
                             <outlet property="tableView" destination="FiO-ut-b4J" id="XZV-ua-Hdz"/>
                         </connections>
                     </view>
-                    <navigationItem key="navigationItem" id="aHj-vq-YlI"/>
+                    <navigationItem key="navigationItem" id="aHj-vq-YlI">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="Z1D-Du-QIB">
+                            <connections>
+                                <action selector="cancel:" destination="BYZ-38-t0r" id="QvX-A9-NQQ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

@@ -192,8 +192,8 @@
 			isa = PBXGroup;
 			children = (
 				21F5592D1E0D2B7B000D6DDF /* Protocols */,
-				A8941F071DF832B800D7A66D /* CountryDetailContext.swift */,
 				210146C61E0965DA009BAD74 /* CountriesContext.swift */,
+				A8941F071DF832B800D7A66D /* CountryDetailContext.swift */,
 				210146C81E09889C009BAD74 /* CountryContext.swift */,
 			);
 			path = Contexts;
