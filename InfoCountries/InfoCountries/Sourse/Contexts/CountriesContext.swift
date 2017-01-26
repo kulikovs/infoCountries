@@ -87,15 +87,14 @@ final class CountriesContext: PagingContextProtocol {
                 if let error = error {
                     resolve.reject(error)
                 } else {
-                    self?.updated(countriesArray, resolve: resolve)
+                    self?.update(countriesArray, resolve: resolve)
                 }
         })
     }
 
     //MARK: - Private Methods
     
-    private func updated(_ countries:[Country],
-                         resolve: (fulfill: ((Array<Country>) -> Void), reject: ((Error) -> Void))) {
+    private func update(_ countries:[Country], resolve: (Resolvers)) {
         var updated = Array<Country>()
         
         for country in (countries) {
