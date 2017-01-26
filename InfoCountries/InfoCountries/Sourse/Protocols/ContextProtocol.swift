@@ -32,7 +32,7 @@ extension ContextProtocol {
             if let result: NSArray = (response.result.value as? NSArray) {
                 self?.parse(result: result, resolve: resolvers)
             } else {
-                resolvers.reject(NSError(domain: " ", code: 0, userInfo: nil))
+                resolvers.reject(kNSError)
             }
         })
     }

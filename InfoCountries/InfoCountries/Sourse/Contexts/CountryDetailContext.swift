@@ -79,7 +79,7 @@ final class CountryDetailContext: ContextProtocol {
                     if countryModel != nil {
                         resolve.fulfill(countryModel!)
                     } else {
-                        resolve.reject(NSError(domain: "", code: 0, userInfo: nil))
+                        resolve.reject(kNSError)
                     }
                 }
         })

@@ -8,6 +8,8 @@
 
 import Foundation
 
+let kNSError = NSError(domain: "", code: 0, userInfo: nil)
+
 let kNameKey         = "name"
 let kCapitalKey      = "capital"
 let kPagesKey        = "pages"

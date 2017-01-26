@@ -25,13 +25,13 @@ class CountryContext {
             if let result = (response.result.value as? NSArray) {
                 self.parse(name: "", result: result, resolve: (fulfill, reject))
             } else {
-                reject(NSError(domain: "", code: 0, userInfo: nil))
+                reject(kNSError)
             }
         })
         
         return (promise, {
             request.cancel()
-            reject(NSError(domain: "Canceled", code: 0, userInfo: nil))
+            reject(kNSError)
         })
     }
     
@@ -44,7 +44,7 @@ class CountryContext {
                 if let result = (response.result.value as? NSArray) {
                     self.parse(name: country, result: result, resolve: (fulfill, reject))
                 } else {
-                    reject(NSError.init(domain: "", code: 0, userInfo: nil))
+                    reject(kNSError)
                 }
             })
         })
@@ -74,7 +74,7 @@ class CountryContext {
                 if let result = countryModel {
                     resolve.fulfill(result)
                 } else {
-                    resolve.reject(NSError(domain: "", code: 0, userInfo: nil))
+                    resolve.reject(kNSError)
                 }
             }
         })
