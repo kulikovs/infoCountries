@@ -15,7 +15,7 @@ protocol PagingProtocol {
     
     func getNextPage() -> Promise<PagingType>
     
-    func reset() -> Promise<PagingType>
+    func reset()
     
     func cancel()
     

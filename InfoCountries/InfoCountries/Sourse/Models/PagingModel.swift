@@ -14,8 +14,6 @@ class PagingModel<T: PagingContextProtocol>: PagingProtocol {
     typealias PagingType = T.ResultType
     
     var context: T
-    
-    //MARK: - Accessors
 
     var totalPages: Int {
         get {
@@ -53,14 +51,8 @@ class PagingModel<T: PagingContextProtocol>: PagingProtocol {
         return context.load()
     }
     
-    func reset() -> Promise<T.ResultType> {
-        context.setPage(baseCurrentPage)
-        return context.load()
+    func reset() {
+        context.setPage(kBaseCurrentPage)
     }
-    
-    
-    // MARK: - Private Methods
-    
-
 
 }

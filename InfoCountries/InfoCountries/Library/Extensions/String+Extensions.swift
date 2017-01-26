@@ -9,7 +9,8 @@
 import Foundation
 
 extension String {
-      func addingPercentEncodingForUrlQuery() -> String? {
+    
+    func addingPercentEncodingForUrlQuery() -> String? {
         return self.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)
     }
     

@@ -12,34 +12,42 @@ import SwiftyJSON
 import PromiseKit
 import Alamofire
 
+private let kCountryURLString = "https://restcountries.eu/rest/v1/name/"
 
 final class CountryDetailContext: ContextProtocol {
 
     typealias ResultType = Country
     
-    var country: Country?
+    typealias Resolvers = (fulfill: ((ResultType)->Void), reject: ((Error)->Void))
+    
+    let countryName: String
     
     private var request: DataRequest?
     
-    //MARK: - Accessors
-    
-    var URLString: String {
+    var requestString: String {
         get {
-            var requestString = String()
-            if self.country != nil {
-                let urlString = countryURLString + (self.country?.name)!
-                requestString = urlString.addingPercentEncodingForUrlQuery()!
-            }
-            
-            return requestString
+            let urlString = kCountryURLString + self.countryName
+            return urlString.addingPercentEncodingForUrlQuery()!
         }
     }
     
-    // MARK: - Overriden methods
+    //MARK: - Initializations and deallocations
+    
+    init(countryName: String) {
+        self.countryName = countryName
+    }
+    
+    // MARK: - Initializations and deallocations
+    
+    deinit {
+        self.cancel()
+    }
+
+    // MARK: - Public methods
     
     func load() -> Promise<Country> {
         return Promise(resolvers: { fulfill, reject in
-            request = loadAlamofire(resolvers: (fulfill, reject))
+            self.request = loadAlamofire(resolvers: (fulfill, reject))
         })
     }
     
@@ -47,36 +55,34 @@ final class CountryDetailContext: ContextProtocol {
         request?.cancel()
     }
     
-    func parse(result: NSArray, resolve: (fulfill: ((Country) -> Void), reject: ((Error) -> Void))) {
+    func parse(result: NSArray, resolve: Resolvers) {
+        var countryModel: Country?
         MagicalRecord.save({ [weak self] context in
             let resultArray = JSON(result)
-            for country in resultArray.array! {
-                let countryModel = Country.mr_findFirst(byAttribute: nameKey,
-                                                        withValue:(self?.country?.name)! as String,
-                                                        in: context)
-                
-                countryModel?.capital = country[capitalKey].string
-                countryModel?.population = country[populationKey].int64!
-                countryModel?.numericCode = Int16(country[numericCodeKey].string!)!
-                let code = country[callingCodesKey].array
-                countryModel?.callingCode = Int16((code?.first?.string)!)!
-                
-                self?.country = countryModel
+            for country in resultArray.arrayValue {
+                countryModel = Country.mr_findFirst(byAttribute: kNameKey,
+                                                    withValue: self?.countryName,
+                                                    in: context)
+                countryModel?.capital = country[kCapitalKey].stringValue
+                countryModel?.population = country[kPopulationKey].int64Value
+                countryModel?.numericCode = country[kNumericCodeKey].int16Value
+                let codes = country[kCallingCodesKey].arrayValue
+                for code in codes {
+                    countryModel?.callingCode = code.int16Value
+                }
             }
-            }, completion: { [weak self] (success, error) in
+            }, completion: { (success, error) in
                 if let error = error {
                     resolve.reject(error)
                 } else {
-                    self?.country = (self?.country!.mr_(in: NSManagedObjectContext.mr_default()))! as Country
-                    if self?.country != nil {
-                        resolve.fulfill((self?.country)!)
+                    countryModel = countryModel?.mr_(in: NSManagedObjectContext.mr_default())
+                    if countryModel != nil {
+                        resolve.fulfill(countryModel!)
                     } else {
-                        resolve.reject(NSError.init(domain: "world.org", code: 0, userInfo: nil))
+                        resolve.reject(NSError(domain: "", code: 0, userInfo: nil))
                     }
                 }
         })
-
     }
-
     
 }

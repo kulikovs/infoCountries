@@ -13,39 +13,23 @@ class DetailsCountryViewController: UIViewController, ViewControllerRootView {
     
     typealias RootViewType = DetailsCountryView
     
-//    var promiseContext: CountryContext?
-    var promiseCountry: Promise<Country>?
-    
-    //MARK: - Accessors
-    
-    deinit {
-        print("DetailsCountryViewController deinit")
-    }
-    
     var context : CountryDetailContext? {
         willSet {
-//            self.context?.cancel()
+            self.context?.cancel()
         }
         didSet {
+            let rootView = self.rootView
+            rootView.showLoadingView(animated: false)
+            
             self.context?.load().then { country -> Void in
-                self.rootView.fillWith(model: country as! Country)
-                self.rootView.reloadInputViews()
+                rootView.fillWith(model: country)
+                rootView.reloadInputViews()
+                rootView.hideLoadingView()
                 }.catch(execute: { err in
+                    rootView.hideLoadingView()
                     print(err)
                 })
         }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-//        let promise = load(country: "Andorra").then(execute: {[weak self] country->Void in
-//            print(country)
-//            print("finish")
-//            self?.rootView.fillWith(model: country)
-//            self?.rootView.reloadInputViews()
-//        })
-        
     }
     
 }

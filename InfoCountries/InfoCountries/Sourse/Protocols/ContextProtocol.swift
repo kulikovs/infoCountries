@@ -16,25 +16,23 @@ protocol ContextProtocol: class {
     
     typealias Resolvers = (fulfill: ((ResultType)->Void), reject: ((Error)->Void))
     
-    var URLString:String{get}
+    var requestString:String{get}
     
     func load() -> Promise<ResultType>
     
     func parse(result: NSArray, resolve: Resolvers)
     
     func cancel()
-    
 }
-
 
 extension ContextProtocol {
     
     func loadAlamofire(resolvers: Resolvers) -> DataRequest {
-        return Alamofire.request(URLString).responseJSON(completionHandler: {[weak self] response in
-            if let result: NSArray = (response.result.value as! NSArray?) {
+        return Alamofire.request(requestString).responseJSON(completionHandler: {[weak self] response in
+            if let result: NSArray = (response.result.value as? NSArray) {
                 self?.parse(result: result, resolve: resolvers)
             } else {
-                resolvers.reject(NSError.init(domain: "world.org", code: 0, userInfo: nil))
+                resolvers.reject(NSError(domain: " ", code: 0, userInfo: nil))
             }
         })
     }

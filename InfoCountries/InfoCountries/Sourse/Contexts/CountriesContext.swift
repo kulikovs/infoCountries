@@ -12,24 +12,34 @@ import SwiftyJSON
 import PromiseKit
 import Alamofire
 
-let baseCurrentPage = 0
-let baseTotalPages  = 1
-let basePerPage     = 12
+let kBaseCurrentPage = 0
+let kBaseTotalPages  = 1
+let kBasePerPage     = 12
+
+private let kCountriesURLString  = "http://api.worldbank.org/country?"
 
 final class CountriesContext: PagingContextProtocol {
     
     typealias ResultType = Array<Country>
+
+    typealias Resolvers = (fulfill: ((ResultType)->Void), reject: ((Error)->Void))
     
-    var currentPage:    Int = baseCurrentPage
-    var perPage:        Int = basePerPage
-    var totalPages:     Int = baseTotalPages
+    var currentPage:    Int = kBaseCurrentPage
+    var perPage:        Int = kBasePerPage
+    var totalPages:     Int = kBaseTotalPages
     
     private var request: DataRequest?
     
-    var URLString: String {
+    var requestString: String {
         get {
-            return countriesURLString + "per_page=\(self.perPage)&format=json&page=\(self.currentPage)"
+            return kCountriesURLString + "per_page=\(self.perPage)&format=json&page=\(self.currentPage)"
         }
+    }
+    
+      // MARK: - Initializations and deallocations
+    
+    deinit {
+        self.cancel()
     }
     
   //  MARK: - PagingContextProtocol
@@ -46,26 +56,31 @@ final class CountriesContext: PagingContextProtocol {
     
     func load() -> Promise<Array<Country>> {
         return Promise(resolvers: { fulfill, reject in
-            request = loadAlamofire(resolvers: (fulfill, reject))
+            self.request = loadAlamofire(resolvers: (fulfill, reject))
         })
     }
     
     func cancel() {
-        request?.cancel()
+        if self.request != nil {
+            self.request?.cancel()
+        }
     }
     
-    func parse(result: NSArray, resolve: (fulfill: ((Array<Country>) -> Void), reject: ((Error) -> Void))) {
+    func parse(result: NSArray, resolve: Resolvers) {
         var countriesArray = Array<Country>()
         MagicalRecord.save({ [weak self] context in
-            let baseInfo = JSON(result.firstObject as! NSDictionary)
-            self?.totalPages = baseInfo[pagesKey].int!
-            
-            let resultArray = JSON(result.lastObject as! NSArray)
-            for country in resultArray.array! {
-                let name = country[nameKey].string!
-                let countryModel = Country.mr_findFirstOrCreate(byAttribute: nameKey,
+            let baseInfo = JSON(result.firstObject as? NSDictionary)
+            self?.totalPages = baseInfo[kPagesKey].intValue
+    
+            let resultArray = JSON(result.lastObject as? NSArray)
+            for country in resultArray.arrayValue {
+                let name = country[kNameKey].stringValue
+                let countryModel = Country.mr_findFirstOrCreate(byAttribute: kNameKey,
                                                                 withValue: name,
                                                                 in: context)
+                countryModel.latitude = country[kLatitudeKey].doubleValue
+                countryModel.longitude = country[kLongitudeKey].doubleValue
+                
                 countriesArray.append(countryModel)
             }
             }, completion: { [weak self] (success, error) in
@@ -77,21 +92,18 @@ final class CountriesContext: PagingContextProtocol {
         })
     }
 
-    
     //MARK: - Private Methods
     
     private func updated(_ countries:[Country],
-                                  resolve: (fulfill: ((Array<Country>) -> Void), reject: ((Error) -> Void))) {
+                         resolve: (fulfill: ((Array<Country>) -> Void), reject: ((Error) -> Void))) {
         var updated = Array<Country>()
-
+        
         for country in (countries) {
-            let countryModel = country.mr_(in: NSManagedObjectContext.mr_default())!
-            updated.append(countryModel)
+            if let countryModel = country.mr_(in: NSManagedObjectContext.mr_default()) {
+                updated.append(countryModel)
+            }
         }
         resolve.fulfill(updated)
     }
     
-    
 }
-
-

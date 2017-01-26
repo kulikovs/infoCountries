@@ -16,7 +16,7 @@ class CountriesViewController : UIViewController,
                                 ViewControllerRootView
 {
     typealias RootViewType = CountriesView
-
+    
     var countries: Array<Country> = Array()
     
     var pagingModel : PagingModel<CountriesContext>?
@@ -26,34 +26,34 @@ class CountriesViewController : UIViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.pagingModel = PagingModel(context: CountriesContext(), perPage: basePerPage)
+        self.pagingModel = PagingModel(context: CountriesContext(), perPage: kBasePerPage)
     }
     
     // MARK: - Handling
-    
     
     @IBAction func cancel(_ sender: Any) {
         pagingModel?.cancel()
     }
     
     @IBAction func onNextPage(_ sender: UIButton) {
+        let rootView = self.rootView
+        rootView.showLoadingView(animated: false)
+        
         self.pagingModel?.getNextPage().then { countries -> Void in
             self.countries = countries
-            self.rootView.tableView?.reloadData()
+            rootView.tableView?.reloadData()
+            rootView.hideLoadingView()
             }.catch {error in
                 print(error)
+                rootView.hideLoadingView()
         }
     }
 
     @IBAction func onReset(_ sender: UIButton) {
-        self.pagingModel?.reset().then { _ -> Void in
-            self.countries.removeAll()
-            self.rootView.tableView?.reloadData()
-            }.catch {error in
-                print(error)
-        }
+        self.pagingModel?.reset()
+        self.countries.removeAll()
+        self.rootView.tableView?.reloadData()
     }
-
     
     //MARK: - TableViewDataSourse
     
@@ -65,22 +65,22 @@ class CountriesViewController : UIViewController,
         let identifier = String(describing: CountriesCell.self)
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as! CountriesCell
         
-        cell.fillWith(model: self.countries[indexPath.row] as! Country)
-        
+        cell.fillWith(model: self.countries[indexPath.row])
+
         return cell
     }
     
     // MARK: - UITableViewDelegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let identifier = String(describing: DetailsCountryViewController.self)
-        let detailsController = storyboard?.instantiateViewController(withIdentifier:identifier)
-                                                                    as! DetailsCountryViewController
-        let detailContext = CountryDetailContext()
-        detailContext.country = self.countries[indexPath.row] as? Country
-        detailsController.context = detailContext
-        
-        self.navigationController?.pushViewController(detailsController, animated: true)
+        if let detailsController = self.storyboard?.instantiateViewController(controllerType: DetailsCountryViewController.self) {
+            if let countryName = countries[indexPath.row].name {
+                let detailContext = CountryDetailContext(countryName: countryName)
+                detailsController.context = detailContext
+            }
+            
+            self.navigationController?.pushViewController(detailsController, animated: true)
+        }
     }
     
 }
