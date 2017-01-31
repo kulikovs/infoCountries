@@ -58,12 +58,16 @@ final class CountryDetailContext: ContextProtocol {
     func parse(result: NSArray, resolve: Resolvers) {
         var countryModel: Country?
         MagicalRecord.save({ [weak self] context in
+            guard let selfRef = self else {
+                resolve.reject(kNSError)
+                return
+            }
             let resultArray = JSON(result)
             for country in resultArray.arrayValue {
                 countryModel = Country.mr_findFirst(byAttribute: kNameKey,
-                                                    withValue: self?.countryName,
+                                                    withValue: selfRef.countryName,
                                                     in: context)
-                countryModel?.capital = country[kCapitalKey].stringValue
+                countryModel?.capital = country[kCapitalKey].string
                 countryModel?.population = country[kPopulationKey].int64Value
                 countryModel?.numericCode = country[kNumericCodeKey].int16Value
                 let codes = country[kCallingCodesKey].arrayValue
@@ -84,5 +88,6 @@ final class CountryDetailContext: ContextProtocol {
                 }
         })
     }
+
     
 }

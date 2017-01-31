@@ -61,15 +61,20 @@ final class CountriesContext: PagingContextProtocol {
     }
     
     func cancel() {
-        if self.request != nil {
+//        if self.request != nil {
             self.request?.cancel()
-        }
+//        }
     }
     
     func parse(result: NSArray, resolve: Resolvers) {
         var countriesArray = Array<Country>()
-        MagicalRecord.save({ [weak self] context in
-            let baseInfo = JSON(result.firstObject as? NSDictionary)
+        MagicalRecord.save({
+            [weak self] context in
+            guard let infoDict = result.firstObject as? NSDictionary else  {
+                resolve.reject(kNSError)
+                return
+            }
+            let baseInfo = JSON(infoDict)
             self?.totalPages = baseInfo[kPagesKey].intValue
     
             let resultArray = JSON(result.lastObject as? NSArray)

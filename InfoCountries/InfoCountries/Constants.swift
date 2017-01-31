@@ -8,7 +8,7 @@
 
 import Foundation
 
-let kNSError = NSError(domain: "", code: 0, userInfo: nil)
+let kNSError = NSError(domain: "", code: 0, userInfo: nil) //TODO: add extension to generate app errors
 
 let kNameKey         = "name"
 let kCapitalKey      = "capital"

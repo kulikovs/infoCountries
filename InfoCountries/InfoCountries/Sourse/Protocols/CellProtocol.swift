@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol CellProtocol {
+protocol CellProtocol { //TODO: rename
     
     associatedtype ItemType
     

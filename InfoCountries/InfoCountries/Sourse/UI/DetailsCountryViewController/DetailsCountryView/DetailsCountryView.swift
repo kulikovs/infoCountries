@@ -38,7 +38,6 @@ class DetailsCountryView: LoadingView, CellProtocol {
         let location = CLLocationCoordinate2DMake(model.latitude, model.longitude)
         let locationDistance = CLLocationDistance(kLocationDistance)
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location, locationDistance, locationDistance)
-        let map = self.map
         
         map?.setRegion(coordinateRegion, animated: true)
         map?.addAnnotation(MapAnnotation(coordinate: location, title: model.capital))

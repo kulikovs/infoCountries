@@ -42,11 +42,13 @@ class CountriesViewController : UIViewController,
         self.pagingModel?.getNextPage().then { countries -> Void in
             self.countries = countries
             rootView.tableView?.reloadData()
-            rootView.hideLoadingView()
-            }.catch {error in
-                print(error)
+            }
+            .always {
                 rootView.hideLoadingView()
-        }
+            }
+            .catch {error in
+                print(error)
+            }
     }
 
     @IBAction func onReset(_ sender: UIButton) {

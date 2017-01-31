@@ -13,7 +13,7 @@ private let kLoadingAlpha:      CGFloat = 0.5
 private let kRemovingAlpha:     CGFloat = 0.0
 private let kDefaultDuration:   Double  = 0.5
 
-class LoadingView: UIView {
+class LoadingView: UIView {     //TODO: do not use this for subclassing
     
     @IBOutlet var spinner: UIActivityIndicatorView?
     
