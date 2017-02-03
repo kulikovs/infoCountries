@@ -11,12 +11,55 @@ import PromiseKit
 
 protocol ContextProtocol: class {
     
-    var URLString: String {get}
+    associatedtype ResultType
     
-    func load() -> Promise<AnyObject>
+    typealias Resolvers = (fulfill: ((ResultType)->Void), reject: ((Error)->Void))
     
-    func cancel()
+    var requestString: String {get}
     
-    func parse(result: NSArray) -> Promise<AnyObject>
+    var dataTask: URLSessionDataTask? {get set}
+    
+<<<<<<< HEAD
+=======
+    func load() -> Promise<ResultType>
+    
+    func parse(result: Array<Any>, resolve: Resolvers)
+>>>>>>> feature/single_promise_
+}
+
+extension ContextProtocol {
+    
+    func download(resolvers: Resolvers) {
+        guard let url = URL(string: self.requestString) else {
+            resolvers.reject(NSError.error())
+            return
+        }
+        let session = URLSession(configuration: URLSessionConfiguration.default)
+        let request = URLRequest(url: url, cachePolicy: URLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData)
+        
+        self.dataTask = session.dataTask(with: request, completionHandler: {
+            [weak self] (data, response, error) -> Void in
+            do {
+                guard let data = data,
+                    error == nil,
+                    let json = try JSONSerialization.jsonObject(with: data, options: []) as? Array<Any>
+                    else {
+                        resolvers.reject(NSError.error())
+                        return
+                }
+                self?.parse(result: json, resolve: resolvers)
+            }
+            catch {
+                resolvers.reject(NSError.error())
+            }
+        })
+        
+        self.dataTask?.resume()
+    }
+    
+    func cancel() {
+        self.dataTask?.cancel()
+    }
     
 }
+

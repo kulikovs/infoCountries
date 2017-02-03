@@ -13,19 +13,27 @@ class DetailsCountryViewController: UIViewController, ViewControllerRootView {
     
     typealias RootViewType = DetailsCountryView
     
-    //MARK: - Accessors
+    var loadingView = LoadingView.loadingView()
     
-    var context : Context? {
+    var context : CountryDetailContext? {
         willSet {
             self.context?.cancel()
         }
         didSet {
-            self.context?.load().then {country -> Void in
-                self.rootView.fillWith(model: country as! Country)
-                self.rootView.reloadInputViews()
-                }.catch {error in
+            let rootView = self.rootView
+            self.loadingView?.showLoadingViewOn(view: self.rootView, animated: false)
+            
+            self.context?.load().then { country -> Void in
+                rootView.fillWith(model: country)
+                rootView.reloadInputViews()
+                self.loadingView?.hideLoadingView()
+                }
+                .always {
+                    self.loadingView?.hideLoadingView()
+                }
+                .catch(execute: { error in
                     print(error)
-            }
+                })
         }
     }
     

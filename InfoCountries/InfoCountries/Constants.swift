@@ -8,19 +8,29 @@
 
 import Foundation
 
-let countriesURLString  = "http://api.worldbank.org/country?"
-let countryURLString    = "https://restcountries.eu/rest/v1/name/"
+    //MARK: - Context
 
-let countriesSessionIdentifier  = "CountriesIdentifire"
-let countrySessionIdentifier    = "CountryIdentifire"
+struct Context {
+    struct Request {
+        static let countriesURLString  = "http://api.worldbank.org/country?"
+        static let countryURLString    = "https://restcountries.eu/rest/v1/name/"
+    }
+    struct Parse {
+        static let nameKey         = "name"
+        static let capitalKey      = "capital"
+        static let pagesKey        = "pages"
+        static let populationKey   = "population"
+        static let numericCodeKey  = "numericCode"
+        static let callingCodesKey = "callingCodes"
+        static let longitudeKey    = "longitude"
+        static let latitudeKey     = "latitude"
+    }
+}
 
-let nameKey         = "name"
-let capitalKey      = "capital"
-let pagesKey        = "pages"
-let populationKey   = "population"
-let numericCodeKey  = "numericCode"
-let callingCodesKey = "callingCodes"
+    //MARK: - Paging
 
-let baseCurrentPage = 0
-let baseTotalPages  = 1
-let basePerPage     = 12
+struct Paging {
+    static let baseCurrentPage = 0
+    static let baseTotalPages  = 1
+    static let basePerPage     = 12
+}

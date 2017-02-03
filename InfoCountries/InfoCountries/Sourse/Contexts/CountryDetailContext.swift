@@ -10,57 +10,85 @@ import UIKit
 import MagicalRecord
 import SwiftyJSON
 import PromiseKit
+import Alamofire
 
-class CountryDetailContext: Context {
+final class CountryDetailContext: ContextProtocol {
+
+    typealias ResultType = Country
     
-    var country: Country?
+    typealias Resolvers = (fulfill: ((ResultType)->Void), reject: ((Error)->Void))
     
-    //MARK: - Accessors
+    let countryName: String
     
-    override var URLString: String {
+    internal var dataTask: URLSessionDataTask?
+    
+    var requestString: String {
         get {
-            var requestString = String()
-            if self.country != nil {
-                let urlString = countryURLString + (self.country?.name)!
-                requestString = urlString.addingPercentEncodingForUrlQuery()!
-            }
-            
-            return requestString
+            let urlString = Context.Request.countryURLString + self.countryName
+            return urlString.addingPercentEncodingForUrlQuery()!
         }
     }
     
-    // MARK: - Overriden methods
+    //MARK: - Initializations and deallocations
     
-    override func parse(result: NSArray) -> Promise<AnyObject> {
+    init(countryName: String) {
+        self.countryName = countryName
+    }
+    
+    // MARK: - Initializations and deallocations
+    
+    deinit {
+        self.cancel()
+    }
+
+    // MARK: - Public methods
+    
+    func load() -> Promise<Country> {
         return Promise(resolvers: { fulfill, reject in
-            
-            MagicalRecord.save({ [weak self] context in
-                let resultArray = JSON(result)
-                for country in resultArray.array! {
-                    let countryModel = Country.mr_findFirst(byAttribute: nameKey,
-                                                            withValue:(self?.country?.name)! as String,
-                                                            in: context)
-                    
-                    countryModel?.capital = country[capitalKey].string
-                    countryModel?.population = country[populationKey].int64!
-                    countryModel?.numericCode = Int16(country[numericCodeKey].string!)!
-                    let code = country[callingCodesKey].array
-                    countryModel?.callingCode = Int16((code?.first?.string)!)!
-                    
-                    self?.country = countryModel
+            download(resolvers: (fulfill, reject))
+        })
+    }
+    
+    func parse(result: Array<Any>, resolve: Resolvers) {
+        var countryModel: Country?
+        MagicalRecord.save({ [weak self] context in
+            guard let selfRef = self else {
+                resolve.reject(NSError.error())
+                return
+            }
+            let resultArray = JSON(result)
+            for country in resultArray.arrayValue {
+                countryModel = Country.mr_findFirst(byAttribute:Context.Parse.nameKey,
+                                                    withValue: selfRef.countryName,
+                                                    in: context)
+                countryModel?.capital = country[Context.Parse.capitalKey].string
+                countryModel?.population = country[Context.Parse.populationKey].int64Value
+                countryModel?.numericCode = country[Context.Parse.numericCodeKey].int16Value
+                if let callingCode = country[Context.Parse.callingCodesKey].array?.first?.int16 {
+                    countryModel?.callingCode = callingCode
                 }
-                }, completion: { [weak self] (success, error) in
-                    if let error = error {
-                        reject(error)
+                
+            }
+            }, completion: { (success, error) in
+                if let error = error {
+                    resolve.reject(error)
+                } else {
+                    countryModel = countryModel?.mr_(in: NSManagedObjectContext.mr_default())
+                    if countryModel != nil {
+                        resolve.fulfill(countryModel!)
                     } else {
+<<<<<<< HEAD
                         self?.country = (self?.country!.mr_(in: NSManagedObjectContext.mr_default()))! as Country
                         if self?.country != nil {
                             fulfill((self?.country)!)
                         } else {
                             reject(NSError(domain: "", code: 0, userInfo: nil))
                         }
+=======
+                        resolve.reject(NSError.error())
+>>>>>>> feature/single_promise_
                     }
-            })
+                }
         })
     }
     

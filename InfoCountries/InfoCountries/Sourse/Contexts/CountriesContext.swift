@@ -11,22 +11,28 @@ import MagicalRecord
 import SwiftyJSON
 import PromiseKit
 
-class CountriesContext: Context, PagingContextProtocol {
+final class CountriesContext: PagingContextProtocol {
     
-    var currentPage: Int = baseCurrentPage
+    typealias ResultType = Array<Country>
+
+    typealias Resolvers = (fulfill: ((ResultType)->Void), reject: ((Error)->Void))
     
-    var perPage: Int = basePerPage
+    var currentPage:    Int = Paging.baseCurrentPage
+    var perPage:        Int = Paging.basePerPage
+    var totalPages:     Int = Paging.baseTotalPages
     
-    var totalPages: Int = baseTotalPages
+    var dataTask: URLSessionDataTask?
     
-    var countriesArray = Array<Country>()
-    
-    // MARK: - Accessors
-    
-    override var URLString: String {
+    var requestString: String {
         get {
-            return countriesURLString + "per_page=\(self.perPage)&format=json&page=\(self.currentPage)"
+            return Context.Request.countriesURLString + "per_page=\(self.perPage)&format=json&page=\(self.currentPage)"
         }
+    }
+    
+      // MARK: - Initializations and deallocations
+    
+    deinit {
+        self.cancel()
     }
     
   //  MARK: - PagingContextProtocol
@@ -39,56 +45,68 @@ class CountriesContext: Context, PagingContextProtocol {
         self.currentPage = page
     }
     
-    // MARK: -  Overriden methods
+    // MARK: -  Public methods
     
-    override func parse(result: NSArray) -> Promise<AnyObject>  {
-        
+    func load() -> Promise<Array<Country>> {
         return Promise(resolvers: { fulfill, reject in
-            self.countriesArray = Array()
-            MagicalRecord.save({ [weak self] context in
-                let baseInfo = JSON(result.firstObject as! NSDictionary)
-                self?.totalPages = baseInfo[pagesKey].int!
-                
-                let resultArray = JSON(result.lastObject as! NSArray)
-                for country in resultArray.array! {
-                    let name = country[nameKey].string!
-                    let countryModel = Country.mr_findFirstOrCreate(byAttribute: nameKey,
-                                                                    withValue: name,
-                                                                    in: context)
-                    self?.countriesArray.append(countryModel)
-                }
-                }, completion: { [weak self] (success, error) in
-                    if let error = error {
-                        reject(error)
-                    } else {
-                        self?.countriesUpdated().then { arr -> Void in
-                            fulfill(arr as AnyObject)
-                            }.catch {error in
-                                print(error)
-                        }
-                    }
-            })
+           download(resolvers: (fulfill, reject))
         })
-        
     }
     
-    //MARK: - Private Methods
-    
-    func countriesUpdated() -> Promise<Array<Country>> {
-        return Promise(resolvers: { fulfill, reject in
-            var countries = Array<Country>()
-            
-            for country in (self.countriesArray) {
-                let countryModel = country.mr_(in: NSManagedObjectContext.mr_default())!
-                countries.append(countryModel)
+    func parse(result: Array<Any>, resolve: Resolvers) {
+        var countriesArray = Array<Country>()
+        MagicalRecord.save( { [weak self] context in
+            guard let infoDict = result.first as? Dictionary<String, Any>  else  {
+                resolve.reject(NSError.error())
+                
+                return
             }
+            let baseInfo = JSON(infoDict)
+            self?.totalPages = baseInfo[Context.Parse.pagesKey].intValue
+    
+            guard let resultArr = result.last else {
+            resolve.reject(NSError.error())
+                
+                return
+            }
+<<<<<<< HEAD
             if countries.first == nil {
                 reject(NSError(domain: "", code: 0, userInfo: nil))
             } else {
                 fulfill(countries)
+=======
+            let resultArray = JSON(resultArr)
+            for country in resultArray.arrayValue {
+                let name = country[Context.Parse.nameKey].stringValue
+                let countryModel = Country.mr_findFirstOrCreate(byAttribute: Context.Parse.nameKey,
+                                                                withValue: name,
+                                                                in: context)
+                countryModel.latitude = country[Context.Parse.latitudeKey].doubleValue
+                countryModel.longitude = country[Context.Parse.longitudeKey].doubleValue
+                
+                countriesArray.append(countryModel)
+>>>>>>> feature/single_promise_
             }
+            }, completion: { [weak self] (success, error) in
+                if let error = error {
+                    resolve.reject(error)
+                } else {
+                    self?.update(countriesArray, resolve: resolve)
+                }
         })
+    }
+
+    //MARK: - Private Methods
+    
+    private func update(_ countries:[Country], resolve: (Resolvers)) {
+        var updated = Array<Country>()
+        
+        for country in (countries) {
+            if let countryModel = country.mr_(in: NSManagedObjectContext.mr_default()) {
+                updated.append(countryModel)
+            }
+        }
+        resolve.fulfill(updated)
     }
     
 }
-

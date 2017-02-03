@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol PagingContextProtocol {
+protocol PagingContextProtocol: ContextProtocol {
     
     var currentPage: Int {get}
     

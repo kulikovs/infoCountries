@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 class CountriesView: UIView {
+    
     @IBOutlet var tableView: UITableView?
     
 }

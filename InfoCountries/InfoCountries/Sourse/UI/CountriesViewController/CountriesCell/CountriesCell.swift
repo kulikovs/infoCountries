@@ -8,9 +8,12 @@
 
 import UIKit
 
-class CountriesCell: UITableViewCell, CellProtocol{
+class CountriesCell: UITableViewCell, FillingProtocol {
+    
     @IBOutlet var countryName: UILabel?
 
+    //MARK: - Cell Protocol
+    
     func fillWith(model: Country) {
         self.countryName?.text = model.name
     }

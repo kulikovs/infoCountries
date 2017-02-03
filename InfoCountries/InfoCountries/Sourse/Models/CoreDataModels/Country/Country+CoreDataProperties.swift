@@ -20,4 +20,6 @@ extension Country {
     @NSManaged public var name:         String?
     @NSManaged public var numericCode:  Int16
     @NSManaged public var population:   Int64
+    @NSManaged public var latitude:     Double
+    @NSManaged public var longitude:    Double
 }
