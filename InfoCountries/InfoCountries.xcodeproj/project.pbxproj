@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		210146C71E0965DA009BAD74 /* CountriesContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210146C61E0965DA009BAD74 /* CountriesContext.swift */; };
-		210146C91E09889C009BAD74 /* CountryContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210146C81E09889C009BAD74 /* CountryContext.swift */; };
 		21531AF71E01476400196F7D /* PagingContextProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21531AF61E01476400196F7D /* PagingContextProtocol.swift */; };
 		A813DFB41DE4722B0047638B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A813DFB31DE4722B0047638B /* AppDelegate.swift */; };
 		A813DFB91DE4722B0047638B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A813DFB71DE4722B0047638B /* Main.storyboard */; };
@@ -45,7 +44,6 @@
 
 /* Begin PBXFileReference section */
 		210146C61E0965DA009BAD74 /* CountriesContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountriesContext.swift; sourceTree = "<group>"; };
-		210146C81E09889C009BAD74 /* CountryContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryContext.swift; sourceTree = "<group>"; };
 		21531AF61E01476400196F7D /* PagingContextProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagingContextProtocol.swift; sourceTree = "<group>"; };
 		A813DFB01DE4722B0047638B /* InfoCountries.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InfoCountries.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A813DFB31DE4722B0047638B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -194,7 +192,6 @@
 			children = (
 				210146C61E0965DA009BAD74 /* CountriesContext.swift */,
 				A8941F071DF832B800D7A66D /* CountryDetailContext.swift */,
-				210146C81E09889C009BAD74 /* CountryContext.swift */,
 			);
 			path = Contexts;
 			sourceTree = "<group>";
@@ -407,7 +404,6 @@
 				A8941F081DF832B800D7A66D /* CountryDetailContext.swift in Sources */,
 				21531AF71E01476400196F7D /* PagingContextProtocol.swift in Sources */,
 				A8EED47E1E30B26000BB24A4 /* MapAnnotation.swift in Sources */,
-				210146C91E09889C009BAD74 /* CountryContext.swift in Sources */,
 				A878C9381DF972A5002D58FA /* PagingModel.swift in Sources */,
 				A813DFD21DE48C780047638B /* CountriesViewController.swift in Sources */,
 				A813DFD51DE48CE50047638B /* CountriesView.swift in Sources */,
