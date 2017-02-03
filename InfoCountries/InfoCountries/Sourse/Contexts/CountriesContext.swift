@@ -10,13 +10,6 @@ import UIKit
 import MagicalRecord
 import SwiftyJSON
 import PromiseKit
-import Alamofire
-
-let kBaseCurrentPage = 0
-let kBaseTotalPages  = 1
-let kBasePerPage     = 12
-
-private let kCountriesURLString  = "http://api.worldbank.org/country?"
 
 final class CountriesContext: PagingContextProtocol {
     
@@ -24,15 +17,15 @@ final class CountriesContext: PagingContextProtocol {
 
     typealias Resolvers = (fulfill: ((ResultType)->Void), reject: ((Error)->Void))
     
-    var currentPage:    Int = kBaseCurrentPage
-    var perPage:        Int = kBasePerPage
-    var totalPages:     Int = kBaseTotalPages
+    var currentPage:    Int = Paging.baseCurrentPage
+    var perPage:        Int = Paging.basePerPage
+    var totalPages:     Int = Paging.baseTotalPages
     
-    private var request: DataRequest?
+    var dataTask: URLSessionDataTask?
     
     var requestString: String {
         get {
-            return kCountriesURLString + "per_page=\(self.perPage)&format=json&page=\(self.currentPage)"
+            return Context.Request.countriesURLString + "per_page=\(self.perPage)&format=json&page=\(self.currentPage)"
         }
     }
     
@@ -56,35 +49,34 @@ final class CountriesContext: PagingContextProtocol {
     
     func load() -> Promise<Array<Country>> {
         return Promise(resolvers: { fulfill, reject in
-            self.request = loadAlamofire(resolvers: (fulfill, reject))
+           download(resolvers: (fulfill, reject))
         })
     }
     
-    func cancel() {
-//        if self.request != nil {
-            self.request?.cancel()
-//        }
-    }
-    
-    func parse(result: NSArray, resolve: Resolvers) {
+    func parse(result: Array<Any>, resolve: Resolvers) {
         var countriesArray = Array<Country>()
-        MagicalRecord.save({
-            [weak self] context in
-            guard let infoDict = result.firstObject as? NSDictionary else  {
-                resolve.reject(kNSError)
+        MagicalRecord.save( { [weak self] context in
+            guard let infoDict = result.first as? Dictionary<String, Any>  else  {
+                resolve.reject(NSError.error())
+                
                 return
             }
             let baseInfo = JSON(infoDict)
-            self?.totalPages = baseInfo[kPagesKey].intValue
+            self?.totalPages = baseInfo[Context.Parse.pagesKey].intValue
     
-            let resultArray = JSON(result.lastObject as? NSArray)
+            guard let resultArr = result.last else {
+            resolve.reject(NSError.error())
+                
+                return
+            }
+            let resultArray = JSON(resultArr)
             for country in resultArray.arrayValue {
-                let name = country[kNameKey].stringValue
-                let countryModel = Country.mr_findFirstOrCreate(byAttribute: kNameKey,
+                let name = country[Context.Parse.nameKey].stringValue
+                let countryModel = Country.mr_findFirstOrCreate(byAttribute: Context.Parse.nameKey,
                                                                 withValue: name,
                                                                 in: context)
-                countryModel.latitude = country[kLatitudeKey].doubleValue
-                countryModel.longitude = country[kLongitudeKey].doubleValue
+                countryModel.latitude = country[Context.Parse.latitudeKey].doubleValue
+                countryModel.longitude = country[Context.Parse.longitudeKey].doubleValue
                 
                 countriesArray.append(countryModel)
             }

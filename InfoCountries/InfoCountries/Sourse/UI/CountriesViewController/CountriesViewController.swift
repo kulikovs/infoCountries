@@ -17,6 +17,8 @@ class CountriesViewController : UIViewController,
 {
     typealias RootViewType = CountriesView
     
+    let loadingView = LoadingView.loadingView()
+    
     var countries: Array<Country> = Array()
     
     var pagingModel : PagingModel<CountriesContext>?
@@ -26,7 +28,7 @@ class CountriesViewController : UIViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.pagingModel = PagingModel(context: CountriesContext(), perPage: kBasePerPage)
+        self.pagingModel = PagingModel(context: CountriesContext(), perPage: Paging.basePerPage)
     }
     
     // MARK: - Handling
@@ -37,14 +39,14 @@ class CountriesViewController : UIViewController,
     
     @IBAction func onNextPage(_ sender: UIButton) {
         let rootView = self.rootView
-        rootView.showLoadingView(animated: false)
+        self.loadingView?.showLoadingViewOn(view: self.rootView, animated: false)
         
         self.pagingModel?.getNextPage().then { countries -> Void in
             self.countries = countries
             rootView.tableView?.reloadData()
             }
             .always {
-                rootView.hideLoadingView()
+                self.loadingView?.hideLoadingView()
             }
             .catch {error in
                 print(error)
@@ -64,9 +66,7 @@ class CountriesViewController : UIViewController,
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let identifier = String(describing: CountriesCell.self)
-        let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as! CountriesCell
-        
+        let cell = tableView.dequeueReusableCellWith(cellClass: CountriesCell.self)
         cell.fillWith(model: self.countries[indexPath.row])
 
         return cell

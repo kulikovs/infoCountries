@@ -52,7 +52,7 @@ class PagingModel<T: PagingContextProtocol>: PagingProtocol {
     }
     
     func reset() {
-        context.setPage(kBaseCurrentPage)
+        context.setPage(Paging.baseCurrentPage)
     }
 
 }

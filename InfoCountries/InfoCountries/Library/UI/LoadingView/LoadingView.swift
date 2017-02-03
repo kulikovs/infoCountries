@@ -13,42 +13,31 @@ private let kLoadingAlpha:      CGFloat = 0.5
 private let kRemovingAlpha:     CGFloat = 0.0
 private let kDefaultDuration:   Double  = 0.5
 
-class LoadingView: UIView {     //TODO: do not use this for subclassing
+class LoadingView: UIView {
     
     @IBOutlet var spinner: UIActivityIndicatorView?
     
-    var loadingView: UIView?
+    class func loadingView() -> LoadingView? {
+        return LoadingView.fromNib()
+    }
     
     //MARK: - Public Methods
     
-    func showLoadingView() {
-        showLoadingView(animated: true)
-    }
-    
-    func showLoadingView(animated: Bool) {
-        var view = self.loadingView
-        if view == nil {
-            view = Bundle.main.loadNibNamed("LoadingView", owner: self, options: nil)?.first as? LoadingView
-            view?.frame = self.frame
-            self.loadingView = view
-        }
+    func showLoadingViewOn(view: UIView, animated: Bool = true) {
+        self.frame = view.frame
         UIView.animate(withDuration: animated ? kDefaultDuration : 0.0,
                        animations: {
-            self.loadingView?.alpha = kLoadingAlpha
-            self.addSubview(view!)
+                        self.alpha = kLoadingAlpha
+                        view.addSubview(self)
         })
     }
     
-    func hideLoadingView() {
-        hideLoadingView(animated: true)
-    }
-    
-    func hideLoadingView(animated: Bool) {
+    func hideLoadingView(animated: Bool = true) {
         UIView.animate(withDuration: animated ? kDefaultDuration : 0.0 ,
                        animations: {
-                        self.loadingView?.alpha = kRemovingAlpha } ,
+                        self.alpha = kRemovingAlpha } ,
                        completion: { finished in
-                        self.loadingView?.removeFromSuperview()
+                        self.removeFromSuperview()
         })
     }
 

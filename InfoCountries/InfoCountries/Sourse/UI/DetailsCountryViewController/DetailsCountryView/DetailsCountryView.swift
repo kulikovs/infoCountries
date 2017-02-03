@@ -11,7 +11,7 @@ import MapKit
 
 private let kLocationDistance = 10000
 
-class DetailsCountryView: LoadingView, CellProtocol {
+class DetailsCountryView: UIView, FillingProtocol {
     
     @IBOutlet var nameLabel:         UILabel?
     @IBOutlet var capitalLabel:      UILabel?
@@ -39,6 +39,7 @@ class DetailsCountryView: LoadingView, CellProtocol {
         let locationDistance = CLLocationDistance(kLocationDistance)
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location, locationDistance, locationDistance)
         
+        let map = self.map
         map?.setRegion(coordinateRegion, animated: true)
         map?.addAnnotation(MapAnnotation(coordinate: location, title: model.capital))
     }

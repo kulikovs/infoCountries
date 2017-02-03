@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class CountriesView: LoadingView {
+class CountriesView: UIView {
     
     @IBOutlet var tableView: UITableView?
     

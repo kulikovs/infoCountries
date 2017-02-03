@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B587CC61DDE04770012D8DB /* MergeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B587CC41DDE04360012D8DB /* MergeTests.swift */; };
+		1B587CC71DDE04780012D8DB /* MergeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B587CC41DDE04360012D8DB /* MergeTests.swift */; };
+		1B587CC81DDE04790012D8DB /* MergeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B587CC41DDE04360012D8DB /* MergeTests.swift */; };
 		2E4FEFE119575BE100351305 /* SwiftyJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E4FEFE019575BE100351305 /* SwiftyJSON.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2E4FEFE719575BE100351305 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E4FEFDB19575BE100351305 /* SwiftyJSON.framework */; };
 		5DD502911D9B21810004C112 /* NestedJSONTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD502901D9B21810004C112 /* NestedJSONTests.swift */; };
@@ -91,6 +94,7 @@
 
 /* Begin PBXFileReference section */
 		030B6CDC1A6E171D00C2D4F1 /* Info-OSX.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-OSX.plist"; sourceTree = "<group>"; };
+		1B587CC41DDE04360012D8DB /* MergeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MergeTests.swift; sourceTree = "<group>"; };
 		2E4FEFDB19575BE100351305 /* SwiftyJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E4FEFDF19575BE100351305 /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
 		2E4FEFE019575BE100351305 /* SwiftyJSON.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftyJSON.h; sourceTree = "<group>"; };
@@ -226,6 +230,7 @@
 		2E4FEFEA19575BE100351305 /* SwiftyJSONTests */ = {
 			isa = PBXGroup;
 			children = (
+				1B587CC41DDE04360012D8DB /* MergeTests.swift */,
 				A885D1DA19CFCFF0002FD4C3 /* Tests.json */,
 				A86BAA0D19EBC32B009EAAEB /* PerformanceTests.swift */,
 				A885D1D119CF1EE6002FD4C3 /* BaseTests.swift */,
@@ -428,16 +433,16 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0820;
 				TargetAttributes = {
 					2E4FEFDA19575BE100351305 = {
 						CreatedOnToolsVersion = 6.0;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 					2E4FEFE519575BE100351305 = {
 						CreatedOnToolsVersion = 6.0;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Manual;
 						TestTargetID = 2E4FEFDA19575BE100351305;
 					};
@@ -550,6 +555,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B587CC61DDE04770012D8DB /* MergeTests.swift in Sources */,
 				A87080E819E439DA00CDE086 /* NumberTests.swift in Sources */,
 				A87080E419E3C2A600CDE086 /* SequenceTypeTests.swift in Sources */,
 				5DD502911D9B21810004C112 /* NestedJSONTests.swift in Sources */,
@@ -587,6 +593,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B587CC71DDE04780012D8DB /* MergeTests.swift in Sources */,
 				9C459EFB1A9103C1008C9A41 /* SequenceTypeTests.swift in Sources */,
 				9C459F001A9103C1008C9A41 /* ComparableTests.swift in Sources */,
 				5DD502921D9B21810004C112 /* NestedJSONTests.swift in Sources */,
@@ -608,6 +615,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B587CC81DDE04790012D8DB /* MergeTests.swift in Sources */,
 				A8580F801BCF69A000DA927B /* PerformanceTests.swift in Sources */,
 				A8580F811BCF69A000DA927B /* BaseTests.swift in Sources */,
 				5DD502931D9B21810004C112 /* NestedJSONTests.swift in Sources */,
@@ -757,7 +765,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				BITCODE_GENERATION_MODE = bitcode;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -779,7 +787,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				BITCODE_GENERATION_MODE = bitcode;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -811,6 +819,7 @@
 				METAL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.swiftyjson.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -825,6 +834,7 @@
 				METAL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.swiftyjson.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -833,7 +843,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -857,7 +867,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -880,7 +890,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -908,7 +918,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
@@ -1005,7 +1015,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				BITCODE_GENERATION_MODE = bitcode;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1030,7 +1040,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				BITCODE_GENERATION_MODE = bitcode;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;

@@ -8,13 +8,29 @@
 
 import Foundation
 
-let kNSError = NSError(domain: "", code: 0, userInfo: nil) //TODO: add extension to generate app errors
+    //MARK: - Context
 
-let kNameKey         = "name"
-let kCapitalKey      = "capital"
-let kPagesKey        = "pages"
-let kPopulationKey   = "population"
-let kNumericCodeKey  = "numericCode"
-let kCallingCodesKey = "callingCodes"
-let kLongitudeKey    = "longitude"
-let kLatitudeKey     = "latitude"
+struct Context {
+    struct Request {
+        static let countriesURLString  = "http://api.worldbank.org/country?"
+        static let countryURLString    = "https://restcountries.eu/rest/v1/name/"
+    }
+    struct Parse {
+        static let nameKey         = "name"
+        static let capitalKey      = "capital"
+        static let pagesKey        = "pages"
+        static let populationKey   = "population"
+        static let numericCodeKey  = "numericCode"
+        static let callingCodesKey = "callingCodes"
+        static let longitudeKey    = "longitude"
+        static let latitudeKey     = "latitude"
+    }
+}
+
+    //MARK: - Paging
+
+struct Paging {
+    static let baseCurrentPage = 0
+    static let baseTotalPages  = 1
+    static let basePerPage     = 12
+}

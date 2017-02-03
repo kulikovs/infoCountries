@@ -8,7 +8,6 @@
 
 import Foundation
 import PromiseKit
-import Alamofire
 
 protocol ContextProtocol: class {
     
@@ -16,26 +15,47 @@ protocol ContextProtocol: class {
     
     typealias Resolvers = (fulfill: ((ResultType)->Void), reject: ((Error)->Void))
     
-    var requestString:String{get}
+    var requestString: String {get}
+    
+    var dataTask: URLSessionDataTask? {get set}
     
     func load() -> Promise<ResultType>
     
-    func parse(result: NSArray, resolve: Resolvers)
-    
-    func cancel()
+    func parse(result: Array<Any>, resolve: Resolvers)
 }
 
 extension ContextProtocol {
     
-    func loadAlamofire(resolvers: Resolvers) -> DataRequest {
-        return Alamofire.request(requestString).responseJSON(completionHandler: {   //TODO: use NSURLSession instead of Alamofire
-            [weak self] response in
-            if let result: NSArray = (response.result.value as? NSArray) {
-                self?.parse(result: result, resolve: resolvers)
-            } else {
-                resolvers.reject(kNSError)
+    func download(resolvers: Resolvers) {
+        guard let url = URL(string: self.requestString) else {
+            resolvers.reject(NSError.error())
+            return
+        }
+        let session = URLSession(configuration: URLSessionConfiguration.default)
+        let request = URLRequest(url: url, cachePolicy: URLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData)
+        
+        self.dataTask = session.dataTask(with: request, completionHandler: {
+            [weak self] (data, response, error) -> Void in
+            do {
+                guard let data = data,
+                    error == nil,
+                    let json = try JSONSerialization.jsonObject(with: data, options: []) as? Array<Any>
+                    else {
+                        resolvers.reject(NSError.error())
+                        return
+                }
+                self?.parse(result: json, resolve: resolvers)
+            }
+            catch {
+                resolvers.reject(NSError.error())
             }
         })
+        
+        self.dataTask?.resume()
+    }
+    
+    func cancel() {
+        self.dataTask?.cancel()
     }
     
 }

@@ -11,8 +11,9 @@ import UIKit
 
 extension UIStoryboard {
     
-    func instantiateViewController<T:UIViewController> (controllerType: T.Type) -> T {
-        let viewController = instantiateViewController(withIdentifier: String(describing: controllerType)) as! T
+    func instantiateViewController<T:UIViewController> (controllerType: T.Type) -> T? {
+        let viewController = instantiateViewController(withIdentifier: String(describing: controllerType)) as? T
+        
         return viewController
     }
     

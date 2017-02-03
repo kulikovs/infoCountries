@@ -12,8 +12,6 @@ import SwiftyJSON
 import PromiseKit
 import Alamofire
 
-private let kCountryURLString = "https://restcountries.eu/rest/v1/name/"
-
 final class CountryDetailContext: ContextProtocol {
 
     typealias ResultType = Country
@@ -22,11 +20,11 @@ final class CountryDetailContext: ContextProtocol {
     
     let countryName: String
     
-    private var request: DataRequest?
+    internal var dataTask: URLSessionDataTask?
     
     var requestString: String {
         get {
-            let urlString = kCountryURLString + self.countryName
+            let urlString = Context.Request.countryURLString + self.countryName
             return urlString.addingPercentEncodingForUrlQuery()!
         }
     }
@@ -47,33 +45,29 @@ final class CountryDetailContext: ContextProtocol {
     
     func load() -> Promise<Country> {
         return Promise(resolvers: { fulfill, reject in
-            self.request = loadAlamofire(resolvers: (fulfill, reject))
+            download(resolvers: (fulfill, reject))
         })
     }
     
-    func cancel() {
-        request?.cancel()
-    }
-    
-    func parse(result: NSArray, resolve: Resolvers) {
+    func parse(result: Array<Any>, resolve: Resolvers) {
         var countryModel: Country?
         MagicalRecord.save({ [weak self] context in
             guard let selfRef = self else {
-                resolve.reject(kNSError)
+                resolve.reject(NSError.error())
                 return
             }
             let resultArray = JSON(result)
             for country in resultArray.arrayValue {
-                countryModel = Country.mr_findFirst(byAttribute: kNameKey,
+                countryModel = Country.mr_findFirst(byAttribute:Context.Parse.nameKey,
                                                     withValue: selfRef.countryName,
                                                     in: context)
-                countryModel?.capital = country[kCapitalKey].string
-                countryModel?.population = country[kPopulationKey].int64Value
-                countryModel?.numericCode = country[kNumericCodeKey].int16Value
-                let codes = country[kCallingCodesKey].arrayValue
-                for code in codes {
-                    countryModel?.callingCode = code.int16Value
+                countryModel?.capital = country[Context.Parse.capitalKey].string
+                countryModel?.population = country[Context.Parse.populationKey].int64Value
+                countryModel?.numericCode = country[Context.Parse.numericCodeKey].int16Value
+                if let callingCode = country[Context.Parse.callingCodesKey].array?.first?.int16 {
+                    countryModel?.callingCode = callingCode
                 }
+                
             }
             }, completion: { (success, error) in
                 if let error = error {
@@ -83,11 +77,10 @@ final class CountryDetailContext: ContextProtocol {
                     if countryModel != nil {
                         resolve.fulfill(countryModel!)
                     } else {
-                        resolve.reject(kNSError)
+                        resolve.reject(NSError.error())
                     }
                 }
         })
     }
-
     
 }

@@ -25,13 +25,13 @@ class CountryContext {
             if let result = (response.result.value as? NSArray) {
                 self.parse(name: "", result: result, resolve: (fulfill, reject))
             } else {
-                reject(kNSError)
+                reject(NSError.error())
             }
         })
         
         return (promise, {
             request.cancel()
-            reject(kNSError)
+            reject(NSError.error())
         })
     }
     
@@ -44,7 +44,7 @@ class CountryContext {
                 if let result = (response.result.value as? NSArray) {
                     self.parse(name: country, result: result, resolve: (fulfill, reject))
                 } else {
-                    reject(kNSError)
+                    reject(NSError.error())
                 }
             })
         })
@@ -55,13 +55,13 @@ class CountryContext {
         MagicalRecord.save({context in
             let resultArray = JSON(result)
             for country in resultArray.arrayValue {
-                countryModel = Country.mr_findFirstOrCreate(byAttribute: kNameKey,
+                countryModel = Country.mr_findFirstOrCreate(byAttribute: Context.Parse.nameKey,
                                                             withValue: name,
                                                             in: context)
-                countryModel?.capital = country[kCapitalKey].string
-                countryModel?.population = country[kPopulationKey].int64Value
-                countryModel?.numericCode = country[kNumericCodeKey].int16Value
-                let codes = country[kCallingCodesKey].arrayValue
+                countryModel?.capital = country[Context.Parse.capitalKey].string
+                countryModel?.population = country[Context.Parse.populationKey].int64Value
+                countryModel?.numericCode = country[Context.Parse.numericCodeKey].int16Value
+                let codes = country[Context.Parse.callingCodesKey].arrayValue
                 for code in codes {
                     countryModel?.callingCode = code.int16Value
                 }
@@ -74,7 +74,7 @@ class CountryContext {
                 if let result = countryModel {
                     resolve.fulfill(result)
                 } else {
-                    resolve.reject(kNSError)
+                    resolve.reject(NSError.error())
                 }
             }
         })
