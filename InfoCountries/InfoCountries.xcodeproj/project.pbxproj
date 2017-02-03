@@ -36,6 +36,9 @@
 		A88F4D031DFA98F6005329EA /* PagingProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A88F4D021DFA98F6005329EA /* PagingProtocol.swift */; };
 		A8941F001DF7FC3A00D7A66D /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8941EFF1DF7FC3A00D7A66D /* String+Extensions.swift */; };
 		A8941F081DF832B800D7A66D /* CountryDetailContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8941F071DF832B800D7A66D /* CountryDetailContext.swift */; };
+		A898E51F1E44C94700706B37 /* RxBlocking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A898E51B1E44C94700706B37 /* RxBlocking.framework */; };
+		A898E5201E44C94700706B37 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A898E51C1E44C94700706B37 /* RxCocoa.framework */; };
+		A898E5211E44C94700706B37 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A898E51D1E44C94700706B37 /* RxSwift.framework */; };
 		A8BFF2A41E323BCD00D628D5 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A8BFF2A31E323BCD00D628D5 /* MapKit.framework */; };
 		A8EAEDDE1E420BEC00D42B6A /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8EAEDDD1E420BEC00D42B6A /* UIView+Extensions.swift */; };
 		A8EAEDE01E421D6200D42B6A /* UITableView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8EAEDDF1E421D6200D42B6A /* UITableView+Extensions.swift */; };
@@ -74,6 +77,9 @@
 		A88F4D021DFA98F6005329EA /* PagingProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagingProtocol.swift; sourceTree = "<group>"; };
 		A8941EFF1DF7FC3A00D7A66D /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		A8941F071DF832B800D7A66D /* CountryDetailContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryDetailContext.swift; sourceTree = "<group>"; };
+		A898E51B1E44C94700706B37 /* RxBlocking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxBlocking.framework; path = Carthage/Build/iOS/RxBlocking.framework; sourceTree = "<group>"; };
+		A898E51C1E44C94700706B37 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/iOS/RxCocoa.framework; sourceTree = "<group>"; };
+		A898E51D1E44C94700706B37 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
 		A8BFF2A31E323BCD00D628D5 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		A8EAEDDD1E420BEC00D42B6A /* UIView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		A8EAEDDF1E421D6200D42B6A /* UITableView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Extensions.swift"; sourceTree = "<group>"; };
@@ -85,7 +91,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A898E5201E44C94700706B37 /* RxCocoa.framework in Frameworks */,
 				A8BFF2A41E323BCD00D628D5 /* MapKit.framework in Frameworks */,
+				A898E5211E44C94700706B37 /* RxSwift.framework in Frameworks */,
+				A898E51F1E44C94700706B37 /* RxBlocking.framework in Frameworks */,
 				A813DFCB1DE47B040047638B /* MagicalRecord.framework in Frameworks */,
 				A813DFCC1DE47B040047638B /* PromiseKit.framework in Frameworks */,
 				A834BCA91DE886910056937D /* SwiftyJSON.framework in Frameworks */,
@@ -131,6 +140,7 @@
 		A813DFC81DE47B040047638B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A898E51A1E44C92D00706B37 /* RxSwift */,
 				A8BFF2A31E323BCD00D628D5 /* MapKit.framework */,
 				A834BCA81DE886910056937D /* SwiftyJSON.framework */,
 				A813DFC91DE47B040047638B /* MagicalRecord.framework */,
@@ -297,6 +307,16 @@
 			path = LoadingView;
 			sourceTree = "<group>";
 		};
+		A898E51A1E44C92D00706B37 /* RxSwift */ = {
+			isa = PBXGroup;
+			children = (
+				A898E51B1E44C94700706B37 /* RxBlocking.framework */,
+				A898E51C1E44C94700706B37 /* RxCocoa.framework */,
+				A898E51D1E44C94700706B37 /* RxSwift.framework */,
+			);
+			name = RxSwift;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -375,9 +395,10 @@
 			inputPaths = (
 				"$(SRCROOT)//Carthage/Build/iOS/MagicalRecord.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/PromiseKit.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/ObjectMapper.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SwiftyJSON.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RxBlocking.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RxCocoa.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RxSwift.framework",
 			);
 			outputPaths = (
 			);

@@ -10,7 +10,6 @@ import UIKit
 import MagicalRecord
 import SwiftyJSON
 import PromiseKit
-import Alamofire
 
 final class CountryDetailContext: ContextProtocol {
 
