@@ -77,16 +77,7 @@ final class CountryDetailContext: ContextProtocol {
                     if countryModel != nil {
                         resolve.fulfill(countryModel!)
                     } else {
-<<<<<<< HEAD
-                        self?.country = (self?.country!.mr_(in: NSManagedObjectContext.mr_default()))! as Country
-                        if self?.country != nil {
-                            fulfill((self?.country)!)
-                        } else {
-                            reject(NSError(domain: "", code: 0, userInfo: nil))
-                        }
-=======
                         resolve.reject(NSError.error())
->>>>>>> feature/single_promise_
                     }
                 }
         })

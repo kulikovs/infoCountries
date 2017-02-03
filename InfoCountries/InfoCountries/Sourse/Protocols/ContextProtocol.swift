@@ -19,12 +19,9 @@ protocol ContextProtocol: class {
     
     var dataTask: URLSessionDataTask? {get set}
     
-<<<<<<< HEAD
-=======
     func load() -> Promise<ResultType>
     
     func parse(result: Array<Any>, resolve: Resolvers)
->>>>>>> feature/single_promise_
 }
 
 extension ContextProtocol {

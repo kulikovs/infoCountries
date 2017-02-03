@@ -69,12 +69,6 @@ final class CountriesContext: PagingContextProtocol {
                 
                 return
             }
-<<<<<<< HEAD
-            if countries.first == nil {
-                reject(NSError(domain: "", code: 0, userInfo: nil))
-            } else {
-                fulfill(countries)
-=======
             let resultArray = JSON(resultArr)
             for country in resultArray.arrayValue {
                 let name = country[Context.Parse.nameKey].stringValue
@@ -85,7 +79,6 @@ final class CountriesContext: PagingContextProtocol {
                 countryModel.longitude = country[Context.Parse.longitudeKey].doubleValue
                 
                 countriesArray.append(countryModel)
->>>>>>> feature/single_promise_
             }
             }, completion: { [weak self] (success, error) in
                 if let error = error {
