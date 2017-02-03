@@ -77,8 +77,7 @@ class CountriesViewController : UIViewController,
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let detailsController = self.storyboard?.instantiateViewController(controllerType: DetailsCountryViewController.self) {
             if let countryName = countries[indexPath.row].name {
-                let detailContext = CountryDetailContext(countryName: countryName)
-                detailsController.context = detailContext
+                detailsController.countryName = countryName
             }
             
             self.navigationController?.pushViewController(detailsController, animated: true)
