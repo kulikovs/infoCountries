@@ -15,6 +15,12 @@ class DetailsCountryViewController: UIViewController, ViewControllerRootView {
     
     var loadingView = LoadingView.loadingView()
     
+    var countryName: String? {
+        didSet {
+        self.context = CountryDetailContext(countryName: countryName!)
+        }
+    }
+    
     var context : CountryDetailContext? {
         willSet {
             self.context?.cancel()
