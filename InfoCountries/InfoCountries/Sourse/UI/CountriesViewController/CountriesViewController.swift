@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import MagicalRecord
+import RxSwift
 
 class CountriesViewController : UIViewController,
                                 UITableViewDelegate,
@@ -22,6 +23,8 @@ class CountriesViewController : UIViewController,
     var countries: Array<Country> = Array()
     
     var pagingModel : PagingModel<CountriesContext>?
+    
+    let disposeBag = DisposeBag()
     
     //MARK: - LifeCycle
     
@@ -41,16 +44,19 @@ class CountriesViewController : UIViewController,
         let rootView = self.rootView
         self.loadingView?.showLoadingViewOn(view: self.rootView, animated: false)
         
-        self.pagingModel?.getNextPage().then { countries -> Void in
+        self.pagingModel?.getNextPage()
+            .subscribe(onNext: { countries in
             self.countries = countries
             rootView.tableView?.reloadData()
-            }
-            .always {
-                self.loadingView?.hideLoadingView()
-            }
-            .catch {error in
-                print(error)
-            }
+             self.loadingView?.hideLoadingView()
+        }, onError: {error in
+            print(error)
+            self.loadingView?.hideLoadingView()
+        }, onCompleted: {
+            print(RxSwift.completeString)
+        },onDisposed: {
+            print(RxSwift.disposedString)
+        }).addDisposableTo(disposeBag)
     }
 
     @IBAction func onReset(_ sender: UIButton) {

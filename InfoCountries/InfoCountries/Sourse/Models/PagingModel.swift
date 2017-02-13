@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import PromiseKit
+import RxSwift
 
 class PagingModel<T: PagingContextProtocol>: PagingProtocol {
     
@@ -45,8 +45,8 @@ class PagingModel<T: PagingContextProtocol>: PagingProtocol {
     func cancel() {
         context.cancel()
     }
-    
-    func getNextPage() -> Promise<T.ResultType> {
+
+    func getNextPage() -> Observable<T.ResultType> {
         context.setPage(currentPage + 1)
         return context.load()
     }

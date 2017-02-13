@@ -7,55 +7,66 @@
 //
 
 import Foundation
-import PromiseKit
+import RxSwift
+import RxCocoa
 
 protocol ContextProtocol: class {
     
     associatedtype ResultType
     
-    typealias Resolvers = (fulfill: ((ResultType)->Void), reject: ((Error)->Void))
-    
     var requestString: String {get}
+    
+    var observer: AnyObserver<ResultType>? {get set}
     
     var dataTask: URLSessionDataTask? {get set}
     
-    func load() -> Promise<ResultType>
+    func load() -> Observable<ResultType>
     
-    func parse(result: Array<Any>, resolve: Resolvers)
+    func parse(result: Array<Any>, observer: AnyObserver<ResultType>)
 }
 
 extension ContextProtocol {
     
-    func download(resolvers: Resolvers) {
-        guard let url = URL(string: self.requestString) else {
-            resolvers.reject(NSError.error())
-            return
-        }
-        let session = URLSession(configuration: URLSessionConfiguration.default)
-        let request = URLRequest(url: url, cachePolicy: URLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData)
-        
-        self.dataTask = session.dataTask(with: request, completionHandler: {
-            [weak self] (data, response, error) -> Void in
-            do {
-                guard let data = data,
-                    error == nil,
-                    let json = try JSONSerialization.jsonObject(with: data, options: []) as? Array<Any>
-                    else {
-                        resolvers.reject(NSError.error())
-                        return
-                }
-                self?.parse(result: json, resolve: resolvers)
+    func load() -> Observable<ResultType>  {
+        return Observable<ResultType>.create({ observer -> Disposable in
+            self.observer = observer
+            guard let url = URL(string: self.requestString) else {
+                observer.onError(RxError.unknown)
+                
+                return Disposables.create()
             }
-            catch {
-                resolvers.reject(NSError.error())
-            }
+            
+            let session = URLSession(configuration: URLSessionConfiguration.default)
+            let request = URLRequest(url: url, cachePolicy: URLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData)
+            self.dataTask = session.dataTask(with: request, completionHandler: {
+                        [weak self] (data, response, error) -> Void in
+                        do {
+                            guard let data = data,
+                                error == nil,
+                                let json = try JSONSerialization.jsonObject(with: data, options: []) as? Array<Any>
+                                else {
+                                    observer.onError(NSError.error())
+                                    
+                                    return
+                            }
+                          self?.parse(result: json, observer: observer)
+                        }
+                        catch {
+                            observer.onError(NSError.error())
+                            
+                            return
+                        }
+                    })
+                    self.dataTask?.resume()
+
+            return Disposables.create(with: {
+                self.dataTask?.cancel()
+            })
         })
-        
-        self.dataTask?.resume()
     }
     
     func cancel() {
-        self.dataTask?.cancel()
+        self.observer?.onError(NSError.error(with:RxSwift.cancelledString))
     }
     
 }

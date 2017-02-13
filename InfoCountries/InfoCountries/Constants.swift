@@ -34,3 +34,9 @@ struct Paging {
     static let baseTotalPages  = 1
     static let basePerPage     = 12
 }
+
+struct RxSwift {
+    static let disposedString    = "observer - on disposed"
+    static let completeString    = "observer - on complete"
+    static let cancelledString   = "request - cancelled"
+}

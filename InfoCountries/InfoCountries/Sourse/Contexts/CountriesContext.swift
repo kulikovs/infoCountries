@@ -9,19 +9,19 @@
 import UIKit
 import MagicalRecord
 import SwiftyJSON
-import PromiseKit
+import RxSwift
 
 final class CountriesContext: PagingContextProtocol {
     
     typealias ResultType = Array<Country>
 
-    typealias Resolvers = (fulfill: ((ResultType)->Void), reject: ((Error)->Void))
-    
     var currentPage:    Int = Paging.baseCurrentPage
     var perPage:        Int = Paging.basePerPage
     var totalPages:     Int = Paging.baseTotalPages
     
     var dataTask: URLSessionDataTask?
+    
+    var observer: AnyObserver<ResultType>?
     
     var requestString: String {
         get {
@@ -29,13 +29,13 @@ final class CountriesContext: PagingContextProtocol {
         }
     }
     
-      // MARK: - Initializations and deallocations
+    // MARK: - Initializations and deallocations
     
     deinit {
         self.cancel()
     }
     
-  //  MARK: - PagingContextProtocol
+    // MARK: - PagingContextProtocol
     
     func setPageSize(_ pageSize: Int) {
         self.perPage = pageSize
@@ -47,25 +47,19 @@ final class CountriesContext: PagingContextProtocol {
     
     // MARK: -  Public methods
     
-    func load() -> Promise<Array<Country>> {
-        return Promise(resolvers: { fulfill, reject in
-           download(resolvers: (fulfill, reject))
-        })
-    }
-    
-    func parse(result: Array<Any>, resolve: Resolvers) {
+    func parse(result: Array<Any>, observer: AnyObserver<ResultType>) {
         var countriesArray = Array<Country>()
         MagicalRecord.save( { [weak self] context in
             guard let infoDict = result.first as? Dictionary<String, Any>  else  {
-                resolve.reject(NSError.error())
+             observer.onError(RxError.unknown)
                 
                 return
             }
             let baseInfo = JSON(infoDict)
             self?.totalPages = baseInfo[Context.Parse.pagesKey].intValue
-    
+            
             guard let resultArr = result.last else {
-            resolve.reject(NSError.error())
+                observer.onError(RxError.unknown)
                 
                 return
             }
@@ -82,16 +76,14 @@ final class CountriesContext: PagingContextProtocol {
             }
             }, completion: { [weak self] (success, error) in
                 if let error = error {
-                    resolve.reject(error)
+                    observer.onError(error)
                 } else {
-                    self?.update(countriesArray, resolve: resolve)
+                    self?.update(countriesArray, observer: observer)
                 }
         })
     }
-
-    //MARK: - Private Methods
     
-    private func update(_ countries:[Country], resolve: (Resolvers)) {
+    private func update(_ countries:[Country], observer: AnyObserver<ResultType>) {
         var updated = Array<Country>()
         
         for country in (countries) {
@@ -99,7 +91,8 @@ final class CountriesContext: PagingContextProtocol {
                 updated.append(countryModel)
             }
         }
-        resolve.fulfill(updated)
+        observer.onNext(updated)
+        observer.onCompleted()
     }
     
 }

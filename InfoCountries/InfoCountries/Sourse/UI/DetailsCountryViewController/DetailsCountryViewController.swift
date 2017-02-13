@@ -7,17 +7,19 @@
 //
 
 import UIKit
-import PromiseKit
+import RxSwift
 
 class DetailsCountryViewController: UIViewController, ViewControllerRootView {
     
     typealias RootViewType = DetailsCountryView
     
+    var disposeBag = DisposeBag()
+    
     var loadingView = LoadingView.loadingView()
     
     var countryName: String? {
         didSet {
-        self.context = CountryDetailContext(countryName: countryName!)
+            self.context = CountryDetailContext(countryName: countryName!)
         }
     }
     
@@ -29,17 +31,18 @@ class DetailsCountryViewController: UIViewController, ViewControllerRootView {
             let rootView = self.rootView
             self.loadingView?.showLoadingViewOn(view: self.rootView, animated: false)
             
-            self.context?.load().then { country -> Void in
+            self.context?.load().subscribe(onNext: { country in
                 rootView.fillWith(model: country)
                 rootView.reloadInputViews()
                 self.loadingView?.hideLoadingView()
-                }
-                .always {
-                    self.loadingView?.hideLoadingView()
-                }
-                .catch(execute: { error in
-                    print(error)
-                })
+            }, onError: {error in
+                print(error)
+                self.loadingView?.hideLoadingView()
+            }, onCompleted: {
+                print(RxSwift.completeString)
+            },onDisposed: {
+                print(RxSwift.disposedString)
+            }).addDisposableTo(disposeBag)
         }
     }
     

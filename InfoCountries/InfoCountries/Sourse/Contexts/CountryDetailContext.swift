@@ -9,15 +9,15 @@
 import UIKit
 import MagicalRecord
 import SwiftyJSON
-import PromiseKit
+import RxSwift
 
 final class CountryDetailContext: ContextProtocol {
 
     typealias ResultType = Country
     
-    typealias Resolvers = (fulfill: ((ResultType)->Void), reject: ((Error)->Void))
-    
     let countryName: String
+    
+    var observer: AnyObserver<ResultType>?
     
     internal var dataTask: URLSessionDataTask?
     
@@ -42,17 +42,12 @@ final class CountryDetailContext: ContextProtocol {
 
     // MARK: - Public methods
     
-    func load() -> Promise<Country> {
-        return Promise(resolvers: { fulfill, reject in
-            download(resolvers: (fulfill, reject))
-        })
-    }
-    
-    func parse(result: Array<Any>, resolve: Resolvers) {
+    func parse(result: Array<Any>, observer: AnyObserver<ResultType>) {
         var countryModel: Country?
         MagicalRecord.save({ [weak self] context in
             guard let selfRef = self else {
-                resolve.reject(NSError.error())
+                observer.onError(RxError.unknown)
+                
                 return
             }
             let resultArray = JSON(result)
@@ -63,20 +58,20 @@ final class CountryDetailContext: ContextProtocol {
                 countryModel?.capital = country[Context.Parse.capitalKey].string
                 countryModel?.population = country[Context.Parse.populationKey].int64Value
                 countryModel?.numericCode = country[Context.Parse.numericCodeKey].int16Value
-                if let callingCode = country[Context.Parse.callingCodesKey].array?.first?.int16 {
-                    countryModel?.callingCode = callingCode
+                if let callingCode = country[Context.Parse.callingCodesKey].array?.first?.stringValue {
+                    countryModel?.callingCode = Int16(callingCode)!
                 }
-                
             }
             }, completion: { (success, error) in
                 if let error = error {
-                    resolve.reject(error)
+                    observer.onError(error)
                 } else {
                     countryModel = countryModel?.mr_(in: NSManagedObjectContext.mr_default())
                     if countryModel != nil {
-                        resolve.fulfill(countryModel!)
+                        observer.onNext(countryModel!)
+                        observer.onCompleted()
                     } else {
-                        resolve.reject(NSError.error())
+                        observer.onError(RxError.unknown)
                     }
                 }
         })

@@ -7,13 +7,13 @@
 //
 
 import Foundation
-import PromiseKit
+import RxSwift
 
 protocol PagingProtocol {
     
     associatedtype PagingType
     
-    func getNextPage() -> Promise<PagingType>
+    func getNextPage() -> Observable<PagingType>
     
     func reset()
     
